@@ -9,7 +9,7 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif; /* Daha profesyonel bir font */
         }
         body {
             background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
@@ -18,69 +18,121 @@
             justify-content: center;
             align-items: center;
             color: #333;
+            overflow: hidden; /* Taşmaları engellemek için */
         }
         .card {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(230, 57, 70, 0.1);
             text-align: center;
-            max-width: 400px;
+            max-width: 450px;
             width: 90%;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(10px);
+            transition: all 0.5s ease;
         }
         h2 {
             color: #e63946;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            font-weight: 700;
         }
         p {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 25px;
+            color: #555;
+            font-size: 16px;
+            margin-bottom: 30px;
+            line-height: 1.6;
         }
+        /* Giriş Ekranı Stilleri */
         input {
             width: 100%;
-            padding: 12px 15px;
+            padding: 15px;
             border: 2px solid #ffccd5;
-            border-radius: 10px;
+            border-radius: 15px;
             outline: none;
             font-size: 16px;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             text-align: center;
-            transition: border-color 0.3s;
+            transition: all 0.3s ease;
         }
         input:focus {
             border-color: #e63946;
+            box-shadow: 0 0 10px rgba(230, 57, 70, 0.1);
         }
-        button {
+        .btn-main {
             width: 100%;
             background-color: #e63946;
             color: white;
             border: none;
-            padding: 12px;
-            border-radius: 10px;
+            padding: 15px;
+            border-radius: 15px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            transition: background-color 0.3s, transform 0.1s;
+            transition: all 0.3s ease;
         }
-        button:hover {
+        .btn-main:hover {
             background-color: #d62839;
-        }
-        button:active {
-            transform: scale(0.98);
+            transform: translateY(-2px);
         }
         .error-msg {
             color: #e63946;
-            font-size: 13px;
-            margin-top: 10px;
+            font-size: 14px;
+            margin-top: 15px;
             display: none;
         }
-        /* Ana İçerik Alanı (Başlangıçta Gizli) */
+        /* Ana İçerik Alanı (Giriş Başarılı) */
         #main-content {
             display: none;
         }
+        /* Kaçan Buton Alanı */
+        .ask-container {
+            margin-top: 30px;
+            position: relative; /* Çocuk butonlar için referans */
+            height: 100px; /* Butonların hareket alanı için yükseklik */
+        }
+        .btn-vote {
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            position: absolute; /* Hareket için gerekli */
+            transition: all 0.2s ease-out; /* Pürüzsüz hareket */
+            font-size: 16px;
+        }
+        /* Evet Butonu - Profesyonel ve Sabit */
+        #btn-yes {
+            background-color: #2ecc71;
+            color: white;
+            left: 20%; /* Başlangıç pozisyonu */
+            transform: translateX(-50%);
+        }
+        #btn-yes:hover {
+            background-color: #27ae60;
+            transform: translateX(-50%) scale(1.05);
+        }
+        /* Hayır Butonu - Kaçan Cinsten */
+        #btn-no {
+            background-color: #95a5a6;
+            color: white;
+            right: 20%; /* Başlangıç pozisyonu */
+            transform: translateX(50%);
+        }
+        /* Kalp Yağmuru Animasyonu */
+        @keyframes hearts {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+        .heart {
+            position: absolute;
+            color: #e63946;
+            font-size: 20px;
+            user-select: none;
+            animation: hearts 3s linear infinite;
+        }
     </style>
+    <!-- Profesyonel Font Ekleme -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- GİRİŞ EKRANI -->
@@ -88,17 +140,22 @@
         <h2>Hoş Geldin ❤️</h2>
         <p>Devam etmek için özel şifremizi girmen gerekiyor:</p>
         <input type="password" id="password-input" placeholder="Şifreniz..." onkeypress="handleKeyPress(event)">
-        <button onclick="checkPassword()">Giriş Yap</button>
+        <button class="btn-main" onclick="checkPassword()">Giriş Yap</button>
         <div id="error-message" class="error-msg">Yanlış şifre! Bir daha dene bakalım 😜</div>
     </div>
-    <!-- ANA İÇERİK (Giriş Başarılı Olunca Açılacak) -->
+    <!-- ANA İÇERİK (Giriş Başarılı) -->
     <div id="main-content" class="card">
         <h2>Seni Çok Seviyorum! ✨</h2>
-        <p id="welcome-text">Burası senin için hazırladığım özel alan...</p>
-        <!-- Buraya gelecek detayları bana söyleyince ekleyeceğiz! -->
+        <p>Biliyorum belki seni kırdım... Ama senin gönlünü almak benim için her şeyden önemli.</p>
+        
+        <h3 style="color: #e63946; margin-top: 20px;">Beni affettin mi? 🥺</h3>
+        <!-- Kaçan Buton Konteyneri -->
+        <div class="ask-container">
+            <button id="btn-yes" class="btn-vote" onclick="accepted()">Evet</button>
+            <button id="btn-no" class="btn-vote" onmouseover="moveButton()">Hayır</button>
+        </div>
     </div>
     <script>
-        // Yeni şifreniz ayarlandı:
         const SIFRE = "azizemm"; 
         function checkPassword() {
             const input = document.getElementById("password-input").value;
@@ -106,6 +163,8 @@
             if (input === SIFRE) {
                 document.getElementById("login-screen").style.display = "none";
                 document.getElementById("main-content").style.display = "block";
+                // Giriş sonrası ekranın ortalanması için body stilini güncelle
+                document.body.style.overflow = "auto";
             } else {
                 errorMsg.style.display = "block";
                 document.getElementById("password-input").value = "";
@@ -115,6 +174,49 @@
             if (event.key === "Enter") {
                 checkPassword();
             }
+        }
+        // --- KAÇAN BUTON LOGIC (ÜST DÜZEY) ---
+        function moveButton() {
+            const btnNo = document.getElementById('btn-no');
+            const container = document.querySelector('.ask-container');
+            // Konteynerın sınırlarını al
+            const containerRect = container.getBoundingClientRect();
+            const btnRect = btnNo.getBoundingClientRect();
+            // Maksimum hareket alanını hesapla
+            const maxX = containerRect.width - btnRect.width;
+            const maxY = containerRect.height - btnRect.height;
+            // Rastgele yeni pozisyonlar üret (sınırlar dahilinde)
+            // Butonun mevcut yerinden en az 50px uzağa kaçmasını sağla
+            let newX, newY;
+            do {
+                newX = Math.random() * maxX;
+                newY = Math.random() * maxY;
+            } while (Math.abs(newX - btnNo.offsetLeft) < 50 && Math.abs(newY - btnNo.offsetTop) < 50);
+            // Yeni pozisyonları uygula
+            btnNo.style.left = newX + 'px';
+            btnNo.style.top = newY + 'px';
+            btnNo.style.right = 'auto'; // Başlangıç right değerini sıfırla
+            btnNo.style.transform = 'none'; // Başlangıç transformunu sıfırla
+        }
+        // --- AFFETME EYLEMİ ---
+        function accepted() {
+            const mainContent = document.getElementById('main-content');
+            mainContent.innerHTML = "<h2>OLEY! ❤️</h2><p>Dünyanın en mutlu insanı benim! Seni çok seviyorum, iyi ki varsın.</p>";       
+            // Kalp yağmuru başlat
+            for(let i=0; i<30; i++) {
+                createHeart();
+            }
+        }
+        // Kalp yağmuru yaratma fonksiyonu
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerText = '❤️';
+            heart.style.left = Math.random() * 100 + 'vh';
+            heart.style.animationDelay = Math.random() * 2 + 's';
+            document.body.appendChild(heart);  
+            // 3 saniye sonra kalbi sil
+            setTimeout(() => { heart.remove(); }, 3000);
         }
     </script>
 </body>
