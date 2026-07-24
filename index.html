@@ -254,17 +254,37 @@
                 document.body.appendChild(emoji);
                 setTimeout(() => { emoji.remove(); }, 2500);
             }
-        }
-        // --- AFFETME EYLEMİ VE ŞARKI ---
+        }        // --- AFFETME EYLEMİ VE ŞARKI ---
         function accepted() {
             const mainContent = document.getElementById('main-content');
-            mainContent.innerHTML = "<h2>OLEY! ❤️</h2><p>Dünyanın en mutlu insanı benim! Seni çok seviyorum, iyi ki varsın.</p>";      
+            mainContent.innerHTML = `
+                <h2>OLEY! ❤️</h2>
+                <p style="font-weight: 600; color: #333; margin-bottom: 15px;">
+                    Dünyanın en mutlu insanı benim! Seni çok seviyorum, iyi ki varsın.
+                </p>
+                <div style="background: #fff0f3; padding: 15px; border-radius: 15px; border: 1px dashed #ffb3c1;">
+                    <p style="margin-bottom: 8px; font-style: italic; color: #e63946; font-size: 14px; font-weight: 600;">
+                        "Barıştığımıza göre... Şimdi kaybettiğim meleği geri öpebilirim ✨"
+                    </p>
+                    <p style="margin-bottom: 8px; font-style: italic; color: #e63946; font-size: 14px; font-weight: 600;">
+                        "Gülüşünle dünyamı tekrardan aydınlattığın için teşekkür ederim."
+                    </p>
+                    <p style="margin-bottom: 8px; font-style: italic; color: #e63946; font-size: 14px; font-weight: 600;">
+                        "Gözlerinin içinde kaybolmayı o kadar çok özlemiştim ki... ✨"
+                    </p>
+                    <p style="margin-bottom: 0; font-style: italic; color: #e63946; font-size: 14px; font-weight: 600;">
+                        "Sen benim en güzel 'iyi ki'msin... Seni bir daha asla üzmeyeceğime söz veriyorum ❤️"
+                    </p>
+                </div>
+            `; 
             // Yüklediğin ses dosyasının tam adı
             const audio = new Audio('Azer Bülbül - Ben Seninle Mutluyum(_t1jBwvACMgk_).m4a');
             audio.play();
             // Kalp yağmuru başlat
             for(let i=0; i<30; i++) {
                 createHeart();
+            }
+        }
             }
         }
         function createHeart() {
