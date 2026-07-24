@@ -139,7 +139,7 @@
     <!-- ANA İÇERİK (Giriş Başarılı) -->
     <div id="main-content" class="card">
         <h2>Seni Çok Seviyorum! ✨</h2>
-        <p>Biliyorum belki seni kırdım... Ama senin gönlünü almak benim için her şeyden önemli.</p>
+        <p>Biliyorum belki seni kırdım... Ama senin gönlünü almak benim için her şeyden önemli.</p> 
         <h3 style="color: #e63946; margin-top: 20px;">Beni affettin mi? 🥺</h3>
         <!-- Kaçan Buton Konteyneri -->
         <div class="ask-container">
@@ -187,8 +187,8 @@
         function accepted() {
             const mainContent = document.getElementById('main-content');
             mainContent.innerHTML = "<h2>OLEY! ❤️</h2><p>Dünyanın en mutlu insanı benim! Seni çok seviyorum, iyi ki varsın.</p>"; 
-            // Azer Bülbül Şarkısı Çalma
-            const audio = new Audio('https://ia801503.us.archive.org/15/items/azer-bulbul-ben-seninle-mutluyum/Azer%20B%C3%BClb%C3%BCl%20-%20Ben%20Seninle%20Mutluyum.mp3');
+            // Yüklediğin ses dosyasının tam adı
+            const audio = new Audio('Azer Bülbül - Ben Seninle Mutluyum(_t1jBwvACMgk_).m4a');
             audio.play();
             // Kalp yağmuru başlat
             for(let i=0; i<30; i++) {
@@ -201,7 +201,7 @@
             heart.innerText = '❤️';
             heart.style.left = Math.random() * 100 + 'vh';
             heart.style.animationDelay = Math.random() * 2 + 's';
-            document.body.appendChild(heart);
+            document.body.appendChild(heart);   
             setTimeout(() => { heart.remove(); }, 3000);
         }
     </script>
