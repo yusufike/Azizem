@@ -29,7 +29,18 @@
             max-width: 450px;
             width: 90%;
             backdrop-filter: blur(10px);
-            transition: all 0.5s ease;
+            transition: transform 0.2s ease;
+        }
+        /* Titreme (Shake) Efekti */
+        .shake {
+            animation: shake 0.3s ease-in-out;
+        }
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            75% { transform: translateX(-10px); }
+            100% { transform: translateX(0); }
         }
         h2 {
             color: #e63946;
@@ -79,13 +90,22 @@
             margin-top: 15px;
             display: none;
         }
+        /* Anlık Uyarı Balonu */
+        .toast-msg {
+            color: #e63946;
+            font-weight: bold;
+            font-size: 14px;
+            margin-top: 15px;
+            min-height: 20px;
+            transition: opacity 0.3s ease;
+        }
         #main-content {
             display: none;
         }
         .ask-container {
             margin-top: 30px;
             position: relative;
-            height: 100px;
+            height: 120px;
         }
         .btn-vote {
             padding: 15px 30px;
@@ -102,27 +122,28 @@
             color: white;
             left: 20%;
             transform: translateX(-50%);
+            z-index: 10;
         }
         #btn-yes:hover {
             background-color: #27ae60;
-            transform: translateX(-50%) scale(1.05);
         }
         #btn-no {
             background-color: #95a5a6;
             color: white;
             right: 20%;
             transform: translateX(50%);
+            white-space: nowrap;
         }
-        @keyframes hearts {
+        @keyframes floatUp {
             0% { transform: translateY(0) rotate(0deg); opacity: 1; }
             100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
         }
-        .heart {
+        .floating-emoji {
             position: absolute;
-            color: #e63946;
-            font-size: 20px;
+            font-size: 24px;
             user-select: none;
-            animation: hearts 3s linear infinite;
+            animation: floatUp 3s linear infinite;
+            z-index: 100;
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
@@ -130,8 +151,8 @@
 <body>
     <!-- GİRİŞ EKRANI -->
     <div id="login-screen" class="card">
-        <h2>Hoş Geldin ❤️</h2>
-        <p>Devam etmek için özel şifremizi girmen gerekiyor:</p>
+        <h2>Hoş Geldin AZİZEMM❤️</h2>
+        <p>Devam etmek için özel şifremizi girmen gerekiyor:</p>  
         <input type="password" id="password-input" placeholder="Şifreniz..." onkeypress="handleKeyPress(event)">
         <button class="btn-main" onclick="checkPassword()">Giriş Yap</button>
         <div id="error-message" class="error-msg">Yanlış şifre! Bir daha dene bakalım 😜</div>
@@ -139,19 +160,21 @@
     <!-- ANA İÇERİK (Giriş Başarılı) -->
     <div id="main-content" class="card">
         <h2>Seni Çok Seviyorum! ✨</h2>
-        <p>Biliyorum belki seni kırdım... Ama senin gönlünü almak benim için her şeyden önemli.</p> 
+        <p>Biliyorum belki seni kırdım... Ama senin gönlünü almak benim için her şeyden önemli.</p>  
         <h3 style="color: #e63946; margin-top: 20px;">Beni affettin mi? 🥺</h3>
+        <!-- Anlık Uyarı Mesajı -->
+        <div id="toast" class="toast-msg"></div>
         <!-- Kaçan Buton Konteyneri -->
         <div class="ask-container">
             <button id="btn-yes" class="btn-vote" onclick="accepted()">Evet</button>
-            <button id="btn-no" class="btn-vote" onmouseover="moveButton()">Hayır</button>
+            <button id="btn-no" class="btn-vote" onmouseover="moveButton()" onclick="moveButton()">Hayır</button>
         </div>
     </div>
     <script>
         const SIFRE = "azizemm"; 
         function checkPassword() {
             const input = document.getElementById("password-input").value;
-            const errorMsg = document.getElementById("error-message");
+            const errorMsg = document.getElementById("error-message");        
             if (input === SIFRE) {
                 document.getElementById("login-screen").style.display = "none";
                 document.getElementById("main-content").style.display = "block";
@@ -166,9 +189,45 @@
                 checkPassword();
             }
         }
+        // --- HAYIR BUTONU DEĞİŞKENLERİ VE LİSTELERİ ---
+        let noCount = 0;
+        let yesScale = 1;
+        const noTexts = [
+            "Hayır",
+            "Emin misin?",
+            "Bir daha düşün?",
+            "Yapma lütfen 🥺",
+            "Ciddi olamazsın!",
+            "Bence Evet de 😉"
+        ];
+        const warnings = [
+            "Sistem Hatası: 'Hayır' cevabı kalbiniz tarafından reddedildi! 🚫",
+            "Yanlış buton! Yeşil olana basman gerekiyordu 😜",
+            "Cihazınız bu kararı kabul etmiyor! 🔥",
+            "Lütfen kalbinizin sesini dinleyin 🥺"
+        ];
         function moveButton() {
             const btnNo = document.getElementById('btn-no');
+            const btnYes = document.getElementById('btn-yes');
             const container = document.querySelector('.ask-container');
+            const card = document.getElementById('main-content');
+            const toast = document.getElementById('toast');
+            noCount++;
+            // 1. Hayır butonunun yazısını değiştir
+            const textIndex = noCount % noTexts.length;
+            btnNo.innerText = noTexts[textIndex];
+            // 2. Evet butonunu her defasında biraz büyüt
+            yesScale += 0.15;
+            btnYes.style.transform = `translateX(-50%) scale(${yesScale})`;
+            // 3. Kartı hafifçe salla (Shake)
+            card.classList.add('shake');
+            setTimeout(() => card.classList.remove('shake'), 300);
+            // 4. Ekrana tatlı uyarı yazısı çıkar
+            const warningIndex = noCount % warnings.length;
+            toast.innerText = warnings[warningIndex];
+            // 5. Üzgün Emojiler Yağdır
+            createSadEmojis();
+            // 6. Hayır butonunu rastgele bir yere kaçır
             const containerRect = container.getBoundingClientRect();
             const btnRect = btnNo.getBoundingClientRect();
             const maxX = containerRect.width - btnRect.width;
@@ -183,10 +242,23 @@
             btnNo.style.right = 'auto';
             btnNo.style.transform = 'none';
         }
+        // Üzgün Emoji Üretme
+        function createSadEmojis() {
+            const sadEmojis = ['🥺', '😭', '💔'];
+            for(let i=0; i<3; i++) {
+                const emoji = document.createElement('div');
+                emoji.classList.add('floating-emoji');
+                emoji.innerText = sadEmojis[Math.floor(Math.random() * sadEmojis.length)];
+                emoji.style.left = Math.random() * 90 + 'vw';
+                emoji.style.top = '80vh';
+                document.body.appendChild(emoji);
+                setTimeout(() => { emoji.remove(); }, 2500);
+            }
+        }
         // --- AFFETME EYLEMİ VE ŞARKI ---
         function accepted() {
             const mainContent = document.getElementById('main-content');
-            mainContent.innerHTML = "<h2>OLEY! ❤️</h2><p>Dünyanın en mutlu insanı benim! Seni çok seviyorum, iyi ki varsın.</p>"; 
+            mainContent.innerHTML = "<h2>OLEY! ❤️</h2><p>Dünyanın en mutlu insanı benim! Seni çok seviyorum, iyi ki varsın.</p>";      
             // Yüklediğin ses dosyasının tam adı
             const audio = new Audio('Azer Bülbül - Ben Seninle Mutluyum(_t1jBwvACMgk_).m4a');
             audio.play();
@@ -197,11 +269,12 @@
         }
         function createHeart() {
             const heart = document.createElement('div');
-            heart.classList.add('heart');
+            heart.classList.add('floating-emoji');
             heart.innerText = '❤️';
-            heart.style.left = Math.random() * 100 + 'vh';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = '100vh';
             heart.style.animationDelay = Math.random() * 2 + 's';
-            document.body.appendChild(heart);   
+            document.body.appendChild(heart);
             setTimeout(() => { heart.remove(); }, 3000);
         }
     </script>
