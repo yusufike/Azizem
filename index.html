@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sana Özel Bir Sürpriz ❤️</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            backdrop-filter: blur(5px);
+        }
+        h2 {
+            color: #e63946;
+            margin-bottom: 15px;
+        }
+        p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ffccd5;
+            border-radius: 10px;
+            outline: none;
+            font-size: 16px;
+            margin-bottom: 15px;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            border-color: #e63946;
+        }
+        button {
+            width: 100%;
+            background-color: #e63946;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+        button:hover {
+            background-color: #d62839;
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        .error-msg {
+            color: #e63946;
+            font-size: 13px;
+            margin-top: 10px;
+            display: none;
+        }
+        /* Ana İçerik Alanı (Başlangıçta Gizli) */
+        #main-content {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- GİRİŞ EKRANI -->
+    <div id="login-screen" class="card">
+        <h2>Hoş Geldin ❤️</h2>
+        <p>Devam etmek için özel şifremizi girmen gerekiyor:</p>
+        <input type="password" id="password-input" placeholder="Şifreniz..." onkeypress="handleKeyPress(event)">
+        <button onclick="checkPassword()">Giriş Yap</button>
+        <div id="error-message" class="error-msg">Yanlış şifre! Bir daha dene bakalım 😜</div>
+    </div>
+    <!-- ANA İÇERİK (Giriş Başarılı Olunca Açılacak) -->
+    <div id="main-content" class="card">
+        <h2>Seni Çok Seviyorum! ✨</h2>
+        <p id="welcome-text">Burası senin için hazırladığım özel alan...</p>
+        <!-- Buraya gelecek detayları bana söyleyince ekleyeceğiz! -->
+    </div>
+    <script>
+        // Yeni şifreniz ayarlandı:
+        const SIFRE = "azizemm"; 
+        function checkPassword() {
+            const input = document.getElementById("password-input").value;
+            const errorMsg = document.getElementById("error-message");
+            if (input === SIFRE) {
+                document.getElementById("login-screen").style.display = "none";
+                document.getElementById("main-content").style.display = "block";
+            } else {
+                errorMsg.style.display = "block";
+                document.getElementById("password-input").value = "";
+            }
+        }
+        function handleKeyPress(event) {
+            if (event.key === "Enter") {
+                checkPassword();
+            }
+        }
+    </script>
+</body>
+</html>
