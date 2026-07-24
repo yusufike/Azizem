@@ -22,16 +22,15 @@
         }
         .card {
             background: rgba(255, 255, 255, 0.95);
-            padding: 50px;
+            padding: 40px 30px;
             border-radius: 30px;
-            box-shadow: 0 15px 35px rgba(230, 57, 70, 0.1);
+            box-shadow: 0 15px 35px rgba(230, 57, 70, 0.15);
             text-align: center;
             max-width: 450px;
             width: 90%;
             backdrop-filter: blur(10px);
             transition: transform 0.2s ease;
         }
-        /* Titreme (Shake) Efekti */
         .shake {
             animation: shake 0.3s ease-in-out;
         }
@@ -44,13 +43,13 @@
         }
         h2 {
             color: #e63946;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             font-weight: 700;
         }
         p {
             color: #555;
-            font-size: 16px;
-            margin-bottom: 30px;
+            font-size: 15px;
+            margin-bottom: 20px;
             line-height: 1.6;
         }
         input {
@@ -60,7 +59,7 @@
             border-radius: 15px;
             outline: none;
             font-size: 16px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-align: center;
             transition: all 0.3s ease;
         }
@@ -89,13 +88,13 @@
             font-size: 14px;
             margin-top: 15px;
             display: none;
+            font-weight: 600;
         }
-        /* Anlık Uyarı Balonu */
         .toast-msg {
             color: #e63946;
             font-weight: bold;
             font-size: 14px;
-            margin-top: 15px;
+            margin-top: 10px;
             min-height: 20px;
             transition: opacity 0.3s ease;
         }
@@ -103,12 +102,12 @@
             display: none;
         }
         .ask-container {
-            margin-top: 30px;
+            margin-top: 25px;
             position: relative;
             height: 120px;
         }
         .btn-vote {
-            padding: 15px 30px;
+            padding: 12px 28px;
             border-radius: 50px;
             font-weight: bold;
             cursor: pointer;
@@ -127,6 +126,7 @@
         #btn-yes:hover {
             background-color: #27ae60;
         }
+
         #btn-no {
             background-color: #95a5a6;
             color: white;
@@ -144,6 +144,7 @@
             user-select: none;
             animation: floatUp 3s linear infinite;
             z-index: 100;
+            pointer-events: none;
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
@@ -151,17 +152,17 @@
 <body>
     <!-- GİRİŞ EKRANI -->
     <div id="login-screen" class="card">
-        <h2>Hoş Geldin AZİZEMM❤️</h2>
-        <p>Devam etmek için özel şifremizi girmen gerekiyor:</p>  
-        <input type="password" id="password-input" placeholder="Şifreniz..." onkeypress="handleKeyPress(event)">
+        <h2>Hoş Geldin ❤️</h2>
+        <p>Devam etmek için özel şifremizi girmen gerekiyor:</p>
+        <input type="text" id="password-input" placeholder="Şifreniz..." onkeypress="handleKeyPress(event)">
         <button class="btn-main" onclick="checkPassword()">Giriş Yap</button>
         <div id="error-message" class="error-msg">Yanlış şifre! Bir daha dene bakalım 😜</div>
     </div>
     <!-- ANA İÇERİK (Giriş Başarılı) -->
     <div id="main-content" class="card">
         <h2>Seni Çok Seviyorum! ✨</h2>
-        <p>Biliyorum belki seni kırdım... Ama senin gönlünü almak benim için her şeyden önemli.</p>  
-        <h3 style="color: #e63946; margin-top: 20px;">Beni affettin mi? 🥺</h3>
+        <p>Biliyorum belki seni kırdım... Ama senin gönlünü almak benim için her şeyden önemli.</p>
+        <h3 style="color: #e63946; margin-top: 15px;">Beni affettin mi? 🥺</h3>
         <!-- Anlık Uyarı Mesajı -->
         <div id="toast" class="toast-msg"></div>
         <!-- Kaçan Buton Konteyneri -->
@@ -171,14 +172,13 @@
         </div>
     </div>
     <script>
-        const SIFRE = "azizemm"; 
+        // Şifre Kontrolü (Büyük/Küçük Harf Duyarsız)
         function checkPassword() {
-            const input = document.getElementById("password-input").value;
-            const errorMsg = document.getElementById("error-message");        
-            if (input === SIFRE) {
+            const input = document.getElementById("password-input").value.trim().toLowerCase();
+            const errorMsg = document.getElementById("error-message");
+            if (input === "azizemm") {
                 document.getElementById("login-screen").style.display = "none";
                 document.getElementById("main-content").style.display = "block";
-                document.body.style.overflow = "auto";
             } else {
                 errorMsg.style.display = "block";
                 document.getElementById("password-input").value = "";
@@ -189,7 +189,7 @@
                 checkPassword();
             }
         }
-        // --- HAYIR BUTONU DEĞİŞKENLERİ VE LİSTELERİ ---
+        // --- HAYIR BUTONU EFEKTLERİ ---
         let noCount = 0;
         let yesScale = 1;
         const noTexts = [
@@ -198,6 +198,8 @@
             "Bir daha düşün?",
             "Yapma lütfen 🥺",
             "Ciddi olamazsın!",
+            "Bana kıyamazsın ki...",
+            " ATOMUM KABUL ET LÜTFEN",
             "Bence Evet de 😉"
         ];
         const warnings = [
@@ -213,21 +215,21 @@
             const card = document.getElementById('main-content');
             const toast = document.getElementById('toast');
             noCount++;
-            // 1. Hayır butonunun yazısını değiştir
+            // 1. Yazıyı Değiştir
             const textIndex = noCount % noTexts.length;
             btnNo.innerText = noTexts[textIndex];
-            // 2. Evet butonunu her defasında biraz büyüt
+            // 2. Evet Butonunu Büyüt
             yesScale += 0.15;
             btnYes.style.transform = `translateX(-50%) scale(${yesScale})`;
-            // 3. Kartı hafifçe salla (Shake)
+            // 3. Kartı Salla (Shake)
             card.classList.add('shake');
             setTimeout(() => card.classList.remove('shake'), 300);
-            // 4. Ekrana tatlı uyarı yazısı çıkar
+            // 4. Uyarı Mesajı Göster
             const warningIndex = noCount % warnings.length;
             toast.innerText = warnings[warningIndex];
             // 5. Üzgün Emojiler Yağdır
             createSadEmojis();
-            // 6. Hayır butonunu rastgele bir yere kaçır
+            // 6. Butonu Kaçır
             const containerRect = container.getBoundingClientRect();
             const btnRect = btnNo.getBoundingClientRect();
             const maxX = containerRect.width - btnRect.width;
@@ -236,13 +238,12 @@
             do {
                 newX = Math.random() * maxX;
                 newY = Math.random() * maxY;
-            } while (Math.abs(newX - btnNo.offsetLeft) < 50 && Math.abs(newY - btnNo.offsetTop) < 50);
+            } while (Math.abs(newX - btnNo.offsetLeft) < 40 && Math.abs(newY - btnNo.offsetTop) < 40);
             btnNo.style.left = newX + 'px';
             btnNo.style.top = newY + 'px';
             btnNo.style.right = 'auto';
             btnNo.style.transform = 'none';
         }
-        // Üzgün Emoji Üretme
         function createSadEmojis() {
             const sadEmojis = ['🥺', '😭', '💔'];
             for(let i=0; i<3; i++) {
@@ -254,7 +255,8 @@
                 document.body.appendChild(emoji);
                 setTimeout(() => { emoji.remove(); }, 2500);
             }
-        }        // --- AFFETME EYLEMİ VE ŞARKI ---
+        }
+        // --- EVET (AFFETME) EYLEMİ VE İLTİFATLAR ---
         function accepted() {
             const mainContent = document.getElementById('main-content');
             mainContent.innerHTML = `
@@ -263,28 +265,26 @@
                     Dünyanın en mutlu insanı benim! Seni çok seviyorum, iyi ki varsın.
                 </p>
                 <div style="background: #fff0f3; padding: 15px; border-radius: 15px; border: 1px dashed #ffb3c1;">
-                    <p style="margin-bottom: 8px; font-style: italic; color: #e63946; font-size: 14px; font-weight: 600;">
+                    <p style="margin-bottom: 8px; font-style: italic; color: #e63946; font-size: 13px; font-weight: 600;">
                         "Barıştığımıza göre... Şimdi kaybettiğim meleği geri öpebilirim ✨"
                     </p>
-                    <p style="margin-bottom: 8px; font-style: italic; color: #e63946; font-size: 14px; font-weight: 600;">
+                    <p style="margin-bottom: 8px; font-style: italic; color: #e63946; font-size: 13px; font-weight: 600;">
                         "Gülüşünle dünyamı tekrardan aydınlattığın için teşekkür ederim."
                     </p>
-                    <p style="margin-bottom: 8px; font-style: italic; color: #e63946; font-size: 14px; font-weight: 600;">
+                    <p style="margin-bottom: 8px; font-style: italic; color: #e63946; font-size: 13px; font-weight: 600;">
                         "Gözlerinin içinde kaybolmayı o kadar çok özlemiştim ki... ✨"
                     </p>
-                    <p style="margin-bottom: 0; font-style: italic; color: #e63946; font-size: 14px; font-weight: 600;">
+                    <p style="margin-bottom: 0; font-style: italic; color: #e63946; font-size: 13px; font-weight: 600;">
                         "Sen benim en güzel 'iyi ki'msin... Seni bir daha asla üzmeyeceğime söz veriyorum ❤️"
                     </p>
                 </div>
-            `; 
-            // Yüklediğin ses dosyasının tam adı
+            `;  
+            // Şarkı Çalma
             const audio = new Audio('Azer Bülbül - Ben Seninle Mutluyum(_t1jBwvACMgk_).m4a');
             audio.play();
-            // Kalp yağmuru başlat
+            // Kalp Yağmuru
             for(let i=0; i<30; i++) {
                 createHeart();
-            }
-        }
             }
         }
         function createHeart() {
