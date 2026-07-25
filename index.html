@@ -12,7 +12,6 @@
             --card-bg: #ffffff;
             --text: #2b2b2b;
             --shadow: rgba(230, 57, 70, 0.15);
-            --border: rgba(255, 182, 193, 0.6);
             --accent: #e63946;
             --insta-bg: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
         }
@@ -22,7 +21,6 @@
             --card-bg: rgba(30, 41, 59, 0.95);
             --text: #f8fafc;
             --shadow: rgba(0, 0, 0, 0.4);
-            --border: rgba(71, 85, 105, 0.8);
             --accent: #ff4d6d;
         }
 
@@ -46,7 +44,7 @@
             overflow-x: hidden;
         }
 
-        /* ÜST Header */
+        /* ÜST HEADER */
         .top-container {
             width: 100%;
             max-width: 400px;
@@ -111,43 +109,15 @@
         .music-details .song-title { font-size: 12px; font-weight: 700; color: #fff; }
         .music-details .artist { font-size: 10px; color: #e63946; font-weight: 600; }
 
-        .music-controls {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .m-btn {
-            background: transparent;
-            border: none;
-            color: #b3b3b3;
-            font-size: 14px;
-            cursor: pointer;
-        }
-
         .play-btn {
             background: #1db954;
             border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
+            padding: 6px 16px;
+            border-radius: 20px;
             color: black;
             font-size: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-weight: 700;
             cursor: pointer;
-        }
-
-        .lyric-box {
-            background: rgba(255,255,255,0.05);
-            border: 1px dashed rgba(255,255,255,0.2);
-            border-radius: 12px;
-            padding: 6px;
-            text-align: center;
-            font-size: 10px;
-            color: #ccc;
-            font-style: italic;
         }
 
         /* MENÜ GRID */
@@ -171,11 +141,6 @@
             box-shadow: 0 4px 12px var(--shadow);
             cursor: pointer;
             text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
-            transition: transform 0.1s;
         }
 
         .menu-btn:active { transform: scale(0.95); }
@@ -190,34 +155,20 @@
             text-align: center;
             box-shadow: 0 10px 30px var(--shadow);
             display: none;
-            animation: fadeIn 0.3s ease;
         }
 
         .card.active { display: block; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+            position: relative;
         }
-
-        .lock-card h2 { color: #e63946; font-size: 22px; margin-bottom: 6px; font-weight: 800; }
-        .lock-card p { color: #666; font-size: 12px; margin-bottom: 16px; }
-
-        .pass-input {
-            width: 100%;
-            padding: 12px;
-            border-radius: 16px;
-            border: 1.5px solid #ffccd5;
-            outline: none;
-            font-size: 14px;
-            text-align: center;
-            margin-bottom: 12px;
-        }
-
-        .pass-input:focus { border-color: #e63946; }
 
         .submit-btn {
-            width: 100%;
+            flex: 1;
             background: #e63946;
             color: white;
             border: none;
@@ -227,23 +178,12 @@
             font-weight: 700;
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
-            display: inline-block;
-            text-decoration: none;
         }
 
-        .shake { animation: shake 0.4s ease-in-out; }
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-8px); }
-            40%, 80% { transform: translateX(8px); }
-        }
-
-        .status-msg {
-            color: #e63946;
-            font-size: 11px;
-            font-weight: 600;
-            margin-top: 8px;
-            min-height: 16px;
+        .no-btn {
+            background: #888;
+            box-shadow: none;
+            transition: all 0.2s ease;
         }
 
         /* XOX GAME */
@@ -328,67 +268,53 @@
             <button class="theme-btn" onclick="toggleTheme()">🌸 Pembe</button>
         </div>
 
-        <!-- MÜZİK ÇALAR -->
+        <!-- MÜZİK KUTUSU -->
         <div class="music-box">
             <div class="music-top">
                 <div class="music-details">
                     <div class="song-title">Ben Seninle Mutluyum</div>
                     <div class="artist">Azer Bülbül ❤️</div>
                 </div>
-                <div class="music-controls">
-                    <button class="m-btn">⏮</button>
-                    <button class="play-btn" onclick="togglePlay()" id="playBtn">▶</button>
-                    <button class="m-btn">⏭</button>
-                    <button class="m-btn">≡</button>
-                </div>
-            </div>
-            <div class="lyric-box">
-                🎶 "Ben seninle mutluyum, gülüyorum hayata..."
+                <button class="play-btn" onclick="togglePlay()" id="playBtn">▶ Çal</button>
             </div>
         </div>
     </div>
 
     <!-- SES DOSYASI -->
-    <audio id="bgAudio" src="https://raw.githubusercontent.com/yusufi3152/music/main/azer_bulbul_ben_seninle_mutluyum.mp3" preload="auto"></audio>
+    <audio id="bgAudio" src="muzik.mp3" preload="auto"></audio>
 
     <!-- MENÜ BUTONLARI -->
     <div class="menu-grid">
-        <button class="menu-btn" onclick="openPage('anayasaPage')">📜 Anayasa</button>
-        <button class="menu-btn" onclick="openPage('yapbozPage')">🧩 Yapboz</button>
-        <button class="menu-btn" onclick="openPage('kelimePage')">🔤 Kelime</button>
-        <button class="menu-btn" onclick="openPage('kasaPage')">🔐 Şifre Kasa</button>
-        <button class="menu-btn" onclick="openPage('xoxPage')">❌⭕ XOX</button>
-        <button class="menu-btn" onclick="openPage('mainPage')">🏠 Ana Ekran</button>
+        <button class="menu-btn" onclick="showCard('mainPage')">🏠 Ana Ekran</button>
+        <button class="menu-btn" onclick="showCard('anayasaPage')">📜 Anayasa</button>
+        <button class="menu-btn" onclick="showCard('yapbozPage')">🧩 Yapboz</button>
+        <button class="menu-btn" onclick="showCard('kelimePage')">🔤 Kelime</button>
+        <button class="menu-btn" onclick="showCard('kasaPage')">🔐 Şifre Kasa</button>
+        <button class="menu-btn" onclick="showCard('xoxPage')">❌⭕ XOX</button>
     </div>
 
-    <!-- EKRAN 1: ŞİFRE GİRİŞİ (BAŞLANGIÇ EKRANI) -->
-    <div id="lockScreen" class="card active lock-card">
-        <h2>Hoş Geldin ❤️</h2>
-        <p>Devam etmek için özel şifremizi gir:</p>
-        <input type="password" id="passInput" class="pass-input" placeholder="Şifreniz..." onkeypress="if(event.key==='Enter') verifyPassword()">
-        <button class="submit-btn" onclick="verifyPassword()">Giriş Yap</button>
-        <div class="status-msg" id="statusMsg"></div>
-    </div>
-
-    <!-- EKRAN 2: ANA SAYFA (EVET / HAZIRIM AKIŞI) -->
-    <div id="mainPage" class="card">
+    <!-- EKRAN 1: ANA SAYFA (EVET / HAYIR SORUSU) -->
+    <div id="mainPage" class="card active">
         <h2 style="color: #e63946; font-size: 20px; margin-bottom: 8px;">Hoş Geldin Birtanem! ❤️</h2>
-        <p style="color: #666; font-size: 13px; margin-bottom: 18px; line-height: 1.5;">
+        <p style="color: #666; font-size: 13px; margin-bottom: 12px; line-height: 1.5;">
             Sana özel hazırladığım bu minik dünyayı keşfetmeye hazır mısın?
         </p>
-        <button class="submit-btn" onclick="handleYes()">Evet, Hazırım! 🎉</button>
+        <div class="btn-group">
+            <button class="submit-btn" onclick="handleYes()">Evet! 🎉</button>
+            <button class="submit-btn no-btn" id="noBtn" onclick="handleNo()">Hayır 😜</button>
+        </div>
     </div>
 
-    <!-- EKRAN 3: İKİNCİ ADIM -->
+    <!-- EKRAN 2: İKİNCİ ADIM -->
     <div id="secondPage" class="card">
         <h2 style="color: #e63946; font-size: 20px; margin-bottom: 8px;">İyi ki Varsın! 🥰</h2>
         <p style="color: #666; font-size: 13px; margin-bottom: 18px; line-height: 1.5;">
             Hayatımda olduğun her gün için minnettarım.
         </p>
-        <button class="submit-btn" onclick="openPage('thirdPage')">İleri Git ➡</button>
+        <button class="submit-btn" onclick="showCard('thirdPage')">İleri Git ➡</button>
     </div>
 
-    <!-- EKRAN 4: İLETİŞİM / INSTAGRAM -->
+    <!-- EKRAN 3: İLETİŞİM / INSTAGRAM -->
     <div id="thirdPage" class="card">
         <h2 style="color: #e63946; font-size: 20px; margin-bottom: 8px;">Bana Ulaş 💬</h2>
         <p style="color: #666; font-size: 13px; margin-bottom: 14px; line-height: 1.5;">
@@ -397,7 +323,7 @@
         <a href="https://instagram.com/yusuf.i3152" target="_blank" class="instagram-btn">Instagram: yusuf.i3152</a>
     </div>
 
-    <!-- EKRAN 5: ANAYASA -->
+    <!-- EKRAN 4: ANAYASA -->
     <div id="anayasaPage" class="card">
         <h2 style="color: #e63946;">Bizim Anayasamız 📜</h2>
         <p style="color: #666; font-size: 12px; margin-top: 8px; text-align: left; line-height: 1.6;">
@@ -407,7 +333,7 @@
         </p>
     </div>
 
-    <!-- EKRAN 6: YAPBOZ -->
+    <!-- EKRAN 5: YAPBOZ -->
     <div id="yapbozPage" class="card">
         <h2 style="color: #e63946;">Mini Yapboz 🧩</h2>
         <p style="color: #666; font-size: 12px; margin-top: 8px;">
@@ -415,7 +341,7 @@
         </p>
     </div>
 
-    <!-- EKRAN 7: KELİME -->
+    <!-- EKRAN 6: KELİME -->
     <div id="kelimePage" class="card">
         <h2 style="color: #e63946;">Kelime Oyunu 🔤</h2>
         <p style="color: #666; font-size: 12px; margin-top: 8px;">
@@ -423,16 +349,16 @@
         </p>
     </div>
 
-    <!-- EKRAN 8: ŞİFRE KASA -->
+    <!-- EKRAN 7: ŞİFRE KASA -->
     <div id="kasaPage" class="card">
         <h2 style="color: #e63946;">Özel Kasa 🔐</h2>
-        <p style="color: #666; font-size: 12px; margin-top: 8px;">
+        <p style="color: #666; font-size: 12px; margin-top: 8px; margin-bottom: 12px;">
             Bana ulaşmak veya profilime bakmak için:
         </p>
         <a href="https://instagram.com/yusuf.i3152" target="_blank" class="instagram-btn">Instagram: yusuf.i3152</a>
     </div>
 
-    <!-- EKRAN 9: XOX OYUNU -->
+    <!-- EKRAN 8: XOX OYUNU -->
     <div id="xoxPage" class="card">
         <h2 style="color: #e63946;">XOX Oyunu ❌⭕</h2>
         <p id="xoxStatus" style="color: #888; font-size: 11px;">Hamleni Yap!</p>
@@ -461,61 +387,33 @@
     </div>
 
     <script>
-        const CORRECT_PASSWORD = "Azizemm"; 
-        let isUnlocked = false;
-
-        /* ŞİFRE KONTROLÜ VE KİLİT AÇMA */
-        function verifyPassword() {
-            const input = document.getElementById("passInput").value.trim();
-            const status = document.getElementById("statusMsg");
-            const lockCard = document.getElementById("lockScreen");
-
-            if (input === CORRECT_PASSWORD || input.toLowerCase() === "azizemm") {
-                isUnlocked = true;
-                status.style.color = "#2ec4b6";
-                status.innerText = "Şifre Doğru! Giriş Yapılıyor...";
-                
-                if (typeof confetti === 'function') {
-                    confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-                }
-
-                setTimeout(() => {
-                    showCard("mainPage");
-                }, 500);
-            } else {
-                status.style.color = "#e63946";
-                status.innerText = "Hatalı şifre! Lütfen tekrar dene.";
-                lockCard.classList.add("shake");
-                setTimeout(() => lockCard.classList.remove("shake"), 400);
-            }
-        }
-
-        /* SAYFA GEÇİŞİ (KİLİTLİYSE ŞİFREYE YÖNLENDİRİR) */
-        function openPage(cardId) {
-            if (!isUnlocked) {
-                const status = document.getElementById("statusMsg");
-                const lockCard = document.getElementById("lockScreen");
-                showCard("lockScreen");
-                status.style.color = "#e63946";
-                status.innerText = "Lütfen önce doğru şifreyi gir!";
-                lockCard.classList.add("shake");
-                setTimeout(() => lockCard.classList.remove("shake"), 400);
-                return;
-            }
-            showCard(cardId);
-        }
-
+        /* KARTLAR ARASI GEÇİŞ */
         function showCard(cardId) {
             document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
             const target = document.getElementById(cardId);
             if (target) target.classList.add('active');
         }
 
+        /* EVET / HAYIR MANTIĞI */
+        let noClickCount = 0;
         function handleYes() {
             if (typeof confetti === 'function') {
-                confetti({ particleCount: 110, spread: 70, origin: { y: 0.6 } });
+                confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
             }
-            openPage('secondPage');
+            showCard('secondPage');
+        }
+
+        function handleNo() {
+            const noBtn = document.getElementById("noBtn");
+            noClickCount++;
+            if (noClickCount === 1) {
+                noBtn.innerText = "Emin misin? 🥺";
+            } else if (noClickCount === 2) {
+                noBtn.innerText = "Son kararın mı? 💔";
+            } else {
+                noBtn.style.transform = "scale(0.5)";
+                noBtn.innerText = "Cık, Hayır yok! 😜";
+            }
         }
 
         /* MÜZİK OYNATMA */
@@ -527,18 +425,18 @@
             if (!isPlaying) {
                 audio.play().then(() => {
                     isPlaying = true;
-                    playBtn.innerText = "⏸";
+                    playBtn.innerText = "⏸ Durdur";
                 }).catch(err => {
-                    console.log("Müzik oynatılamadı: ", err);
+                    alert("Şarkı çalınamadı. Lütfen HTML dosyasının yanına 'muzik.mp3' koyduğunuzdan emin olun.");
                 });
             } else {
                 audio.pause();
                 isPlaying = false;
-                playBtn.innerText = "▶";
+                playBtn.innerText = "▶ Çal";
             }
         }
 
-        /* TEMA */
+        /* TEMA DEĞİŞTİRME */
         function toggleTheme() {
             document.body.toggleAttribute("data-theme");
         }
@@ -562,6 +460,7 @@
             inp.value = "";
             body.scrollTop = body.scrollHeight;
 
+            /* Buradaki cevabı kendin kod içerisinden değiştirebilirsin */
             setTimeout(() => {
                 const botMsg = document.createElement("div");
                 botMsg.className = "msg bot";
