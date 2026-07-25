@@ -84,31 +84,96 @@
             display: flex; align-items: center; justify-content: center;
         }
 
-        /* Üst Müzik Kutusu */
+        /* SPOTIFY TARZI MÜZİK KUTUSU */
         .top-music-box {
-            background: rgba(20, 20, 20, 0.9);
+            background: rgba(18, 18, 18, 0.95);
             color: white; border-radius: 20px;
-            padding: 8px 12px;
-            display: flex; align-items: center; gap: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            padding: 10px 14px;
+            display: flex; flex-direction: column; gap: 6px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
             width: 100%;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            position: relative;
         }
+
+        .music-main-row {
+            display: flex; align-items: center; justify-content: space-between; width: 100%;
+        }
+
+        .music-info {
+            flex: 1; overflow: hidden; margin-right: 8px; cursor: pointer;
+        }
+        .music-title { font-size: 11px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #fff; }
+        .music-sub { font-size: 9.5px; color: #1db954; font-weight: 600; margin-top: 1px; }
+
+        .player-controls {
+            display: flex; align-items: center; gap: 6px;
+        }
+
+        .control-btn {
+            background: transparent; border: none;
+            color: #b3b3b3; font-size: 14px; cursor: pointer;
+            transition: color 0.2s, transform 0.1s;
+            display: flex; align-items: center; justify-content: center;
+            width: 28px; height: 28px;
+        }
+
+        .control-btn:active { transform: scale(0.9); }
+        .control-btn:hover { color: #fff; }
 
         .play-btn {
             background: #1db954; border: none;
-            width: 32px; height: 32px; border-radius: 50%;
-            color: black; font-weight: bold; cursor: pointer;
-            flex-shrink: 0; font-size: 12px;
+            width: 34px; height: 34px; border-radius: 50%;
+            color: black; font-size: 12px; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 2px 8px rgba(29, 185, 84, 0.4);
+            transition: transform 0.2s;
+        }
+        .play-btn:active { transform: scale(0.92); }
+
+        .list-toggle-btn {
+            background: rgba(255,255,255,0.1);
+            border: none; color: #fff;
+            padding: 4px 8px; border-radius: 12px;
+            font-size: 10px; cursor: pointer;
+            display: flex; align-items: center; gap: 4px;
         }
 
-        .music-info { flex: 1; overflow: hidden; }
-        .music-title { font-size: 11px; font-weight: bold; white-space: nowrap; text-overflow: ellipsis; }
-        .music-sub { font-size: 9px; color: #b3b3b3; }
+        /* ŞARKI LİSTESİ PENCERESİ */
+        .playlist-dropdown {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            background: rgba(30, 30, 30, 0.98);
+            border-radius: 14px;
+            padding: 8px;
+            margin-top: 4px;
+            border: 1px solid rgba(255,255,255,0.15);
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .playlist-dropdown.show { display: flex; }
+
+        .playlist-item {
+            padding: 8px 10px;
+            border-radius: 10px;
+            font-size: 11px;
+            color: #ccc;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .playlist-item:hover { background: rgba(255,255,255,0.1); color: #fff; }
+        .playlist-item.active { background: rgba(29, 185, 84, 0.2); color: #1db954; font-weight: bold; }
 
         /* MÜZİK ALANININ ALTINDAKİ OYUN BUTONLARI */
         .middle-games-container {
-            margin-top: 105px;
+            margin-top: 125px;
             width: 90%; max-width: 400px;
             z-index: 10;
         }
@@ -184,8 +249,15 @@
             text-align: center;
             max-width: 400px; width: 90%;
             z-index: 10;
+            margin-top: 15px;
             margin-bottom: 80px;
             border: 1px solid var(--border);
+            display: none; /* Girişte gizli kalacak */
+        }
+
+        .photo-card.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
         }
 
         .photo-frame {
@@ -199,6 +271,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            cursor: pointer;
+            position: relative;
         }
 
         .photo-frame img {
@@ -206,6 +280,22 @@
             height: 100%;
             object-fit: cover;
             display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .photo-frame:hover img {
+            transform: scale(1.03);
+        }
+
+        .zoom-badge {
+            position: absolute;
+            bottom: 8px; right: 8px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            font-size: 10px;
+            padding: 4px 8px;
+            border-radius: 10px;
+            backdrop-filter: blur(4px);
         }
 
         .photo-caption {
@@ -213,6 +303,56 @@
             font-weight: bold;
             color: var(--accent);
             letter-spacing: 0.5px;
+        }
+
+        /* LIGHTBOX MODALI */
+        .lightbox-modal {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.88);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .lightbox-content {
+            max-width: 95%;
+            max-height: 85vh;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            object-fit: contain;
+            animation: zoomIn 0.3s ease;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.8); }
+            to { transform: scale(1); }
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px; right: 20px;
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            background: rgba(255,255,255,0.2);
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255,255,255,0.3);
         }
 
         /* Evet / Hayır */
@@ -311,7 +451,7 @@
     <div id="police-overlay"></div>
     <canvas id="bgCanvas"></canvas>
 
-    <!-- Üst Header (Sayaç + Müzik Çalar) -->
+    <!-- Üst Header (Sayaç + Spotify Tarzı Çalar) -->
     <div class="top-header-container">
         <div class="top-navbar">
             <div class="top-info">
@@ -321,12 +461,24 @@
             <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
         </div>
 
+        <!-- SPOTIFY MÜZİK ÇALAR -->
         <div class="top-music-box">
-            <button class="play-btn" onclick="toggleMusic()" id="playBtn">▶</button>
-            <div class="music-info">
-                <div class="music-title">Ben Seninle Mutluyum</div>
-                <div class="music-sub">Azer Bülbül ❤️</div>
+            <div class="music-main-row">
+                <div class="music-info" onclick="togglePlaylist()">
+                    <div class="music-title" id="musicTitle">Ben Seninle Mutluyum</div>
+                    <div class="music-sub" id="musicArtist">Azer Bülbül ❤️</div>
+                </div>
+
+                <div class="player-controls">
+                    <button class="control-btn" onclick="prevTrack()" title="Önceki">⏮</button>
+                    <button class="play-btn" onclick="toggleMusic()" id="playBtn">▶</button>
+                    <button class="control-btn" onclick="nextTrack()" title="Sonraki">⏭</button>
+                    <button class="list-toggle-btn" onclick="togglePlaylist()">☰</button>
+                </div>
             </div>
+
+            <!-- ŞARKI LİSTESİ PENCERESİ -->
+            <div class="playlist-dropdown" id="playlistDropdown"></div>
         </div>
     </div>
 
@@ -392,12 +544,19 @@
         <div class="game-status" id="xoxStatus">Hamleni Yap!</div>
     </div>
 
-    <!-- 6. BOŞ KALAN ALT ALAN İÇİN FOTOĞRAF KÖŞESİ -->
+    <!-- 6. FOTOĞRAF KÖŞESİ (SADECE EVET'E BASTIKTAN SONRA GÖRÜNÜR) -->
     <div class="photo-card" id="photoGallerySection">
-        <div class="photo-frame">
+        <div class="photo-frame" onclick="openLightbox('Screenshot_2026-07-14-00-26-15-279_com.zhiliaoapp.musically-edit.jpg')">
             <img src="Screenshot_2026-07-14-00-26-15-279_com.zhiliaoapp.musically-edit.jpg" alt="Meleğimin Küçüklüğü">
+            <div class="zoom-badge">🔍 Fotoğrafı Büyüt</div>
         </div>
         <div class="photo-caption">Meleğimin Küçüklüğü 🥺❤️</div>
+    </div>
+
+    <!-- FOTOĞRAF BÜYÜTME (LIGHTBOX) MODALI -->
+    <div class="lightbox-modal" id="lightboxModal" onclick="closeLightbox()">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <img class="lightbox-content" id="lightboxImage" src="" onclick="event.stopPropagation()">
     </div>
 
     <!-- CHATBOT -->
@@ -451,6 +610,7 @@
             initWordGame();
             initVaultGame();
             initXOXGame();
+            renderPlaylistUI();
         };
 
         const canvas = document.getElementById('bgCanvas');
@@ -487,17 +647,97 @@
             }
         }
 
-        const music = new Audio('Azer Bülbül - Ben Seninle Mutluyum(_t1jBwvACMgk_).m4a');
-        music.loop = true;
+        /* SPOTIFY TARZI GELİŞMİŞ MÜZİK ÇALAR SİSTEMİ */
+        const playlist = [
+            {
+                title: "Ben Seninle Mutluyum",
+                artist: "Azer Bülbül ❤️",
+                src: "Azer Bülbül - Ben Seninle Mutluyum(_t1jBwvACMgk_).m4a"
+            },
+            {
+                title: "Yenildiğiṁ Tek Savaştın",
+                artist: "Özel Şarkımız 💖",
+                src: "yenildiğiṁ tek savaştın(_K2-QZ-hEU9Y_).m4a"
+            },
+            {
+                title: "C_EST LA VIE 2.0",
+                artist: "Keizerkado & omer11 ✨",
+                src: "Keizerkado & omer11 - C_EST LA VIE 2.0(_S-aEEFiGK9Y_).m4a"
+            }
+        ];
+
+        let currentTrackIndex = 0;
         let isPlaying = false;
+        let music = new Audio(playlist[currentTrackIndex].src);
+
+        music.addEventListener('ended', function() {
+            nextTrack();
+        });
+
+        function loadTrack(index, autoPlay = true) {
+            currentTrackIndex = index;
+            music.src = playlist[currentTrackIndex].src;
+            document.getElementById("musicTitle").innerText = playlist[currentTrackIndex].title;
+            document.getElementById("musicArtist").innerText = playlist[currentTrackIndex].artist;
+            renderPlaylistUI();
+
+            if (autoPlay) {
+                music.play().then(() => {
+                    isPlaying = true;
+                    document.getElementById("playBtn").innerText = "❚❚";
+                }).catch(() => {});
+            } else {
+                isPlaying = false;
+                document.getElementById("playBtn").innerText = "▶";
+            }
+        }
 
         function toggleMusic() {
             const btn = document.getElementById("playBtn");
             if (isPlaying) {
-                music.pause(); isPlaying = false; btn.innerText = "▶";
+                music.pause();
+                isPlaying = false;
+                btn.innerText = "▶";
             } else {
-                music.play().then(() => { isPlaying = true; btn.innerText = "❚❚"; }).catch(() => {});
+                music.play().then(() => {
+                    isPlaying = true;
+                    btn.innerText = "❚❚";
+                }).catch(() => {});
             }
+        }
+
+        function nextTrack() {
+            let nextIndex = (currentTrackIndex + 1) % playlist.length;
+            loadTrack(nextIndex, isPlaying);
+        }
+
+        function prevTrack() {
+            let prevIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+            loadTrack(prevIndex, isPlaying);
+        }
+
+        function togglePlaylist() {
+            const dropdown = document.getElementById("playlistDropdown");
+            dropdown.classList.toggle("show");
+        }
+
+        function renderPlaylistUI() {
+            const dropdown = document.getElementById("playlistDropdown");
+            dropdown.innerHTML = "";
+            playlist.forEach((track, idx) => {
+                const item = document.createElement("div");
+                item.className = `playlist-item ${idx === currentTrackIndex ? 'active' : ''}`;
+                item.innerHTML = `
+                    <span>${idx + 1}. ${track.title} - <small>${track.artist}</small></span>
+                    <span>${idx === currentTrackIndex ? '🎶' : ''}</span>
+                `;
+                item.onclick = (e) => {
+                    e.stopPropagation();
+                    loadTrack(idx, true);
+                    togglePlaylist();
+                };
+                dropdown.appendChild(item);
+            });
         }
 
         function toggleTheme() {
@@ -506,7 +746,23 @@
             document.getElementById("themeBtn").innerText = isDark ? "🌙" : "☀️";
         }
 
-        // YENİ EKRANA GEÇİŞ SİSTEMİ
+        /* LIGHTBOX (FOTOĞRAF BÜYÜTME) FONKSİYONLARI */
+        function openLightbox(imgSrc) {
+            const modal = document.getElementById("lightboxModal");
+            const img = document.getElementById("lightboxImage");
+            img.src = imgSrc;
+            modal.style.display = "flex";
+        }
+
+        function closeLightbox() {
+            document.getElementById("lightboxModal").style.display = "none";
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeLightbox();
+        });
+
+        /* SAYFA GEÇİŞ SİSTEMİ */
         function showPage(pageId) {
             document.querySelectorAll('.page-screen').forEach(el => el.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
@@ -524,7 +780,7 @@
             showPage(previousScreenId);
         }
 
-        // PAZARLIK MODALI
+        /* PAZARLIK MODALI */
         let step = 0;
         const offers = [
             { badge: "🚨 ALARM", title: "Yasadışı Karar!", desc: "1 Karam Çikolata karşılığında anlaşalım mı?", btn: "🍫 Karam'ı Kabul Et & Affet" },
@@ -555,7 +811,7 @@
             accepted();
         }
 
-        // EVET EKRANI
+        /* EVET EKRANI VE FOTOĞRAFIN ORTAYA ÇIKMASI */
         function accepted() {
             document.getElementById("police-overlay").style.display = "none";
             const main = document.getElementById('main-content');
@@ -578,6 +834,10 @@
             typeWriter("accepted-desc", "Dünyanın en mutlu insanı benim! Seni çok seviyorum.");
             initScratch();
 
+            // EVET'E BASTIKTAN SONRA FOTOĞRAF KARTINI ALTA EKLER VE GÖSTERİR
+            const photoCard = document.getElementById("photoGallerySection");
+            photoCard.classList.add("show");
+
             if(!isPlaying) {
                 music.play().then(() => { isPlaying = true; document.getElementById("playBtn").innerText = "❚❚"; }).catch(() => {});
             }
@@ -585,7 +845,7 @@
             if(typeof confetti === 'function') confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
         }
 
-        // Kazı Kazan
+        /* KAZI KAZAN */
         function initScratch() {
             const sCanvas = document.getElementById('scratchCanvas');
             if(!sCanvas) return;
@@ -626,7 +886,7 @@
             sCanvas.addEventListener('touchmove', scratch);
         }
 
-        // 1. KELİME OYUNU
+        /* 1. KELİME OYUNU */
         const secretWords = ["karam", "askımm"];
         let currentWordIndex = 0;
 
@@ -661,7 +921,7 @@
             }
         }
 
-        // 2. RASTGELE ŞİFRE OYUNU
+        /* 2. RASTGELE ŞİFRE OYUNU */
         let secretVaultCode = 100;
 
         function initVaultGame() { secretVaultCode = Math.floor(100 + Math.random() * 900); }
@@ -681,7 +941,7 @@
             }
         }
 
-        // 3. XOX OYUNU
+        /* 3. XOX OYUNU */
         let xoxBoardState = ["", "", "", "", "", "", "", "", ""];
         let isGameActive = true;
 
@@ -754,7 +1014,7 @@
             return winPatterns.some(pattern => pattern.every(idx => xoxBoardState[idx] === symbol));
         }
 
-        // Chatbot
+        /* CHATBOT */
         function toggleChat() {
             const win = document.getElementById("chatWin");
             win.style.display = win.style.display === "flex" ? "none" : "flex";
