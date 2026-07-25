@@ -46,21 +46,6 @@
             overflow-x: hidden;
         }
 
-        /* UÇAN KALPLER ANİMASYONU */
-        .floating-heart {
-            position: fixed;
-            bottom: -20px;
-            font-size: 24px;
-            animation: floatUp 3s linear forwards;
-            pointer-events: none;
-            z-index: 9999;
-        }
-
-        @keyframes floatUp {
-            0% { transform: translateY(0) scale(0.8); opacity: 1; }
-            100% { transform: translateY(-100vh) scale(1.3); opacity: 0; }
-        }
-
         /* ÜST Header */
         .top-container {
             width: 100%;
@@ -89,9 +74,9 @@
             gap: 8px;
         }
 
-        .info-card .icon { font-size: 18px; }
+        .info-card .icon { font-size: 16px; }
         .info-card .title { font-size: 13px; font-weight: 700; color: #e63946; }
-        .info-card .sub { font-size: 10px; color: #666; font-weight: 600; }
+        .info-card .sub { font-size: 10px; color: #888; }
 
         .theme-btn {
             background: #ffffff;
@@ -190,6 +175,7 @@
             align-items: center;
             justify-content: center;
             gap: 4px;
+            transition: transform 0.1s;
         }
 
         .menu-btn:active { transform: scale(0.95); }
@@ -228,6 +214,8 @@
             margin-bottom: 12px;
         }
 
+        .pass-input:focus { border-color: #e63946; }
+
         .submit-btn {
             width: 100%;
             background: #e63946;
@@ -257,33 +245,6 @@
             margin-top: 8px;
             min-height: 16px;
         }
-
-        /* YAPBOZ OYUNU */
-        .puzzle-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 4px;
-            width: 210px;
-            height: 210px;
-            margin: 12px auto;
-            background: #ffe4e1;
-            padding: 4px;
-            border-radius: 12px;
-        }
-
-        .puzzle-tile {
-            background: #e63946;
-            color: white;
-            font-weight: 800;
-            font-size: 18px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        .puzzle-tile.empty { background: transparent; cursor: default; }
 
         /* XOX GAME */
         .xox-grid {
@@ -339,9 +300,16 @@
 
         .instagram-btn {
             background: var(--insta-bg);
-            color: white !important; border: none; padding: 12px 24px;
-            border-radius: 18px; font-size: 13px; font-weight: 700;
-            text-decoration: none; display: inline-block; margin-top: 10px;
+            color: white !important;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 18px;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(225, 48, 108, 0.3);
         }
     </style>
 </head>
@@ -353,11 +321,11 @@
             <div class="info-card">
                 <span class="icon">❤️</span>
                 <div>
-                    <div class="title" id="relationshipCounter">Hesaplanıyor...</div>
+                    <div class="title">13 Gündür Sevgiliyiz</div>
                     <div class="sub">Dünyam değişti ✨</div>
                 </div>
             </div>
-            <button class="theme-btn" onclick="checkAuthAndRun(toggleTheme)">🌸 Pembe</button>
+            <button class="theme-btn" onclick="toggleTheme()">🌸 Pembe</button>
         </div>
 
         <!-- MÜZİK ÇALAR -->
@@ -368,10 +336,10 @@
                     <div class="artist">Azer Bülbül ❤️</div>
                 </div>
                 <div class="music-controls">
-                    <button class="m-btn" onclick="checkAuthAndRun()">⏮</button>
-                    <button class="play-btn" onclick="checkAuthAndRun(togglePlay)" id="playBtn">▶</button>
-                    <button class="m-btn" onclick="checkAuthAndRun()">⏭</button>
-                    <button class="m-btn" onclick="checkAuthAndRun()">≡</button>
+                    <button class="m-btn">⏮</button>
+                    <button class="play-btn" onclick="togglePlay()" id="playBtn">▶</button>
+                    <button class="m-btn">⏭</button>
+                    <button class="m-btn">≡</button>
                 </div>
             </div>
             <div class="lyric-box">
@@ -380,20 +348,20 @@
         </div>
     </div>
 
-    <!-- MÜZİK SES DOSYASI -->
-    <audio id="audioPlayer" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+    <!-- SES DOSYASI -->
+    <audio id="bgAudio" src="https://raw.githubusercontent.com/yusufi3152/music/main/azer_bulbul_ben_seninle_mutluyum.mp3" preload="auto"></audio>
 
     <!-- MENÜ BUTONLARI -->
     <div class="menu-grid">
-        <button class="menu-btn" onclick="openProtectedPage('anayasaPage')">📜 Anayasa</button>
-        <button class="menu-btn" onclick="openProtectedPage('yapbozPage')">🧩 Yapboz</button>
-        <button class="menu-btn" onclick="openProtectedPage('kelimePage')">🔤 Kelime</button>
-        <button class="menu-btn" onclick="openProtectedPage('kasaPage')">🔐 Şifre Kasa</button>
-        <button class="menu-btn" onclick="openProtectedPage('xoxPage')">❌⭕ XOX</button>
-        <button class="menu-btn" onclick="openProtectedPage('mainPage')">🏠 Ana Ekran</button>
+        <button class="menu-btn" onclick="openPage('anayasaPage')">📜 Anayasa</button>
+        <button class="menu-btn" onclick="openPage('yapbozPage')">🧩 Yapboz</button>
+        <button class="menu-btn" onclick="openPage('kelimePage')">🔤 Kelime</button>
+        <button class="menu-btn" onclick="openPage('kasaPage')">🔐 Şifre Kasa</button>
+        <button class="menu-btn" onclick="openPage('xoxPage')">❌⭕ XOX</button>
+        <button class="menu-btn" onclick="openPage('mainPage')">🏠 Ana Ekran</button>
     </div>
 
-    <!-- EKRAN 1: ŞİFRE GİRİŞİ -->
+    <!-- EKRAN 1: ŞİFRE GİRİŞİ (BAŞLANGIÇ EKRANI) -->
     <div id="lockScreen" class="card active lock-card">
         <h2>Hoş Geldin ❤️</h2>
         <p>Devam etmek için özel şifremizi gir:</p>
@@ -402,7 +370,7 @@
         <div class="status-msg" id="statusMsg"></div>
     </div>
 
-    <!-- EKRAN 2: ANA SAYFA (EVET/HAYIR AKIŞI) -->
+    <!-- EKRAN 2: ANA SAYFA (EVET / HAZIRIM AKIŞI) -->
     <div id="mainPage" class="card">
         <h2 style="color: #e63946; font-size: 20px; margin-bottom: 8px;">Hoş Geldin Birtanem! ❤️</h2>
         <p style="color: #666; font-size: 13px; margin-bottom: 18px; line-height: 1.5;">
@@ -417,7 +385,7 @@
         <p style="color: #666; font-size: 13px; margin-bottom: 18px; line-height: 1.5;">
             Hayatımda olduğun her gün için minnettarım.
         </p>
-        <button class="submit-btn" onclick="openProtectedPage('thirdPage')">İleri Git ➡</button>
+        <button class="submit-btn" onclick="openPage('thirdPage')">İleri Git ➡</button>
     </div>
 
     <!-- EKRAN 4: İLETİŞİM / INSTAGRAM -->
@@ -426,7 +394,7 @@
         <p style="color: #666; font-size: 13px; margin-bottom: 14px; line-height: 1.5;">
             Bana istediğin zaman buradan ulaşabilirsin!
         </p>
-        <a href="https://instagram.com/Yusufi" target="_blank" class="instagram-btn">Instagram</a>
+        <a href="https://instagram.com/yusuf.i3152" target="_blank" class="instagram-btn">Instagram: yusuf.i3152</a>
     </div>
 
     <!-- EKRAN 5: ANAYASA -->
@@ -442,9 +410,9 @@
     <!-- EKRAN 6: YAPBOZ -->
     <div id="yapbozPage" class="card">
         <h2 style="color: #e63946;">Mini Yapboz 🧩</h2>
-        <p style="color: #666; font-size: 12px; margin-top: 4px;">Sayıları sırasıyla diz!</p>
-        <div class="puzzle-grid" id="puzzleBoard"></div>
-        <button class="submit-btn" onclick="initPuzzle()" style="padding: 6px 12px; font-size: 11px; margin-top: 8px; width: auto;">Yeniden Karıştır</button>
+        <p style="color: #666; font-size: 12px; margin-top: 8px;">
+            Çok yakında buraya anılarımızdan oluşan özel görseller eklenecek!
+        </p>
     </div>
 
     <!-- EKRAN 7: KELİME -->
@@ -461,7 +429,7 @@
         <p style="color: #666; font-size: 12px; margin-top: 8px;">
             Bana ulaşmak veya profilime bakmak için:
         </p>
-        <a href="https://instagram.com/Yusufi" target="_blank" class="instagram-btn">Instagram: @Yusufi</a>
+        <a href="https://instagram.com/yusuf.i3152" target="_blank" class="instagram-btn">Instagram: yusuf.i3152</a>
     </div>
 
     <!-- EKRAN 9: XOX OYUNU -->
@@ -472,10 +440,12 @@
         <button class="submit-btn" onclick="resetXOX()" style="padding: 6px 12px; font-size: 11px; margin-top: 8px; width: auto;">Yeniden Başlat</button>
     </div>
 
+    <!-- ALT YAZI -->
     <div class="footer-tag">Günün yıldızı sensin 👑</div>
 
     <!-- CHATBOT -->
-    <div class="chat-fab" onclick="checkAuthAndRun(toggleChat)">💬</div>
+    <div class="chat-fab" onclick="toggleChat()">💬</div>
+
     <div class="chat-win" id="chatWin">
         <div class="chat-header">
             <span>Tatlı Asistan 🤖</span>
@@ -494,40 +464,7 @@
         const CORRECT_PASSWORD = "Azizemm"; 
         let isUnlocked = false;
 
-        /* 1. CANLI SAYAÇ (13 GÜN + SANİYE SANİYE SAYIM) */
-        // İlişki Başlangıç Tarihi (Tam 13 gün öncesi)
-        const startDate = new Date(Date.now() - (13 * 24 * 60 * 60 * 1000));
-
-        function updateCounter() {
-            const now = new Date();
-            const diff = now - startDate;
-
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            const minutes = Math.floor((diff / 1000 / 60) % 60);
-            const seconds = Math.floor((diff / 1000) % 60);
-
-            document.getElementById("relationshipCounter").innerText = `${days}G ${hours}S ${minutes}D ${seconds}S`;
-        }
-        setInterval(updateCounter, 1000);
-        updateCounter();
-
-        /* 2. UÇAN KALPLER EFEKTİ */
-        function triggerHearts() {
-            for (let i = 0; i < 15; i++) {
-                setTimeout(() => {
-                    const heart = document.createElement("div");
-                    heart.className = "floating-heart";
-                    heart.innerText = ["❤️", "💖", "🌸", "💕"][Math.floor(Math.random() * 4)];
-                    heart.style.left = Math.random() * 90 + 5 + "vw";
-                    heart.style.animationDuration = (Math.random() * 2 + 2) + "s";
-                    document.body.appendChild(heart);
-                    setTimeout(() => heart.remove(), 3000);
-                }, i * 150);
-            }
-        }
-
-        /* ŞİFRE KONTROLÜ */
+        /* ŞİFRE KONTROLÜ VE KİLİT AÇMA */
         function verifyPassword() {
             const input = document.getElementById("passInput").value.trim();
             const status = document.getElementById("statusMsg");
@@ -538,10 +475,13 @@
                 status.style.color = "#2ec4b6";
                 status.innerText = "Şifre Doğru! Giriş Yapılıyor...";
                 
-                triggerHearts();
-                if (typeof confetti === 'function') confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+                if (typeof confetti === 'function') {
+                    confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+                }
 
-                setTimeout(() => showCard("mainPage"), 600);
+                setTimeout(() => {
+                    showCard("mainPage");
+                }, 500);
             } else {
                 status.style.color = "#e63946";
                 status.innerText = "Hatalı şifre! Lütfen tekrar dene.";
@@ -550,24 +490,19 @@
             }
         }
 
-        function openProtectedPage(cardId) {
-            if (!isUnlocked) { notifyLock(); return; }
+        /* SAYFA GEÇİŞİ (KİLİTLİYSE ŞİFREYE YÖNLENDİRİR) */
+        function openPage(cardId) {
+            if (!isUnlocked) {
+                const status = document.getElementById("statusMsg");
+                const lockCard = document.getElementById("lockScreen");
+                showCard("lockScreen");
+                status.style.color = "#e63946";
+                status.innerText = "Lütfen önce doğru şifreyi gir!";
+                lockCard.classList.add("shake");
+                setTimeout(() => lockCard.classList.remove("shake"), 400);
+                return;
+            }
             showCard(cardId);
-        }
-
-        function checkAuthAndRun(actionFunction) {
-            if (!isUnlocked) { notifyLock(); return; }
-            if (actionFunction) actionFunction();
-        }
-
-        function notifyLock() {
-            showCard("lockScreen");
-            const status = document.getElementById("statusMsg");
-            const lockCard = document.getElementById("lockScreen");
-            status.style.color = "#e63946";
-            status.innerText = "Lütfen önce doğru şifreyi gir!";
-            lockCard.classList.add("shake");
-            setTimeout(() => lockCard.classList.remove("shake"), 400);
         }
 
         function showCard(cardId) {
@@ -577,31 +512,38 @@
         }
 
         function handleYes() {
-            triggerHearts();
-            if (typeof confetti === 'function') confetti({ particleCount: 110, spread: 70, origin: { y: 0.6 } });
-            openProtectedPage('secondPage');
-        }
-
-        /* 3. CANLI GERÇEK MÜZİK ÇALAR */
-        let isPlaying = false;
-        const audio = document.getElementById("audioPlayer");
-
-        function togglePlay() {
-            const playBtn = document.getElementById("playBtn");
-            if (isPlaying) {
-                audio.pause();
-                playBtn.innerText = "▶";
-            } else {
-                audio.play();
-                playBtn.innerText = "⏸";
+            if (typeof confetti === 'function') {
+                confetti({ particleCount: 110, spread: 70, origin: { y: 0.6 } });
             }
-            isPlaying = !isPlaying;
+            openPage('secondPage');
         }
 
+        /* MÜZİK OYNATMA */
+        let isPlaying = false;
+        function togglePlay() {
+            const audio = document.getElementById("bgAudio");
+            const playBtn = document.getElementById("playBtn");
+
+            if (!isPlaying) {
+                audio.play().then(() => {
+                    isPlaying = true;
+                    playBtn.innerText = "⏸";
+                }).catch(err => {
+                    console.log("Müzik oynatılamadı: ", err);
+                });
+            } else {
+                audio.pause();
+                isPlaying = false;
+                playBtn.innerText = "▶";
+            }
+        }
+
+        /* TEMA */
         function toggleTheme() {
             document.body.toggleAttribute("data-theme");
         }
 
+        /* CHATBOT */
         function toggleChat() {
             const win = document.getElementById("chatWin");
             win.style.display = win.style.display === "flex" ? "none" : "flex";
@@ -610,44 +552,23 @@
         function sendChat() {
             const inp = document.getElementById("chatInput");
             if (!inp.value.trim()) return;
+            
             const body = document.getElementById("chatBody");
             const userMsg = document.createElement("div");
-            userMsg.className = "msg user"; userMsg.innerText = inp.value;
-            body.appendChild(userMsg); inp.value = ""; body.scrollTop = body.scrollHeight;
+            userMsg.className = "msg user";
+            userMsg.innerText = inp.value;
+            body.appendChild(userMsg);
+
+            inp.value = "";
+            body.scrollTop = body.scrollHeight;
 
             setTimeout(() => {
                 const botMsg = document.createElement("div");
-                botMsg.className = "msg bot"; botMsg.innerText = "Seni çok seviyorum ❤️";
-                body.appendChild(botMsg); body.scrollTop = body.scrollHeight;
+                botMsg.className = "msg bot";
+                botMsg.innerText = "Seni çok seviyorum ❤️";
+                body.appendChild(botMsg);
+                body.scrollTop = body.scrollHeight;
             }, 600);
-        }
-
-        /* 4. YAPBOZ OYUNU MANTIĞI */
-        let puzzleState = [1, 2, 3, 4, 5, 6, 7, 8, ""];
-        function initPuzzle() {
-            puzzleState = [1, 2, 3, 4, 5, 6, 7, 8, ""].sort(() => Math.random() - 0.5);
-            renderPuzzle();
-        }
-
-        function renderPuzzle() {
-            const board = document.getElementById("puzzleBoard");
-            board.innerHTML = "";
-            puzzleState.forEach((val, idx) => {
-                const tile = document.createElement("div");
-                tile.className = `puzzle-tile ${val === "" ? "empty" : ""}`;
-                tile.innerText = val;
-                tile.onclick = () => movePuzzleTile(idx);
-                board.appendChild(tile);
-            });
-        }
-
-        function movePuzzleTile(idx) {
-            const emptyIdx = puzzleState.indexOf("");
-            const validMoves = [idx - 1, idx + 1, idx - 3, idx + 3];
-            if (validMoves.includes(emptyIdx)) {
-                [puzzleState[idx], puzzleState[emptyIdx]] = [puzzleState[emptyIdx], puzzleState[idx]];
-                renderPuzzle();
-            }
         }
 
         /* XOX GAME */
@@ -659,7 +580,8 @@
             board.innerHTML = "";
             xoxBoardState.forEach((val, idx) => {
                 const cell = document.createElement("div");
-                cell.className = "xox-cell"; cell.innerText = val;
+                cell.className = "xox-cell";
+                cell.innerText = val;
                 cell.onclick = () => playerMove(idx);
                 board.appendChild(cell);
             });
@@ -667,8 +589,15 @@
 
         function playerMove(idx) {
             if (xoxBoardState[idx] !== "" || !isGameActive) return;
-            xoxBoardState[idx] = "❌"; renderXOX();
-            if (checkXOXWin("❌")) { document.getElementById("xoxStatus").innerText = "Kazandın! 🎉"; isGameActive = false; return; }
+            xoxBoardState[idx] = "❌";
+            renderXOX();
+
+            if (checkXOXWin("❌")) {
+                document.getElementById("xoxStatus").innerText = "Kazandın! 🎉";
+                isGameActive = false;
+                return;
+            }
+
             setTimeout(botMove, 300);
         }
 
@@ -677,22 +606,35 @@
             const emptyIndices = xoxBoardState.map((val, idx) => val === "" ? idx : null).filter(val => val !== null);
             if (emptyIndices.length > 0) {
                 const randomIndex = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
-                xoxBoardState[randomIndex] = "❤️"; renderXOX();
-                if (checkXOXWin("❤️")) { document.getElementById("xoxStatus").innerText = "Ben kazandım ama kalbim senin 🥰"; isGameActive = false; }
+                xoxBoardState[randomIndex] = "❤️";
+                renderXOX();
+
+                if (checkXOXWin("❤️")) {
+                    document.getElementById("xoxStatus").innerText = "Ben kazandım ama kalbim senin 🥰";
+                    isGameActive = false;
+                }
             }
         }
 
         function checkXOXWin(symbol) {
-            const winPatterns = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
-            return winPatterns.some(p => p.every(idx => xoxBoardState[idx] === symbol));
+            const winPatterns = [
+                [0,1,2], [3,4,5], [6,7,8],
+                [0,3,6], [1,4,7], [2,5,8],
+                [0,4,8], [2,4,6]
+            ];
+            return winPatterns.some(pattern => pattern.every(idx => xoxBoardState[idx] === symbol));
         }
 
         function resetXOX() {
-            xoxBoardState = Array(9).fill(""); isGameActive = true;
-            document.getElementById("xoxStatus").innerText = "Hamleni Yap!"; renderXOX();
+            xoxBoardState = Array(9).fill("");
+            isGameActive = true;
+            document.getElementById("xoxStatus").innerText = "Hamleni Yap!";
+            renderXOX();
         }
 
-        window.onload = () => { renderXOX(); initPuzzle(); };
+        window.onload = () => {
+            renderXOX();
+        };
     </script>
 </body>
 </html>
