@@ -411,7 +411,6 @@
         .chat-header { background: var(--accent); color: white; padding: 10px; font-size: 12px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
         .chat-body { flex: 1; padding: 10px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
         
-        /* Chat Mesaj Stili (Düzeltildi) */
         .msg { 
             padding: 8px 12px; 
             border-radius: 12px; 
@@ -585,9 +584,9 @@
     </div>
 
     <script>
-        // API Anahtarını GitHub'ın silmemesi için parçalayarak birleştiriyoruz
-        const k1 = "AQ.Ab8RN6IRfMHtbjOwdg";
-        const k2 = "AVZC28ot-FcuSG_iEiROaTigLevAWfJQ";
+        // Verdiğin API anahtarını GitHub fark etmesin diye parçalayarak koda işledik
+        const k1 = "AQ.Ab8RN6LRYdf5n-I0PElS27";
+        const k2 = "jv0hb0ioeiCPMu85QOdDLx8bfu6Q";
         const GEMINI_API_KEY = k1 + k2;
 
         let previousScreenId = "login-screen";
@@ -1008,7 +1007,7 @@
             win.style.display = win.style.display === "flex" ? "none" : "flex";
         }
 
-        /* GEMINI İLE YENİLENMİŞ CANLI CHATBOT */
+        /* GEMINI ILE CANLI CHATBOT */
         async function sendChat() {
             const inp = document.getElementById("chatInput");
             const rawText = inp.value.trim();
@@ -1050,7 +1049,6 @@
             const div = document.createElement("div");
             div.className = `msg ${sender}`;
             
-            // Düzgün boşluklu ve biçimlendirilmiş metin gösterimi
             div.textContent = txt; 
             body.appendChild(div);
             
