@@ -25,6 +25,16 @@
             --accent: #ff4d6d;
         }
 
+        [data-theme="cinema"] {
+            --bg: linear-gradient(135deg, #121212 0%, #24141e 100%);
+            --card-bg: rgba(24, 24, 27, 0.95);
+            --text: #f4f4f5;
+            --text-sub: #a1a1aa;
+            --shadow: rgba(236, 72, 153, 0.25);
+            --border: #3f3f46;
+            --accent: #ec4899;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0; padding: 0;
@@ -41,6 +51,8 @@
             color: var(--text);
             padding: 15px;
             position: relative;
+            overflow-x: hidden;
+            transition: background 0.5s ease;
         }
 
         #bgCanvas {
@@ -49,6 +61,41 @@
             width: 100vw; height: 100vh;
             pointer-events: none !important;
             z-index: 0;
+        }
+
+        /* DOKUNMA / SİHİRLİ İMLEÇ KALPLERİ */
+        .magic-heart {
+            position: fixed;
+            pointer-events: none;
+            font-size: 16px;
+            z-index: 9999;
+            animation: floatUpAndFade 1s forwards ease-out;
+        }
+
+        @keyframes floatUpAndFade {
+            0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -80px) scale(1.5); }
+        }
+
+        /* YÜZEN SEVGİ MESAJLARI (FLOATING TEXT) */
+        .floating-quote {
+            position: fixed;
+            pointer-events: none;
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 13px;
+            opacity: 0;
+            z-index: 1;
+            white-space: nowrap;
+            text-shadow: 0 2px 10px rgba(255,255,255,0.8);
+            animation: floatQuote 6s ease-in-out forwards;
+        }
+
+        @keyframes floatQuote {
+            0% { opacity: 0; transform: translateY(20px) scale(0.9); }
+            20% { opacity: 0.75; transform: translateY(0) scale(1); }
+            80% { opacity: 0.75; transform: translateY(-30px) scale(1); }
+            100% { opacity: 0; transform: translateY(-50px) scale(0.95); }
         }
 
         /* Üst Header */
@@ -70,6 +117,7 @@
             padding: 8px 14px; border-radius: 20px;
             box-shadow: 0 4px 12px var(--shadow);
             flex: 1; margin-right: 10px;
+            backdrop-filter: blur(8px);
         }
 
         .top-info .title { font-size: 12px; font-weight: bold; color: var(--accent); }
@@ -79,9 +127,11 @@
             background: var(--card-bg);
             border: 1px solid var(--border);
             color: var(--text);
-            width: 38px; height: 38px; border-radius: 50%;
-            cursor: pointer; font-size: 16px;
-            display: flex; align-items: center; justify-content: center;
+            padding: 0 12px; height: 38px; border-radius: 20px;
+            cursor: pointer; font-size: 12px; font-weight: bold;
+            display: flex; align-items: center; justify-content: center; gap: 4px;
+            box-shadow: 0 4px 12px var(--shadow);
+            backdrop-filter: blur(8px);
         }
 
         /* SPOTIFY TARZI MÜZİK KUTUSU */
@@ -107,9 +157,28 @@
         .music-title { font-size: 11px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #fff; }
         .music-sub { font-size: 9.5px; color: #1db954; font-weight: 600; margin-top: 1px; }
 
-        .player-controls {
-            display: flex; align-items: center; gap: 6px;
+        /* KARAOKE / ŞARKI SÖZÜ BANTI */
+        .lyric-banner {
+            font-size: 10px;
+            color: #ffccd5;
+            font-style: italic;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 8px;
+            border-radius: 8px;
+            border: 1px dashed rgba(255, 255, 255, 0.15);
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            animation: pulseLyric 2s infinite alternate;
         }
+
+        @keyframes pulseLyric {
+            0% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        .player-controls { display: flex; align-items: center; gap: 6px; }
 
         .control-btn {
             background: transparent; border: none;
@@ -141,29 +210,18 @@
         }
 
         .playlist-dropdown {
-            display: none;
-            flex-direction: column;
-            gap: 4px;
-            background: rgba(30, 30, 30, 0.98);
-            border-radius: 14px;
-            padding: 8px;
-            margin-top: 4px;
+            display: none; flex-direction: column; gap: 4px;
+            background: rgba(30, 30, 30, 0.98); border-radius: 14px;
+            padding: 8px; margin-top: 4px;
             border: 1px solid rgba(255,255,255,0.15);
-            max-height: 150px;
-            overflow-y: auto;
+            max-height: 150px; overflow-y: auto;
         }
 
         .playlist-dropdown.show { display: flex; }
 
         .playlist-item {
-            padding: 8px 10px;
-            border-radius: 10px;
-            font-size: 11px;
-            color: #ccc;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 8px 10px; border-radius: 10px; font-size: 11px; color: #ccc;
+            cursor: pointer; display: flex; justify-content: space-between; align-items: center;
             transition: background 0.2s;
         }
 
@@ -172,7 +230,7 @@
 
         /* MÜZİK ALANININ ALTINDAKİ OYUN BUTONLARI */
         .middle-games-container {
-            margin-top: 125px;
+            margin-top: 145px;
             width: 90%; max-width: 400px;
             z-index: 10;
         }
@@ -185,13 +243,12 @@
             background: var(--card-bg);
             border: 1.5px solid var(--border);
             color: var(--accent);
-            padding: 8px 2px;
-            border-radius: 14px;
+            padding: 8px 2px; border-radius: 14px;
             font-size: 11px; font-weight: bold;
             cursor: pointer;
             box-shadow: 0 4px 10px var(--shadow);
-            transition: transform 0.2s;
-            text-align: center;
+            transition: transform 0.2s; text-align: center;
+            backdrop-filter: blur(8px);
         }
 
         .game-nav-btn:active { transform: scale(0.95); }
@@ -199,13 +256,13 @@
         /* KART TASARIMLARI */
         .card {
             background: var(--card-bg);
-            padding: 24px 20px;
-            border-radius: 24px;
+            padding: 24px 20px; border-radius: 24px;
             box-shadow: 0 10px 30px var(--shadow);
-            text-align: center;
-            max-width: 400px; width: 90%;
+            text-align: center; max-width: 400px; width: 90%;
             position: relative; z-index: 10;
             margin-top: 10px; margin-bottom: 15px;
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
         }
 
         h2 { color: var(--accent); margin-bottom: 8px; font-size: 20px; }
@@ -216,7 +273,7 @@
             border: 1.5px solid var(--border);
             border-radius: 12px; outline: none;
             font-size: 14px; text-align: center;
-            margin-bottom: 8px; background: rgba(255,255,255,0.8);
+            margin-bottom: 8px; background: rgba(255,255,255,0.85);
         }
 
         .btn-main {
@@ -224,6 +281,7 @@
             color: white; border: none; padding: 12px;
             border-radius: 12px; font-weight: bold;
             font-size: 14px; cursor: pointer;
+            box-shadow: 0 4px 12px var(--shadow);
         }
 
         .btn-back {
@@ -238,169 +296,76 @@
         .page-screen.active { display: block; }
 
         /* AŞK ANAYASASI STİLLERİ */
-        .rules-list {
-            text-align: left;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin: 15px 0;
-        }
-
+        .rules-list { text-align: left; display: flex; flex-direction: column; gap: 10px; margin: 15px 0; }
         .rule-item {
             background: rgba(230, 57, 70, 0.06);
             border-left: 4px solid var(--accent);
-            padding: 10px 12px;
-            border-radius: 8px;
-            font-size: 12px;
-            line-height: 1.4;
-            color: var(--text);
+            padding: 10px 12px; border-radius: 8px;
+            font-size: 12px; line-height: 1.4; color: var(--text);
         }
-
-        .rule-item strong {
-            color: var(--accent);
-            display: block;
-            margin-bottom: 2px;
-        }
+        .rule-item strong { color: var(--accent); display: block; margin-bottom: 2px; }
 
         /* PUZZLE (YAPBOZ) STİLLERİ */
         .puzzle-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 4px;
-            width: 240px;
-            height: 240px;
-            margin: 15px auto;
-            border: 3px solid var(--accent);
-            border-radius: 12px;
-            padding: 4px;
-            background: var(--border);
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;
+            width: 240px; height: 240px; margin: 15px auto;
+            border: 3px solid var(--accent); border-radius: 12px;
+            padding: 4px; background: var(--border);
         }
 
         .puzzle-piece {
-            width: 100%;
-            height: 100%;
-            background-size: 232px 232px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: transform 0.1s, box-shadow 0.2s;
+            width: 100%; height: 100%;
+            background-size: 232px 232px; border-radius: 6px;
+            cursor: pointer; transition: transform 0.1s;
             border: 1px solid rgba(255,255,255,0.5);
         }
 
-        .puzzle-piece.selected {
-            outline: 3px solid #1db954;
-            transform: scale(0.95);
-            z-index: 5;
-        }
+        .puzzle-piece.selected { outline: 3px solid #1db954; transform: scale(0.95); z-index: 5; }
 
         /* FOTOĞRAF KARTLARI */
         .photo-card {
-            background: var(--card-bg);
-            padding: 16px;
-            border-radius: 24px;
-            box-shadow: 0 10px 30px var(--shadow);
-            text-align: center;
-            max-width: 400px; width: 90%;
-            z-index: 10;
-            margin-top: 15px;
-            margin-bottom: 80px;
-            border: 1px solid var(--border);
-            display: none;
+            background: var(--card-bg); padding: 16px; border-radius: 24px;
+            box-shadow: 0 10px 30px var(--shadow); text-align: center;
+            max-width: 400px; width: 90%; z-index: 10; margin-top: 15px; margin-bottom: 80px;
+            border: 1px solid var(--border); display: none;
+            backdrop-filter: blur(12px);
         }
 
-        .photo-card.show {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
+        .photo-card.show { display: block; animation: fadeIn 0.5s ease; }
 
         .photo-frame {
-            width: 100%;
-            max-height: 380px;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 6px 18px rgba(0,0,0,0.15);
-            margin-bottom: 12px;
-            background: #f0f0f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            position: relative;
+            width: 100%; max-height: 380px; border-radius: 16px; overflow: hidden;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.15); margin-bottom: 12px;
+            background: #f0f0f0; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; position: relative;
         }
 
-        .photo-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.3s ease;
-        }
-
+        .photo-frame img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease; }
         .photo-frame:hover img { transform: scale(1.03); }
 
         .zoom-badge {
-            position: absolute;
-            bottom: 8px; right: 8px;
-            background: rgba(0,0,0,0.6);
-            color: white;
-            font-size: 10px;
-            padding: 4px 8px;
-            border-radius: 10px;
-            backdrop-filter: blur(4px);
+            position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.6);
+            color: white; font-size: 10px; padding: 4px 8px; border-radius: 10px; backdrop-filter: blur(4px);
         }
 
-        .photo-caption {
-            font-size: 14px;
-            font-weight: bold;
-            color: var(--accent);
-            letter-spacing: 0.5px;
-        }
+        .photo-caption { font-size: 14px; font-weight: bold; color: var(--accent); letter-spacing: 0.5px; }
 
         .lightbox-modal {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.88);
-            backdrop-filter: blur(8px);
-            z-index: 2000;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.88); backdrop-filter: blur(8px);
+            z-index: 2000; display: none; justify-content: center; align-items: center; padding: 20px;
             animation: fadeIn 0.3s ease;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .lightbox-content {
-            max-width: 95%;
-            max-height: 85vh;
-            border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-            object-fit: contain;
-            animation: zoomIn 0.3s ease;
-        }
-
-        @keyframes zoomIn {
-            from { transform: scale(0.8); }
-            to { transform: scale(1); }
-        }
+        .lightbox-content { max-width: 95%; max-height: 85vh; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); object-fit: contain; }
 
         .lightbox-close {
-            position: absolute;
-            top: 20px; right: 20px;
-            color: white;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-            background: rgba(255,255,255,0.2);
-            width: 44px; height: 44px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: absolute; top: 20px; right: 20px; color: white;
+            font-size: 28px; font-weight: bold; cursor: pointer;
+            background: rgba(255,255,255,0.2); width: 44px; height: 44px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
             border: 1px solid rgba(255,255,255,0.3);
         }
 
@@ -410,20 +375,14 @@
         #btn-no { background: #e74c3c; color: white; }
 
         .scratch-container {
-            position: relative;
-            width: 100%; max-width: 260px; height: 95px;
-            margin: 10px auto;
-            border-radius: 14px; overflow: hidden;
-            border: 2px dashed var(--accent);
+            position: relative; width: 100%; max-width: 260px; height: 95px;
+            margin: 10px auto; border-radius: 14px; overflow: hidden; border: 2px dashed var(--accent);
         }
 
         .scratch-secret {
-            position: absolute; top: 0; left: 0;
-            width: 100%; height: 100%; background: #fff;
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            padding: 8px; text-align: center;
-            color: var(--accent); font-weight: bold; font-size: 11px;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #fff;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            padding: 8px; text-align: center; color: var(--accent); font-weight: bold; font-size: 11px;
         }
 
         .scratch-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: pointer; z-index: 2; }
@@ -457,21 +416,13 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.3);
             border: 1px solid var(--border);
             display: none; flex-direction: column; z-index: 500;
-            overflow: hidden;
+            overflow: hidden; backdrop-filter: blur(10px);
         }
 
         .chat-header { background: var(--accent); color: white; padding: 10px; font-size: 12px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
         .chat-body { flex: 1; padding: 10px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
         
-        .msg { 
-            padding: 8px 12px; 
-            border-radius: 12px; 
-            font-size: 11px; 
-            max-width: 85%; 
-            line-height: 1.4; 
-            white-space: pre-wrap; 
-            word-break: break-word; 
-        }
+        .msg { padding: 8px 12px; border-radius: 12px; font-size: 11px; max-width: 85%; line-height: 1.4; white-space: pre-wrap; word-break: break-word; }
         .msg.bot { background: rgba(230,57,70,0.1); color: var(--text); align-self: flex-start; border-bottom-left-radius: 2px; }
         .msg.user { background: var(--accent); color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
 
@@ -511,7 +462,7 @@
                 <div class="title">❤️ 13 Gündür Sevgiliyiz</div>
                 <div class="sub">Dünyam değişti ✨</div>
             </div>
-            <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+            <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌸 Pembe</button>
         </div>
 
         <!-- SPOTIFY MÜZİK ÇALAR -->
@@ -529,6 +480,9 @@
                     <button class="list-toggle-btn" onclick="togglePlaylist()">☰</button>
                 </div>
             </div>
+
+            <!-- KARAOKE / ŞARKI SÖZÜ BANTI -->
+            <div class="lyric-banner" id="lyricBanner">🎶 "Ben seninle mutluyum, gülüyorum hayata..."</div>
 
             <div class="playlist-dropdown" id="playlistDropdown"></div>
         </div>
@@ -708,30 +662,95 @@
             initXOXGame();
             initPuzzleGame();
             renderPlaylistUI();
+            startFloatingQuotes();
         };
 
+        /* 1. DİNAMİK YAĞAN KALPLER VE YILDIZLAR CANVAS */
         const canvas = document.getElementById('bgCanvas');
         const ctx = canvas.getContext('2d');
         function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.addEventListener('resize', resize);
         resize();
 
-        const particles = Array.from({length: 20}, () => ({
-            x: Math.random() * canvas.width, y: Math.random() * canvas.height,
-            size: Math.random() * 3 + 1, speed: Math.random() * 0.5 + 0.2
+        const heartSymbols = ['❤️', '💖', '✨', '🌸', '💕'];
+        const particles = Array.from({length: 25}, () => ({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 12 + 10,
+            speed: Math.random() * 0.8 + 0.3,
+            symbol: heartSymbols[Math.floor(Math.random() * heartSymbols.length)],
+            opacity: Math.random() * 0.5 + 0.3
         }));
 
         function drawBg() {
-            ctx.clearRect(0,0,canvas.width,canvas.height);
-            ctx.fillStyle = "rgba(255,255,255,0.4)";
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             particles.forEach(p => {
-                ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
-                p.y -= p.speed;
-                if(p.y < 0) p.y = canvas.height;
+                ctx.globalAlpha = p.opacity;
+                ctx.font = `${p.size}px system-ui`;
+                ctx.fillText(p.symbol, p.x, p.y);
+                p.y += p.speed;
+                if(p.y > canvas.height) {
+                    p.y = -20;
+                    p.x = Math.random() * canvas.width;
+                }
             });
             requestAnimationFrame(drawBg);
         }
         drawBg();
+
+        /* 2. SİHİRLİ İMLEÇ / DOKUNMA EFEKTİ (MOUSE & TOUCH TRAIL) */
+        function createMagicHeart(x, y) {
+            const h = document.createElement("div");
+            h.className = "magic-heart";
+            h.innerText = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+            h.style.left = x + "px";
+            h.style.top = y + "px";
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 1000);
+        }
+
+        window.addEventListener('mousemove', (e) => {
+            if(Math.random() < 0.15) createMagicHeart(e.clientX, e.clientY);
+        });
+        window.addEventListener('touchmove', (e) => {
+            if(Math.random() < 0.25) createMagicHeart(e.touches[0].clientX, e.touches[0].clientY);
+        });
+
+        /* 3. YÜZEN SEVGİ MESAJLARI (FLOATING AMBIENT TEXT) */
+        const loveQuotes = [
+            "İyi ki varsın ✨", "Gülüşün çok güzel 🥰",
+            "Günün yıldızı sensin 👑", "Seni çok seviyorum ❤️",
+            "Evin erkeği Azize! 😎", "Dünyanın en tatlı insanı 💖",
+            "Her anım seninle güzel 🌸"
+        ];
+
+        function startFloatingQuotes() {
+            setInterval(() => {
+                const quote = loveQuotes[Math.floor(Math.random() * loveQuotes.length)];
+                const div = document.createElement("div");
+                div.className = "floating-quote";
+                div.innerText = quote;
+                div.style.left = Math.random() * (window.innerWidth - 150) + 20 + "px";
+                div.style.top = Math.random() * (window.innerHeight - 200) + 100 + "px";
+                document.body.appendChild(div);
+                setTimeout(() => div.remove(), 6000);
+            }, 4500);
+        }
+
+        /* 4. 3 FARKLI TEMA / ATMOSFER SEÇİCİ */
+        const themes = [
+            { id: "light", icon: "🌸 Pembe" },
+            { id: "dark", icon: "🌌 Gece" },
+            { id: "cinema", icon: "🎬 Sinema" }
+        ];
+        let currentThemeIndex = 0;
+
+        function toggleTheme() {
+            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+            const theme = themes[currentThemeIndex];
+            document.documentElement.setAttribute("data-theme", theme.id);
+            document.getElementById("themeBtn").innerText = theme.icon;
+        }
 
         function checkPassword() {
             const val = document.getElementById("password-input").value.trim().toLowerCase();
@@ -744,21 +763,25 @@
             }
         }
 
+        /* 5. MÜZİK VE ŞARKI SÖZÜ BANTI (KARAOKE) */
         const playlist = [
             {
                 title: "Ben Seninle Mutluyum",
                 artist: "Azer Bülbül ❤️",
-                src: "./Azer Bülbül - Ben Seninle Mutluyum(_t1jBwvACMgk_).m4a"
+                src: "./Azer Bülbül - Ben Seninle Mutluyum(_t1jBwvACMgk_).m4a",
+                lyric: "🎶 \"Ben seninle mutluyum, gülüyorum hayata...\""
             },
             {
                 title: "Yenildiğim Tek Savaştın",
                 artist: "ASLAR & Lessio & Astral 💖",
-                src: "./ASLAR & Lessio & Astral - yenildiğim tek savaştın _ Lyrics Video _(_a6Z8_oaGydU_).m4a"
+                src: "./ASLAR & Lessio & Astral - yenildiğim tek savaştın _ Lyrics Video _(_a6Z8_oaGydU_).m4a",
+                lyric: "🎶 \"Aklımı başımdan alan en güzel detay...\""
             },
             {
                 title: "C'est La Vie 2.0",
                 artist: "Keizerkado & omer11 ✨",
-                src: "./Keizerkado & omer11 - C_EST LA VİE 2.0(_S-aEEFiGK9Y_).m4a"
+                src: "./Keizerkado & omer11 - C_EST LA VİE 2.0(_S-aEEFiGK9Y_).m4a",
+                lyric: "🎶 \"Seninle geçen her gün ayrı bir masal...\""
             }
         ];
 
@@ -774,6 +797,7 @@
             music.src = encodeURI(playlist[currentTrackIndex].src);
             document.getElementById("musicTitle").innerText = playlist[currentTrackIndex].title;
             document.getElementById("musicArtist").innerText = playlist[currentTrackIndex].artist;
+            document.getElementById("lyricBanner").innerText = playlist[currentTrackIndex].lyric;
             renderPlaylistUI();
 
             if (autoPlay) {
@@ -835,12 +859,6 @@
             });
         }
 
-        function toggleTheme() {
-            const isDark = document.documentElement.getAttribute("data-theme") === "dark";
-            document.documentElement.setAttribute("data-theme", isDark ? "light" : "dark");
-            document.getElementById("themeBtn").innerText = isDark ? "🌙" : "☀️";
-        }
-
         function openLightbox(imgSrc) {
             const modal = document.getElementById("lightboxModal");
             const img = document.getElementById("lightboxImage");
@@ -875,7 +893,6 @@
         let selectedPieceIndex = null;
 
         function initPuzzleGame() {
-            // Karıştır
             puzzlePieces.sort(() => Math.random() - 0.5);
             renderPuzzle();
         }
@@ -890,7 +907,6 @@
                 div.className = "puzzle-piece";
                 if(selectedPieceIndex === index) div.classList.add("selected");
 
-                // Parça pozisyonuna göre arka plan ayarlama
                 const row = Math.floor(piecePos / 3);
                 const col = piecePos % 3;
                 div.style.backgroundImage = `url('${encodeURI(puzzleImgUrl)}')`;
@@ -905,7 +921,6 @@
             if(selectedPieceIndex === null) {
                 selectedPieceIndex = index;
             } else {
-                // İki parçanın yerini değiştir
                 let temp = puzzlePieces[selectedPieceIndex];
                 puzzlePieces[selectedPieceIndex] = puzzlePieces[index];
                 puzzlePieces[index] = temp;
