@@ -85,7 +85,6 @@
             gap: 8px;
         }
 
-        /* PROFESYONEL SES DALGASI (EQUALIZER) EFEKTİ */
         .equalizer {
             display: flex;
             align-items: flex-end;
@@ -186,6 +185,7 @@
             100% { top: 105vh; left: 20%; transform: rotate(-10deg) scale(0.9); }
         }
 
+        /* BİLDİRİM KARTLARI TASARIMI */
         .notification-container {
             position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
             width: 90%; max-width: 380px; z-index: 2000; display: flex; flex-direction: column; gap: 10px;
@@ -201,8 +201,10 @@
         .notif.pink { border-left-color: #d62976; }
         .notif.green { border-left-color: #25d366; }
 
-        .notif-icon-img {
-            width: 36px; height: 36px; border-radius: 9px; object-fit: cover; flex-shrink: 0;
+        .notif-icon-box {
+            width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px;
         }
 
         .notif-text { text-align: left; width: 100%; }
@@ -258,7 +260,6 @@
 
     <canvas id="bgCanvas"></canvas>
 
-    <!-- Sağ Üst Kontroller (Ses Dalgası Yenilendi) -->
     <div class="top-controls">
         <button class="control-btn" onclick="toggleMusic()" id="musicBtn">
             <span id="musicText">🎵 Müzik</span>
@@ -301,7 +302,7 @@
     </div>
 
     <script>
-        // --- CANLI ARKA PLAN ---
+        // CANLI ARKA PLAN
         const canvas = document.getElementById('bgCanvas');
         const ctx = canvas.getContext('2d');
 
@@ -347,7 +348,7 @@
         }
         animateBg();
 
-        // --- TYPEWRITER EFEKTİ ---
+        // TYPEWRITER EFEKTİ
         const titleText = "Hoş Geldin AZİZEM❤️";
         const descText = "Devam etmek için özel şifremizi girmen gerekiyor:";
         let tIndex = 0, dIndex = 0;
@@ -376,8 +377,7 @@
             setTimeout(typeWriter, 400);
         };
 
-        // --- MÜZİK VE SES DALGASI KONTROLÜ ---
-        const instaLogoUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/132px-Instagram_logo_2016.svg.png";
+        // MÜZİK
         const bgMusic = new Audio('Azer Bülbül - Ben Seninle Mutluyum(_t1jBwvACMgk_).m4a');
         bgMusic.loop = true;
         let isMusicPlaying = false;
@@ -412,7 +412,7 @@
             if (input === "azizemm") {
                 document.getElementById("login-screen").style.display = "none";
                 document.getElementById("main-content").style.display = "block";
-                document.getElementById("magicHeart").style.display = "block";
+                document.getElementById("magicHeart").style.display = "block"; // ŞİFRE GİRİLİNCE ZARF ÇIKAR
             } else {
                 errorMsg.style.display = "block";
                 document.getElementById("password-input").value = "";
@@ -423,18 +423,34 @@
             if (event.key === "Enter") checkPassword();
         }
 
+        // TAM ORİJİNAL İNSTAGRAM LOGOSU VE KALP İKONU (SVG)
+        const instaSvg = `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 0C8.741 0 8.333 0.014 7.053 0.072 2.695 0.272 0.273 2.69 0.073 7.052 0.014 8.333 0 8.741 0 12c0 3.259 0.014 3.668 0.072 4.948 0.2 4.358 2.618 6.78 6.98 6.98 1.281 0.058 1.689 0.072 4.948 0.072 3.259 0 3.668-0.014 4.948-0.072 4.354-0.2 6.782-2.618 6.979-6.98 0.059-1.28 0.073-1.689 0.073-4.948 0-3.259-0.014-3.667-0.072-4.947-0.196-4.354-2.617-6.78-6.979-6.98C15.668 0.014 15.259 0 12 0zm0 2.162c3.204 0 3.584 0.012 4.85 0.07 3.252 0.148 4.771 1.691 4.919 4.919 0.058 1.265 0.069 1.645 0.069 4.849 0 3.205-0.012 3.584-0.069 4.849-0.149 3.225-1.664 4.771-4.919 4.919-1.266 0.058-1.644 0.07-4.85 0.07-3.204 0-3.584-0.012-4.849-0.07-3.26-0.149-4.771-1.699-4.919-4.92-0.058-1.265-0.07-1.644-0.07-4.848 0-3.204 0.013-3.583 0.07-4.849 0.149-3.227 1.664-4.771 4.919-4.919 1.266-0.057 1.645-0.069 4.849-0.069z" fill="url(#instaGradient)"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8z" fill="url(#instaGradient)"/>
+            <circle cx="18.406" cy="5.594" r="1.44" fill="url(#instaGradient)"/>
+            <defs>
+                <linearGradient id="instaGradient" x1="2" y1="22" x2="22" y2="2" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#f09433"/>
+                    <stop offset="25%" stop-color="#e6683c"/>
+                    <stop offset="50%" stop-color="#dc2743"/>
+                    <stop offset="75%" stop-color="#cc2366"/>
+                    <stop offset="100%" stop-color="#bc1888"/>
+                </linearGradient>
+            </defs>
+        </svg>`;
+
         const notificationPairs = [
             [
-                { type: 'pink', title: 'Instagram • Mesaj', desc: 'Seni Çok Özledim... 💬' },
-                { type: 'green', title: 'Kalbinizden 1 Yeni Bildirim', desc: 'Onu affetmelisin! 🥺' }
+                { icon: instaSvg, title: 'Instagram • Mesaj', desc: 'Seni Çok Özledim... 💬' },
+                { icon: '❤️', title: 'Kalbinizden 1 Yeni Bildirim', desc: 'Onu affetmelisin! 🥺' }
             ],
             [
-                { type: 'pink', title: 'Instagram • Hikaye Yanıtı', desc: 'Seninle her şey çok daha güzel ✨' },
-                { type: 'green', title: 'Sistem Uyarısı', desc: 'Dünyanın en tatlı insanına bakıyorsunuz 😍' }
+                { icon: instaSvg, title: 'Instagram • Hikaye Yanıtı', desc: 'Seninle her şey çok daha güzel ✨' },
+                { icon: '💖', title: 'Sistem Uyarısı', desc: 'Dünyanın en tatlı insanına bakıyorsunuz 😍' }
             ],
             [
-                { type: 'pink', title: 'Instagram • Bildirim', desc: 'Bir adet tatlı öpücük gönderildi! 💋' },
-                { type: 'green', title: 'Günün Sorusu', desc: 'Birlikte yemek yemeye ne dersin? 😋' }
+                { icon: instaSvg, title: 'Instagram • Bildirim', desc: 'Bir adet tatlı öpücük gönderildi! 💋' },
+                { icon: '🌹', title: 'Günün Sorusu', desc: 'Beni affettin mi? 🥺' }
             ]
         ];
 
@@ -447,15 +463,15 @@
 
             setTimeout(() => {
                 const n1 = document.createElement("div");
-                n1.className = `notif ${currentPair[0].type}`;
-                n1.innerHTML = `<img src="${instaLogoUrl}" class="notif-icon-img" alt="Instagram"><div class="notif-text"><div class="notif-title">${currentPair[0].title}</div><div class="notif-desc">${currentPair[0].desc}</div></div>`;
+                n1.className = `notif pink`;
+                n1.innerHTML = `<div class="notif-icon-box">${currentPair[0].icon}</div><div class="notif-text"><div class="notif-title">${currentPair[0].title}</div><div class="notif-desc">${currentPair[0].desc}</div></div>`;
                 notifArea.appendChild(n1);
             }, 200);
 
             setTimeout(() => {
                 const n2 = document.createElement("div");
-                n2.className = `notif ${currentPair[1].type}`;
-                n2.innerHTML = `<img src="${instaLogoUrl}" class="notif-icon-img" alt="Instagram"><div class="notif-text"><div class="notif-title">${currentPair[1].title}</div><div class="notif-desc">${currentPair[1].desc}</div></div>`;
+                n2.className = `notif green`;
+                n2.innerHTML = `<div class="notif-icon-box">${currentPair[1].icon}</div><div class="notif-text"><div class="notif-title">${currentPair[1].title}</div><div class="notif-desc">${currentPair[1].desc}</div></div>`;
                 notifArea.appendChild(n2);
             }, 900);
 
@@ -531,6 +547,9 @@
         }
 
         function accepted() {
+            // EVETE BASINCA ZARFI KAYBET
+            document.getElementById("magicHeart").style.display = "none";
+
             const mainContent = document.getElementById('main-content');
             mainContent.innerHTML = `
                 <h2>OLEY! ❤️</h2>
