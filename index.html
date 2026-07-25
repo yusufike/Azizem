@@ -236,11 +236,9 @@
 
         .error-msg { color: var(--accent); font-size: 11px; margin-top: 6px; display: none; font-weight: bold; }
 
-        /* Sayfa Gizleme / Gösterme Sınıfları */
         .page-screen { display: none; }
         .page-screen.active { display: block; }
 
-        /* FOTOĞRAF GALERİSİ KARTININ STİLLERİ */
         .photo-card {
             background: var(--card-bg);
             padding: 16px;
@@ -305,7 +303,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* LIGHTBOX MODALI */
         .lightbox-modal {
             position: fixed;
             top: 0; left: 0;
@@ -355,13 +352,11 @@
             border: 1px solid rgba(255,255,255,0.3);
         }
 
-        /* Evet / Hayır */
         .vote-box { margin-top: 12px; display: flex; justify-content: center; gap: 10px; }
         .btn-vote { padding: 10px 22px; border-radius: 18px; font-weight: bold; border: none; cursor: pointer; font-size: 13px; }
         #btn-yes { background: #2ecc71; color: white; }
         #btn-no { background: #e74c3c; color: white; }
 
-        /* KAZI KAZAN ALANI */
         .scratch-container {
             position: relative;
             width: 100%; max-width: 260px; height: 95px;
@@ -381,7 +376,6 @@
 
         .scratch-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: pointer; z-index: 2; }
 
-        /* OYUN DETAYLARI */
         .word-display { font-size: 22px; font-weight: bold; letter-spacing: 5px; color: var(--accent); margin: 10px 0; }
         
         .xox-board {
@@ -396,7 +390,6 @@
 
         .game-status { font-size: 12px; font-weight: bold; color: var(--accent); margin-top: 8px; min-height: 20px; }
 
-        /* CHATBOT STİLLERİ */
         .chat-btn {
             position: fixed; bottom: 15px; right: 15px;
             width: 45px; height: 45px; border-radius: 50%;
@@ -425,7 +418,6 @@
         .chat-input-area input { flex: 1; padding: 8px; border: 1px solid var(--border); border-radius: 10px; font-size: 11px; outline: none; margin: 0; background: #fff; }
         .chat-input-area button { background: var(--accent); color: white; border: none; padding: 8px 12px; border-radius: 10px; font-weight: bold; font-size: 11px; cursor: pointer; }
 
-        /* Modal */
         .modal {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0,0,0,0.6); z-index: 1000;
@@ -451,7 +443,7 @@
     <div id="police-overlay"></div>
     <canvas id="bgCanvas"></canvas>
 
-    <!-- Üst Header (Sayaç + Spotify Tarzı Çalar) -->
+    <!-- Üst Header -->
     <div class="top-header-container">
         <div class="top-navbar">
             <div class="top-info">
@@ -477,7 +469,6 @@
                 </div>
             </div>
 
-            <!-- ŞARKI LİSTESİ PENCERESİ -->
             <div class="playlist-dropdown" id="playlistDropdown"></div>
         </div>
     </div>
@@ -553,13 +544,12 @@
         <div class="photo-caption">Meleğimin Küçüklüğü 🥺❤️</div>
     </div>
 
-    <!-- LIGHTBOX MODALI -->
     <div class="lightbox-modal" id="lightboxModal" onclick="closeLightbox()">
         <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
         <img class="lightbox-content" id="lightboxImage" src="" onclick="event.stopPropagation()">
     </div>
 
-    <!-- CHATBOT PENCERESİ -->
+    <!-- CHATBOT -->
     <button class="chat-btn" onclick="toggleChat()">💬</button>
     <div class="chat-win" id="chatWin">
         <div class="chat-header">
@@ -647,36 +637,43 @@
             }
         }
 
-        /* GİTHUB DOSYA İSİMLERİ BİREBİR EŞLEŞTİRİLDİ */
+        /* DİZİDEKİ TÜM DOSYA İSİMLERİ GİTHUB İLE BİREBİR AYNI DÜZENLENDİ */
         const playlist = [
             {
                 title: "Ben Seninle Mutluyum",
                 artist: "Azer Bülbül ❤️",
-                src: "Azer Bülbül - Ben Seninle Mutluyum(_t1jBwvACMgk_).m4a"
+                src: "./Azer Bülbül - Ben Seninle Mutluyum(_t1jBwvACMgk_).m4a"
             },
             {
                 title: "Yenildiğim Tek Savaştın",
                 artist: "Özel Şarkımız 💖",
-                src: "yenildiğiṁ tek savaştın(_K2-QZ-hEU9Y_).m4a"
+                src: "./yenildiğiṁ tek savaştın(_K2-QZ-hEU9Y_).m4a"
             },
             {
                 title: "C'est La Vie 2.0",
                 artist: "Keizerkado & omer11 ✨",
-                src: "Keizerkado & omer11 - C_EST LA VİE 2.0(_S-aEEFiGK9Y_).m4a"
+                src: "./Keizerkado & omer11 - C_EST LA VİE 2.0(_S-aEEFiGK9Y_).m4a"
             }
         ];
 
         let currentTrackIndex = 0;
         let isPlaying = false;
-        let music = new Audio(playlist[currentTrackIndex].src);
+        
+        // encodeURI kullanarak özel karakterlerin tarayıcı tarafında sorunsuz çözümlenmesini sağlıyoruz
+        let music = new Audio(encodeURI(playlist[currentTrackIndex].src));
 
         music.addEventListener('ended', function() {
             nextTrack();
         });
 
+        // Olası bir dosya bulunamama hatasını yakalama mekanizması
+        music.addEventListener('error', function(e) {
+            console.error("Şarkı yüklenemedi! Aranan yol:", music.src, e);
+        });
+
         function loadTrack(index, autoPlay = true) {
             currentTrackIndex = index;
-            music.src = playlist[currentTrackIndex].src;
+            music.src = encodeURI(playlist[currentTrackIndex].src);
             document.getElementById("musicTitle").innerText = playlist[currentTrackIndex].title;
             document.getElementById("musicArtist").innerText = playlist[currentTrackIndex].artist;
             renderPlaylistUI();
@@ -685,7 +682,9 @@
                 music.play().then(() => {
                     isPlaying = true;
                     document.getElementById("playBtn").innerText = "❚❚";
-                }).catch(() => {});
+                }).catch((err) => {
+                    console.log("Oynatma hatası:", err);
+                });
             } else {
                 isPlaying = false;
                 document.getElementById("playBtn").innerText = "▶";
@@ -702,7 +701,9 @@
                 music.play().then(() => {
                     isPlaying = true;
                     btn.innerText = "❚❚";
-                }).catch(() => {});
+                }).catch((err) => {
+                    console.log("Oynatma hatası:", err);
+                });
             }
         }
 
@@ -746,11 +747,10 @@
             document.getElementById("themeBtn").innerText = isDark ? "🌙" : "☀️";
         }
 
-        /* LIGHTBOX FONKSİYONLARI */
         function openLightbox(imgSrc) {
             const modal = document.getElementById("lightboxModal");
             const img = document.getElementById("lightboxImage");
-            img.src = imgSrc;
+            img.src = encodeURI(imgSrc);
             modal.style.display = "flex";
         }
 
@@ -762,7 +762,6 @@
             if (e.key === 'Escape') closeLightbox();
         });
 
-        /* SAYFA GEÇİŞ SİSTEMİ */
         function showPage(pageId) {
             document.querySelectorAll('.page-screen').forEach(el => el.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
@@ -780,7 +779,6 @@
             showPage(previousScreenId);
         }
 
-        /* PAZARLIK MODALI */
         let step = 0;
         const offers = [
             { badge: "🚨 ALARM", title: "Yasadışı Karar!", desc: "1 Karam Çikolata karşılığında anlaşalım mı?", btn: "🍫 Karam'ı Kabul Et & Affet" },
@@ -811,7 +809,6 @@
             accepted();
         }
 
-        /* EVET EKRANI VE FOTOĞRAFIN ORTAYA ÇIKMASI */
         function accepted() {
             document.getElementById("police-overlay").style.display = "none";
             const main = document.getElementById('main-content');
@@ -819,7 +816,6 @@
                 ## OLEY! ❤️
                 <p id="accepted-desc" style="font-weight:bold;"></p>
 
-                <!-- Kazı Kazan -->
                 <div class="scratch-container">
                     <div class="scratch-secret">
                         <span>🎁 SÜRPRİZ KAZANDIN!</span>
@@ -844,7 +840,6 @@
             if(typeof confetti === 'function') confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
         }
 
-        /* KAZI KAZAN */
         function initScratch() {
             const sCanvas = document.getElementById('scratchCanvas');
             if(!sCanvas) return;
@@ -885,7 +880,6 @@
             sCanvas.addEventListener('touchmove', scratch);
         }
 
-        /* 1. KELİME OYUNU */
         const secretWords = ["karam", "askımm"];
         let currentWordIndex = 0;
 
@@ -920,7 +914,6 @@
             }
         }
 
-        /* 2. RASTGELE ŞİFRE OYUNU */
         let secretVaultCode = 100;
 
         function initVaultGame() { secretVaultCode = Math.floor(100 + Math.random() * 900); }
@@ -940,7 +933,6 @@
             }
         }
 
-        /* 3. XOX OYUNU */
         let xoxBoardState = ["", "", "", "", "", "", "", "", ""];
         let isGameActive = true;
 
@@ -1013,7 +1005,6 @@
             return winPatterns.some(pattern => pattern.every(idx => xoxBoardState[idx] === symbol));
         }
 
-        /* SANAL ASİSTAN */
         function cleanRepeatedChars(text) {
             return text.toLowerCase().replace(/(.)\1+/g, '$1');
         }
