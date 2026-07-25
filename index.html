@@ -6,49 +6,42 @@
     <title>Sana Özel Bir Sürpriz ❤️</title>
     <style>
         :root {
-            --bg-gradient: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            --bg: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
             --card-bg: rgba(255, 255, 255, 0.95);
-            --text-main: #333333;
+            --text: #333333;
             --text-sub: #555555;
-            --card-shadow: rgba(230, 57, 70, 0.2);
-            --input-border: #ffccd5;
-            --box-bg: #fff0f3;
-            --box-border: #ffb3c1;
-            --accent-red: #e63946;
+            --shadow: rgba(230, 57, 70, 0.2);
+            --border: #ffccd5;
+            --accent: #e63946;
         }
 
         [data-theme="dark"] {
-            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #31103f 100%);
-            --card-bg: rgba(30, 41, 59, 0.92);
-            --text-main: #f8fafc;
+            --bg: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            --card-bg: rgba(30, 41, 59, 0.95);
+            --text: #f8fafc;
             --text-sub: #cbd5e1;
-            --card-shadow: rgba(0, 0, 0, 0.5);
-            --input-border: #475569;
-            --box-bg: rgba(225, 29, 72, 0.15);
-            --box-border: #9f1239;
-            --accent-red: #ff4d6d;
+            --shadow: rgba(0, 0, 0, 0.5);
+            --border: #475569;
+            --accent: #ff4d6d;
         }
 
         * {
             box-sizing: border-box;
             margin: 0; padding: 0;
-            font-family: 'Poppins', system-ui, -apple-system, sans-serif;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            font-family: system-ui, -apple-system, sans-serif;
         }
 
         body {
-            background: var(--bg-gradient);
+            background: var(--bg);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: var(--text-main);
-            overflow-x: hidden;
-            position: relative;
+            color: var(--text);
             padding: 15px;
+            position: relative;
         }
 
-        /* --- ARKA PLAN CANVAS (Tıklamalara engel olmaması için pointer-events: none!) --- */
         #bgCanvas {
             position: fixed;
             top: 0; left: 0;
@@ -57,229 +50,156 @@
             z-index: 0;
         }
 
-        /* --- ÜST ÇUBUK (NAVBAR) --- */
+        /* Üst Çubuk */
         .top-navbar {
-            position: fixed;
-            top: 12px;
-            left: 50%;
+            position: fixed; top: 12px; left: 50%;
             transform: translateX(-50%);
-            width: 92%;
-            max-width: 420px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-            z-index: 1000;
+            width: 90%; max-width: 400px;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 100;
         }
 
-        .top-day-counter {
+        .top-info {
             background: var(--card-bg);
-            border: 1px solid var(--box-border);
-            padding: 8px 14px;
-            border-radius: 18px;
-            text-align: left;
-            box-shadow: 0 4px 15px var(--card-shadow);
-            backdrop-filter: blur(10px);
-            flex: 1;
-            min-width: 0;
+            border: 1px solid var(--border);
+            padding: 8px 14px; border-radius: 20px;
+            box-shadow: 0 4px 12px var(--shadow);
+            flex: 1; margin-right: 10px;
         }
 
-        .top-day-counter .day-title {
-            font-size: 12px; font-weight: 700; color: var(--accent-red);
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }
-
-        .top-day-counter .day-sub {
-            font-size: 10px; color: var(--text-sub); font-weight: 600;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }
+        .top-info .title { font-size: 12px; font-weight: bold; color: var(--accent); }
+        .top-info .sub { font-size: 10px; color: var(--text-sub); }
 
         .theme-btn {
             background: var(--card-bg);
-            border: 1px solid var(--input-border);
-            color: var(--text-main);
-            width: 38px; height: 38px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 16px;
-            box-shadow: 0 4px 12px var(--card-shadow);
+            border: 1px solid var(--border);
+            color: var(--text);
+            width: 38px; height: 38px; border-radius: 50%;
+            cursor: pointer; font-size: 16px;
             display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0;
         }
 
-        /* --- ANA KART --- */
+        /* Ana Kart */
         .card {
             background: var(--card-bg);
             padding: 25px 20px;
-            border-radius: 28px;
-            box-shadow: 0 15px 35px var(--card-shadow);
+            border-radius: 24px;
+            box-shadow: 0 10px 30px var(--shadow);
             text-align: center;
-            max-width: 420px;
-            width: 100%;
-            backdrop-filter: blur(12px);
-            position: relative;
-            z-index: 10;
-            margin-top: 50px;
+            max-width: 400px; width: 100%;
+            position: relative; z-index: 10;
+            margin-top: 40px;
         }
 
-        h2 { color: var(--accent-red); margin-bottom: 10px; font-weight: 700; font-size: 20px; }
-        p { color: var(--text-sub); font-size: 13px; margin-bottom: 15px; line-height: 1.5; }
+        h2 { color: var(--accent); margin-bottom: 10px; font-size: 20px; }
+        p { color: var(--text-sub); font-size: 13px; margin-bottom: 15px; line-height: 1.4; min-height: 36px; }
 
         input[type="text"] {
-            width: 100%; padding: 14px;
-            border: 2px solid var(--input-border);
-            background: rgba(255, 255, 255, 0.5);
-            color: var(--text-main);
-            border-radius: 16px;
-            outline: none; font-size: 15px;
-            margin-bottom: 12px; text-align: center;
+            width: 100%; padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 14px; outline: none;
+            font-size: 14px; text-align: center;
+            margin-bottom: 10px; background: rgba(255,255,255,0.7);
         }
 
         .btn-main {
-            width: 100%;
-            background-color: var(--accent-red);
-            color: white; border: none;
-            padding: 14px; border-radius: 16px;
-            font-size: 15px; font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
-            display: block;
+            width: 100%; background: var(--accent);
+            color: white; border: none; padding: 12px;
+            border-radius: 14px; font-weight: bold;
+            font-size: 14px; cursor: pointer;
         }
 
-        .btn-main:active { transform: scale(0.98); }
-
-        .error-msg { color: var(--accent-red); font-size: 13px; margin-top: 10px; display: none; font-weight: 600; }
+        .error-msg { color: var(--accent); font-size: 12px; margin-top: 8px; display: none; font-weight: bold; }
 
         #main-content { display: none; }
 
-        /* --- SPOTIFY KART --- */
-        .spotify-card {
-            background: rgba(18, 18, 18, 0.88);
-            color: #ffffff;
-            border-radius: 20px;
-            padding: 14px;
-            margin-top: 15px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.1);
+        /* Müzik Kutusu */
+        .music-box {
+            background: rgba(20, 20, 20, 0.9);
+            color: white; border-radius: 16px;
+            padding: 12px; margin-top: 15px;
+            display: flex; align-items: center; gap: 10px;
             text-align: left;
         }
 
-        .spotify-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
-
-        .vinyl-container { width: 44px; height: 44px; flex-shrink: 0; }
-        .vinyl-record {
-            width: 100%; height: 100%; border-radius: 50%;
-            background: radial-gradient(circle, #333 30%, #111 70%, #000 100%);
-            border: 2px solid #222;
-            display: flex; align-items: center; justify-content: center;
-            animation: spin 4s linear infinite;
-            animation-play-state: paused;
-        }
-        .vinyl-record.playing { animation-play-state: running; }
-        .vinyl-center { width: 14px; height: 14px; background: #e63946; border-radius: 50%; border: 2px solid #fff; }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-
-        .track-info { flex-grow: 1; min-width: 0; }
-        .track-title { font-size: 13px; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .track-artist { font-size: 11px; color: #b3b3b3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-        .eq-bar-container { display: flex; align-items: flex-end; gap: 2px; height: 14px; }
-        .eq-bar { width: 3px; background: #1db954; border-radius: 2px; height: 2px; }
-        .eq-bar-container.playing .eq-bar:nth-child(1) { animation: eq 0.8s infinite alternate; }
-        .eq-bar-container.playing .eq-bar:nth-child(2) { animation: eq 1.2s infinite alternate; }
-        .eq-bar-container.playing .eq-bar:nth-child(3) { animation: eq 0.6s infinite alternate; }
-        @keyframes eq { 0% { height: 2px; } 100% { height: 14px; } }
-
-        .spotify-controls { display: flex; align-items: center; gap: 10px; }
         .play-btn {
-            background: #1db954; border: none; width: 36px; height: 36px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; cursor: pointer; color: #000;
-            font-size: 14px; font-weight: bold; flex-shrink: 0;
+            background: #1db954; border: none;
+            width: 36px; height: 36px; border-radius: 50%;
+            color: black; font-weight: bold; cursor: pointer;
+            flex-shrink: 0; font-size: 14px;
         }
 
-        .progress-box { flex-grow: 1; display: flex; flex-direction: column; gap: 4px; }
-        .progress-bar-bg { width: 100%; height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; overflow: hidden; }
-        .progress-bar-fill { width: 0%; height: 100%; background: #1db954; transition: width 0.2s linear; }
-        .time-text { font-size: 9px; color: #b3b3b3; display: flex; justify-content: space-between; }
+        .music-info { flex: 1; overflow: hidden; }
+        .music-title { font-size: 12px; font-weight: bold; white-space: nowrap; text-overflow: ellipsis; }
+        .music-sub { font-size: 10px; color: #b3b3b3; }
 
-        /* --- SORU VE EVET/HAYIR BUTONLARI --- */
-        .ask-container { margin-top: 15px; display: flex; justify-content: center; gap: 12px; }
-        .btn-vote { padding: 12px 26px; border-radius: 50px; font-weight: bold; cursor: pointer; border: none; font-size: 14px; }
-        #btn-yes { background-color: #2ecc71; color: white; box-shadow: 0 4px 12px rgba(46,204,113,0.3); }
-        #btn-no { background-color: #e74c3c; color: white; box-shadow: 0 4px 12px rgba(231,76,60,0.3); }
+        /* Evet / Hayır */
+        .vote-box { margin-top: 15px; display: flex; justify-content: center; gap: 10px; }
+        .btn-vote { padding: 10px 22px; border-radius: 20px; font-weight: bold; border: none; cursor: pointer; font-size: 13px; }
+        #btn-yes { background: #2ecc71; color: white; }
+        #btn-no { background: #e74c3c; color: white; }
 
         .action-btn {
-            background: linear-gradient(135deg, #ff4d6d 0%, #ff758f 100%);
-            color: white; border: none; padding: 12px 16px; border-radius: 20px; font-weight: 700;
-            font-size: 13px; cursor: pointer; margin-top: 12px; width: 100%;
+            background: var(--accent); color: white; border: none;
+            padding: 10px; border-radius: 14px; font-weight: bold;
+            width: 100%; margin-top: 10px; cursor: pointer; font-size: 12px;
         }
 
         .fortune-box {
-            background: var(--box-bg); padding: 12px; border-radius: 14px;
-            border: 1px dashed var(--box-border); margin-top: 10px; font-size: 13px; color: var(--accent-red);
-            font-weight: 600; min-height: 40px; display: flex; align-items: center; justify-content: center;
+            background: rgba(230,57,70,0.1); padding: 10px;
+            border-radius: 12px; border: 1px dashed var(--accent);
+            margin-top: 10px; font-size: 12px; color: var(--accent); font-weight: bold;
+            min-height: 35px; display: flex; align-items: center; justify-content: center;
         }
 
-        /* --- CHATBOT WIDGET --- */
-        .chat-widget-btn {
-            position: fixed; bottom: 20px; right: 20px;
-            width: 55px; height: 55px; border-radius: 50%;
-            background: linear-gradient(135deg, #ff4d6d, #e63946);
-            color: #fff; border: none; font-size: 26px;
-            box-shadow: 0 6px 20px rgba(230,57,70,0.5);
-            cursor: pointer; z-index: 2000;
-            display: flex; align-items: center; justify-content: center;
+        /* Chatbot Widget */
+        .chat-btn {
+            position: fixed; bottom: 15px; right: 15px;
+            width: 50px; height: 50px; border-radius: 50%;
+            background: var(--accent); color: white;
+            border: none; font-size: 22px; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 500;
         }
 
-        .chat-window {
-            position: fixed; bottom: 85px; right: 20px;
-            width: 300px; height: 380px;
-            background: var(--card-bg); border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            border: 1px solid var(--box-border);
-            display: none; flex-direction: column; overflow: hidden;
-            z-index: 2000;
+        .chat-win {
+            position: fixed; bottom: 75px; right: 15px;
+            width: 280px; height: 340px;
+            background: var(--card-bg); border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            border: 1px solid var(--border);
+            display: none; flex-direction: column; z-index: 500;
+            overflow: hidden;
         }
 
-        .chat-header {
-            background: linear-gradient(135deg, #e63946, #ff758f);
-            color: #fff; padding: 12px 15px; font-weight: 700; font-size: 13px;
-            display: flex; justify-content: space-between; align-items: center;
-        }
+        .chat-header { background: var(--accent); color: white; padding: 10px; font-size: 12px; font-weight: bold; display: flex; justify-content: space-between; }
+        .chat-body { flex: 1; padding: 10px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
+        .msg { padding: 6px 10px; border-radius: 10px; font-size: 11px; max-width: 85%; }
+        .msg.bot { background: rgba(230,57,70,0.1); color: var(--text); align-self: flex-start; }
+        .msg.user { background: var(--accent); color: white; align-self: flex-end; }
 
-        .chat-close-btn { background: none; border: none; color: #fff; font-size: 16px; cursor: pointer; }
-        .chat-body { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
-        .chat-msg { max-width: 82%; padding: 8px 12px; border-radius: 14px; font-size: 12px; line-height: 1.4; }
-        .chat-msg.bot { background: var(--box-bg); color: var(--text-main); align-self: flex-start; border: 1px solid var(--box-border); }
-        .chat-msg.user { background: var(--accent-red); color: #fff; align-self: flex-end; }
+        .chat-input-area { padding: 6px; display: flex; gap: 4px; border-top: 1px solid var(--border); }
+        .chat-input-area input { flex: 1; padding: 6px; border: 1px solid var(--border); border-radius: 10px; font-size: 11px; outline: none; margin: 0; }
+        .chat-input-area button { background: var(--accent); color: white; border: none; padding: 6px 10px; border-radius: 10px; font-weight: bold; font-size: 11px; cursor: pointer; }
 
-        .chat-footer { padding: 8px; border-top: 1px solid var(--input-border); display: flex; gap: 6px; }
-        .chat-input { flex: 1; padding: 8px 12px; border: 1px solid var(--input-border); border-radius: 20px; outline: none; font-size: 12px; background: transparent; color: var(--text-main); }
-        .chat-send-btn { background: var(--accent-red); color: #fff; border: none; padding: 8px 14px; border-radius: 20px; font-weight: 700; cursor: pointer; font-size: 12px; }
-
-        /* --- PAZARLIK MODAL --- */
-        .modal-backdrop {
+        /* Modal */
+        .modal {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px);
-            z-index: 10000; display: none; justify-content: center; align-items: center; padding: 20px;
+            background: rgba(0,0,0,0.6); z-index: 1000;
+            display: none; justify-content: center; align-items: center; padding: 15px;
         }
 
         .modal-card {
-            background: var(--card-bg); border-radius: 24px; padding: 22px;
-            max-width: 380px; width: 100%; text-align: center;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            border: 2px solid var(--accent-red);
+            background: var(--card-bg); padding: 20px; border-radius: 20px;
+            text-align: center; max-width: 320px; width: 100%; border: 2px solid var(--accent);
         }
 
-        .modal-badge { background: var(--accent-red); color: white; padding: 4px 12px; border-radius: 20px; font-size: 10px; font-weight: 700; display: inline-block; margin-bottom: 8px; }
-        .modal-btn-accept { width: 100%; background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%); color: white; border: none; padding: 12px; border-radius: 14px; font-weight: 700; cursor: pointer; margin-top: 10px; font-size: 13px; }
-        .modal-btn-next { width: 100%; background: transparent; color: var(--text-sub); border: 1px dashed var(--input-border); padding: 10px; border-radius: 14px; font-weight: 600; cursor: pointer; margin-top: 6px; font-size: 11px; }
-
-        #police-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; display: none; opacity: 0.45; }
-        .police-flash { animation: policeStrobe 0.25s infinite alternate ease-in-out; }
-        @keyframes policeStrobe { 0% { background-color: rgba(255, 0, 55, 0.8); } 100% { background-color: rgba(0, 102, 255, 0.8); } }
+        #police-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: 999; display: none; opacity: 0.4;
+        }
+        .flash { animation: strobe 0.3s infinite alternate; }
+        @keyframes strobe { 0% { background: red; } 100% { background: blue; } }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
@@ -287,281 +207,270 @@
     <div id="police-overlay"></div>
     <canvas id="bgCanvas"></canvas>
 
-    <!-- ÜST ÇUBUK -->
+    <!-- Üst Bar -->
     <div class="top-navbar">
-        <div class="top-day-counter">
-            <div class="day-title">❤️ 13 Gündür Sevgiliyiz</div>
-            <div class="day-sub">Dünyam değişti ✨</div>
+        <div class="top-info">
+            <div class="title">❤️ 13 Gündür Sevgiliyiz</div>
+            <div class="sub">Dünyam değişti ✨</div>
         </div>
         <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
     </div>
 
-    <!-- GİRİŞ EKRANI -->
+    <!-- 1. GİRİŞ EKRANI -->
     <div id="login-screen" class="card">
         <h2>Hoş Geldin ❤️</h2>
-        <p>Devam etmek için özel şifremizi girmen gerekiyor:</p>
-        <div>
-            <input type="text" id="password-input" placeholder="Şifreniz..." onkeypress="handleKeyPress(event)">
-            <button class="btn-main" onclick="checkPassword()">Giriş Yap</button>
-        </div>
-        <div id="error-message" class="error-msg">Yanlış şifre! Bir daha dene bakalım 😜</div>
+        <p id="login-desc"></p>
+        <input type="text" id="password-input" placeholder="Şifre..." onkeypress="if(event.key==='Enter') checkPassword()">
+        <button class="btn-main" onclick="checkPassword()">Giriş Yap</button>
+        <div id="error-message" class="error-msg">Yanlış şifre! Bir daha dene 😜</div>
     </div>
 
-    <!-- ANA İÇERİK -->
+    <!-- 2. ANA İÇERİK -->
     <div id="main-content" class="card">
         <h2>Seni Çok Seviyorum! ✨</h2>
-        <p>Biliyorum belki seni kırdım... Ama senin gönlünü almak benim için her şeyden önemli.</p>
+        <p id="main-desc"></p>
 
-        <!-- SPOTIFY MÜZİK KUTUSU -->
-        <div class="spotify-card">
-            <div class="spotify-header">
-                <div class="vinyl-container">
-                    <div class="vinyl-record" id="vinylRecord">
-                        <div class="vinyl-center"></div>
-                    </div>
-                </div>
-                <div class="track-info">
-                    <div class="track-title">Ben Seninle Mutluyum</div>
-                    <div class="track-artist">Azer Bülbül ❤️</div>
-                </div>
-                <div class="eq-bar-container" id="eqContainer">
-                    <div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div>
-                </div>
-            </div>
-            <div class="spotify-controls">
-                <button class="play-btn" onclick="toggleMusic()" id="spotifyPlayBtn">▶</button>
-                <div class="progress-box">
-                    <div class="progress-bar-bg">
-                        <div class="progress-bar-fill" id="progressFill"></div>
-                    </div>
-                    <div class="time-text">
-                        <span id="currTime">0:00</span>
-                        <span id="durTime">0:00</span>
-                    </div>
-                </div>
+        <!-- Müzik Kutusu -->
+        <div class="music-box">
+            <button class="play-btn" onclick="toggleMusic()" id="playBtn">▶</button>
+            <div class="music-info">
+                <div class="music-title">Ben Seninle Mutluyum</div>
+                <div class="music-sub">Azer Bülbül ❤️</div>
             </div>
         </div>
 
-        <h3 style="color: var(--accent-red); margin-top: 15px; font-size: 14px;">Beni affettin mi? 🥺</h3>
+        <h3 style="color: var(--accent); margin-top: 15px; font-size: 13px;">Beni affettin mi? 🥺</h3>
         
-        <div class="ask-container">
+        <div class="vote-box">
             <button id="btn-yes" class="btn-vote" onclick="accepted()">Evet ❤️</button>
-            <button id="btn-no" class="btn-vote" onclick="triggerAlertAndBargain()">Hayır 💔</button>
+            <button id="btn-no" class="btn-vote" onclick="triggerBargain()">Hayır 💔</button>
         </div>
     </div>
 
-    <!-- CHATBOT WIDGET -->
-    <button class="chat-widget-btn" onclick="toggleChat()">💬</button>
-    <div class="chat-window" id="chatWindow">
+    <!-- CHATBOT -->
+    <button class="chat-btn" onclick="toggleChat()">💬</button>
+    <div class="chat-win" id="chatWin">
         <div class="chat-header">
             <span>Sanal Asistan ❤️</span>
-            <button class="chat-close-btn" onclick="toggleChat()">✕</button>
+            <span style="cursor:pointer;" onclick="toggleChat()">✕</span>
         </div>
-        <div class="chat-body" id="chatBody">
-            <div class="chat-msg bot">Selam güzellik! Ben senin için buradayım. Bana aklındaki her şeyi sorabilirsin 🥰</div>
-        </div>
-        <div class="chat-footer">
-            <input type="text" class="chat-input" id="chatInput" placeholder="Mesajını yaz..." onkeypress="handleChatKey(event)">
-            <button class="chat-send-btn" onclick="sendChatMessage()">Gönder</button>
+        <div class="chat-body" id="chatBody"></div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="Yaz..." onkeypress="if(event.key==='Enter') sendChat()">
+            <button onclick="sendChat()">Gönder</button>
         </div>
     </div>
 
-    <!-- PAZARLIK MODAL -->
-    <div class="modal-backdrop" id="bargainModal">
+    <!-- PAZARLIK MODALI -->
+    <div class="modal" id="bargainModal">
         <div class="modal-card">
-            <span class="modal-badge" id="modalBadge">🚨 GÜVENLİK İHLALİ</span>
-            <h3 id="modalTitle" style="color: var(--accent-red); font-size: 16px; margin-bottom: 6px;">DİKKAT! Yasadışı Karar!</h3>
-            <p id="modalDesc" style="font-size: 12px; color: var(--text-sub); margin-bottom: 12px;">"Hayır" butonuna basma yetkiniz kısıtlanmıştır!</p>
-            <button class="modal-btn-accept" id="modalAcceptBtn" onclick="acceptFromModal()">🤝 Anlaştık, Affettim (Evet)</button>
-            <button class="modal-btn-next" id="modalNextBtn" onclick="nextBargainStep()">Hala ikna olmadım</button>
+            <span style="background:var(--accent); color:white; font-size:10px; padding:2px 8px; border-radius:10px; font-weight:bold;" id="mBadge">🚨 UYARI</span>
+            <h3 id="mTitle" style="color:var(--accent); font-size:15px; margin: 8px 0 4px 0;">DİKKAT!</h3>
+            <p id="mDesc" style="font-size:11px; color:var(--text-sub); margin-bottom:12px; min-height:auto;"></p>
+            <button class="btn-main" id="mAccept" onclick="acceptModal()">Anlaştık, Affettim ❤️</button>
+            <button style="background:transparent; border:none; color:var(--text-sub); font-size:11px; margin-top:8px; cursor:pointer;" id="mNext" onclick="nextBargain()">İkna olmadım</button>
         </div>
     </div>
 
     <script>
-        // ARKA PLAN ANİMASYONU
+        // Daktilo Efekti Fonksiyonu
+        function typeWriter(elementId, text, speed = 40, callback) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            el.innerHTML = "";
+            let i = 0;
+            function type() {
+                if (i < text.length) {
+                    el.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                } else if (callback) {
+                    callback();
+                }
+            }
+            type();
+        }
+
+        // Sayfa açıldığında giriş metnini yazdır
+        window.onload = function() {
+            typeWriter("login-desc", "Devam etmek için özel şifremizi gir:");
+            // Sohbet açılış mesajı
+            setTimeout(() => {
+                addMsg("Selam güzellik! Bana istediğin şeyi sorabilirsin 🥰", "bot");
+            }, 600);
+        };
+
+        // Arka Plan Animasyonu
         const canvas = document.getElementById('bgCanvas');
         const ctx = canvas.getContext('2d');
-        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resize);
+        resize();
 
-        const particles = [];
-        for (let i = 0; i < 25; i++) {
-            particles.push({
-                x: Math.random() * canvas.width, y: Math.random() * canvas.height,
-                size: Math.random() * 3 + 1, speedY: Math.random() * 0.7 + 0.2,
-                opacity: Math.random() * 0.5 + 0.2, isHeart: Math.random() > 0.5
-            });
-        }
+        const particles = Array.from({length: 20}, () => ({
+            x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+            size: Math.random() * 3 + 1, speed: Math.random() * 0.5 + 0.2
+        }));
 
-        function animateBg() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        function drawBg() {
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            ctx.fillStyle = "rgba(255,255,255,0.4)";
             particles.forEach(p => {
-                ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
-                if (p.isHeart) { ctx.font = `${p.size * 5}px Arial`; ctx.fillText('❤️', p.x, p.y); }
-                else { ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill(); }
-                p.y -= p.speedY;
-                if (p.y < -10) { p.y = canvas.height + 10; p.x = Math.random() * canvas.width; }
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
+                p.y -= p.speed;
+                if(p.y < 0) p.y = canvas.height;
             });
-            requestAnimationFrame(animateBg);
+            requestAnimationFrame(drawBg);
         }
-        animateBg();
+        drawBg();
 
-        // GİRİŞ KONTROLÜ
+        // Şifre Kontrolü
         function checkPassword() {
-            const input = document.getElementById("password-input").value.trim().toLowerCase();
-            if (input === "azizemm") {
+            const val = document.getElementById("password-input").value.trim().toLowerCase();
+            if (val === "azizemm") {
                 document.getElementById("login-screen").style.display = "none";
                 document.getElementById("main-content").style.display = "block";
+                typeWriter("main-desc", "Biliyorum belki seni kırdım... Ama senin gönlünü almak benim için her şeyden önemli.");
             } else {
                 document.getElementById("error-message").style.display = "block";
-                document.getElementById("password-input").value = "";
             }
         }
-        function handleKeyPress(e) { if (e.key === "Enter") checkPassword(); }
 
-        // SPOTIFY MÜZİK
-        const bgMusic = new Audio('Azer Bülbül - Ben Seninle Mutluyum(_t1jBwvACMgk_).m4a');
-        bgMusic.loop = true;
-        let isMusicPlaying = false;
+        // Müzik Çalar
+        const music = new Audio('Azer Bülbül - Ben Seninle Mutluyum(_t1jBwvACMgk_).m4a');
+        music.loop = true;
+        let isPlaying = false;
 
         function toggleMusic() {
-            const vinyl = document.getElementById("vinylRecord");
-            const eq = document.getElementById("eqContainer");
-            const playBtn = document.getElementById("spotifyPlayBtn");
-
-            if (isMusicPlaying) {
-                bgMusic.pause();
-                isMusicPlaying = false;
-                vinyl.classList.remove("playing");
-                eq.classList.remove("playing");
-                playBtn.innerText = "▶";
+            const btn = document.getElementById("playBtn");
+            if (isPlaying) {
+                music.pause();
+                isPlaying = false;
+                btn.innerText = "▶";
             } else {
-                bgMusic.play().then(() => {
-                    isMusicPlaying = true;
-                    vinyl.classList.add("playing");
-                    eq.classList.add("playing");
-                    playBtn.innerText = "❚❚";
-                }).catch(e => { alert("Müzik dosyası yüklenemedi, lütfen dosya adını kontrol et."); });
+                music.play().then(() => {
+                    isPlaying = true;
+                    btn.innerText = "❚❚";
+                }).catch(() => alert("Müzik dosyası bulunamadı."));
             }
         }
 
-        bgMusic.addEventListener("timeupdate", () => {
-            if (!bgMusic.duration) return;
-            const cur = bgMusic.currentTime;
-            const dur = bgMusic.duration;
-            document.getElementById("progressFill").style.width = ((cur / dur) * 100) + "%";
-            document.getElementById("currTime").innerText = formatTime(cur);
-            document.getElementById("durTime").innerText = formatTime(dur);
-        });
-
-        function formatTime(sec) {
-            const m = Math.floor(sec / 60);
-            const s = Math.floor(sec % 60);
-            return `${m}:${s < 10 ? '0' : ''}${s}`;
-        }
-
-        // TEMA DEĞİŞTİRME
+        // Tema
         function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute("data-theme");
-            const newTheme = currentTheme === "dark" ? "light" : "dark";
-            document.documentElement.setAttribute("data-theme", newTheme);
-            document.getElementById("themeBtn").innerText = newTheme === "dark" ? "☀️" : "🌙";
+            const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+            document.documentElement.setAttribute("data-theme", isDark ? "light" : "dark");
+            document.getElementById("themeBtn").innerText = isDark ? "🌙" : "☀️";
         }
 
-        // PAZARLIK MODAL
-        let bargainStep = 0;
-        const bargainOffers = [
-            { badge: "🚨 POLİS ALARMI", title: "Yasadışı Karar Önleme!", desc: "Kalp kırma suçu tespit edildi! <b>1 Karam</b> karşılığında anlaşalım?", btnText: "🍫 Karam'ı Kabul Et & Affet" },
-            { badge: "📜 TEKLİF YÜKSELTİLDİ", title: "Masa Üstündeki Teklif!", desc: "<b>Sonsuz sarılma + Sınırsız öpücük</b> sözleşmesi imzalıyoruz!", btnText: "💋 Sözleşmeyi İmzala & Affet" },
-            { badge: "👑 KRALİÇE PROTOKOLÜ", title: "Son Ve En Büyük Teklif!", desc: "Kraliçe protokolü devreye girdi. Artık 'Evet' demek zorundasın 🥰", btnText: "👑 Onayla (Affedildin!)" }
+        // Pazarlık Sistemi
+        let step = 0;
+        const offers = [
+            { badge: "🚨 ALARM", title: "Yasadışı Karar!", desc: "1 Karam Çikolata karşılığında anlaşalım mı?", btn: "🍫 Karam'ı Kabul Et & Affet" },
+            { badge: "📜 SÖZLEŞME", title: "Yeni Teklif!", desc: "Sonsuz sarılma + Sınırsız öpücük sözleşmesi!", btn: "💋 Sözleşmeyi İmzala & Affet" },
+            { badge: "👑 PROTOKOL", title: "Son Teklif!", desc: "Artık 'Evet' demek zorundasın 🥰", btn: "👑 Onayla (Affedildin!)" }
         ];
 
-        function triggerAlertAndBargain() {
+        function triggerBargain() {
             const overlay = document.getElementById("police-overlay");
-            overlay.style.display = "block"; overlay.classList.add("police-flash");
-            bargainStep = 0; updateModalUI();
+            overlay.style.display = "block"; overlay.classList.add("flash");
+            step = 0; showModalUI();
             document.getElementById("bargainModal").style.display = "flex";
         }
 
-        function updateModalUI() {
-            const data = bargainOffers[bargainStep];
-            document.getElementById("modalBadge").innerText = data.badge;
-            document.getElementById("modalTitle").innerHTML = data.title;
-            document.getElementById("modalDesc").innerHTML = data.desc;
-            document.getElementById("modalAcceptBtn").innerHTML = data.btnText;
-            document.getElementById("modalNextBtn").style.display = bargainStep >= bargainOffers.length - 1 ? "none" : "block";
+        function showModalUI() {
+            const item = offers[step];
+            document.getElementById("mBadge").innerText = item.badge;
+            document.getElementById("mTitle").innerText = item.title;
+            document.getElementById("mDesc").innerText = item.desc;
+            document.getElementById("mAccept").innerText = item.btn;
+            document.getElementById("mNext").style.display = step >= offers.length - 1 ? "none" : "block";
         }
 
-        function nextBargainStep() { if (bargainStep < bargainOffers.length - 1) { bargainStep++; updateModalUI(); } }
-        function acceptFromModal() { closePoliceAlarm(); document.getElementById("bargainModal").style.display = "none"; accepted(); }
-        function closePoliceAlarm() { const overlay = document.getElementById("police-overlay"); overlay.classList.remove("police-flash"); overlay.style.display = "none"; }
+        function nextBargain() { if(step < offers.length - 1) { step++; showModalUI(); } }
+        function acceptModal() {
+            document.getElementById("police-overlay").style.display = "none";
+            document.getElementById("bargainModal").style.display = "none";
+            accepted();
+        }
 
-        // EVET EKRANI
+        // Evet Ekrana Geçiş
         function accepted() {
-            closePoliceAlarm();
-            const mainContent = document.getElementById('main-content');
-            mainContent.innerHTML = `
+            document.getElementById("police-overlay").style.display = "none";
+            const main = document.getElementById('main-content');
+            main.innerHTML = `
                 <h2>OLEY! ❤️</h2>
-                <p style="font-weight: 600; margin-bottom: 8px;">Dünyanın en mutlu insanı benim! Seni çok seviyorum.</p>
-                
-                <div style="background: var(--box-bg); padding: 12px; border-radius: 15px; border: 1px dashed var(--box-border); margin-top: 10px;">
-                    <p style="font-style: italic; color: var(--accent-red); font-size: 11px; font-weight: 600;">"Sen benim en güzel yanımsın, bir daha asla üzülmene izin vermeyeceğim ❤️"</p>
-                </div>
-
-                <button class="action-btn" onclick="spinWheel()">🎲 Neden Seni Seviyorum? Kart Çek</button>
-                <div class="fortune-box" id="fortuneText">Kart çekmek için yukarıdaki butona tıkla! 👆</div>
+                <p id="accepted-desc" style="font-weight:bold;"></p>
+                <button class="action-btn" onclick="spinReason()">🎲 Neden Seni Seviyorum?</button>
+                <div class="fortune-box" id="fText">Kart çekmek için butona tıkla! 👆</div>
             `;
-            if (!isMusicPlaying) toggleMusic();
-            if (typeof confetti === 'function') confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
+            typeWriter("accepted-desc", "Dünyanın en mutlu insanı benim! Seni çok seviyorum.");
+            if(!isPlaying) toggleMusic();
+            if(typeof confetti === 'function') confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
         }
 
-        const loveReasons = [
+        const reasons = [
             "✨ Çünkü güldüğünde bütün dünyam aydınlanıyor.",
             "💖 Çünkü sesin bile içimi huzurla doldurmaya yetiyor.",
             "🌹 Çünkü sen benim en güzel 'iyi ki'msin.",
-            "😍 Çünkü bakışınla kalbimi her seferinde yeniden çalmayı başarıyorsun."
+            "😍 Çünkü bakışınla kalbimi her seferinde çalmayı başarıyorsun."
         ];
-        function spinWheel() { document.getElementById('fortuneText').innerText = loveReasons[Math.floor(Math.random() * loveReasons.length)]; }
-
-        // CHATBOT
-        function toggleChat() {
-            const chatWin = document.getElementById("chatWindow");
-            chatWin.style.display = (chatWin.style.display === "flex") ? "none" : "flex";
+        function spinReason() {
+            const randomReason = reasons[Math.floor(Math.random() * reasons.length)];
+            // Kart metnine de daktilo efekti verelim
+            const fBox = document.getElementById('fText');
+            fBox.innerHTML = "";
+            let i = 0;
+            function typeCard() {
+                if (i < randomReason.length) {
+                    fBox.innerHTML += randomReason.charAt(i);
+                    i++;
+                    setTimeout(typeCard, 30);
+                }
+            }
+            typeCard();
         }
 
-        function handleChatKey(e) { if (e.key === "Enter") sendChatMessage(); }
+        // Chatbot
+        function toggleChat() {
+            const win = document.getElementById("chatWin");
+            win.style.display = win.style.display === "flex" ? "none" : "flex";
+        }
 
-        function sendChatMessage() {
-            const input = document.getElementById("chatInput");
-            const text = input.value.trim();
-            if (!text) return;
+        function sendChat() {
+            const inp = document.getElementById("chatInput");
+            const txt = inp.value.trim();
+            if(!txt) return;
 
-            addChatMsg(text, "user");
-            input.value = "";
+            addMsg(txt, "user");
+            inp.value = "";
 
             setTimeout(() => {
-                const reply = getBotReply(text.toLowerCase());
-                addChatMsg(reply, "bot");
-            }, 500);
+                let reply = "Seni düşünüp gülümsediğine eminim ❤️🥰";
+                const lower = txt.toLowerCase();
+                if(lower.includes("sev")) reply = "Seni dünyadaki HER ŞEYDEN daha çok seviyor! ❤️";
+                else if(lower.includes("affet")) reply = "Seni asla kıramaz ki... Tek gülüşün yeter 🥺";
+                else if(lower.includes("sarıl") || lower.includes("öp")) reply = "Kocaman sarılıp öpücük yolluyorum! 💋";
+                addMsg(reply, "bot");
+            }, 400);
         }
 
-        function addChatMsg(text, sender) {
-            const chatBody = document.getElementById("chatBody");
-            const msg = document.createElement("div");
-            msg.className = `chat-msg ${sender}`;
-            msg.innerText = text;
-            chatBody.appendChild(msg);
-            chatBody.scrollTop = chatBody.scrollHeight;
-        }
-
-        function getBotReply(input) {
-            if (input.includes("seviyor") || input.includes("sevgi")) return "Seni dünyadaki HER ŞEYDEN daha çok seviyor! ❤️";
-            if (input.includes("affet") || input.includes("kızgın")) return "O seni asla kıramaz ki... Senin bir tek gülüşün bile onun içini eritiyor 🥺";
-            if (input.includes("sarıl") || input.includes("öp")) return "Sana kocaman sarılıp öpücük yolluyorum! 💋🫂";
-            if (input.includes("nasılsın")) return "Seninle konuştuğum için harikayım! Sen nasılsın melek? ✨";
-            if (input.includes("müzik") || input.includes("şarkı")) return "Arka plandaki şarkı tam olarak sizin için çalıyor 🎵";
-            return "Seni düşünüp gülümsediğine eminim ❤️🥰";
+        function addMsg(txt, sender) {
+            const body = document.getElementById("chatBody");
+            const div = document.createElement("div");
+            div.className = `msg ${sender}`;
+            body.appendChild(div);
+            
+            // Mesajlara da daktilo efekti
+            let i = 0;
+            function typeMsg() {
+                if (i < txt.length) {
+                    div.innerText += txt.charAt(i);
+                    i++;
+                    body.scrollTop = body.scrollHeight;
+                    setTimeout(typeMsg, 25);
+                }
+            }
+            typeMsg();
         }
     </script>
 </body>
