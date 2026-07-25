@@ -6,11 +6,11 @@
     <title>Sana Özel Bir Sürpriz ❤️</title>
     <style>
         :root {
-            --bg-gradient: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
-            --card-bg: rgba(255, 255, 255, 0.92);
+            --bg-gradient: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
             --text-main: #333333;
             --text-sub: #555555;
-            --card-shadow: rgba(230, 57, 70, 0.15);
+            --card-shadow: rgba(230, 57, 70, 0.2);
             --input-border: #ffccd5;
             --box-bg: #fff0f3;
             --box-border: #ffb3c1;
@@ -19,12 +19,12 @@
 
         [data-theme="dark"] {
             --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #31103f 100%);
-            --card-bg: rgba(30, 41, 59, 0.88);
+            --card-bg: rgba(30, 41, 59, 0.92);
             --text-main: #f8fafc;
             --text-sub: #cbd5e1;
             --card-shadow: rgba(0, 0, 0, 0.5);
             --input-border: #475569;
-            --box-bg: rgba(225, 29, 72, 0.1);
+            --box-bg: rgba(225, 29, 72, 0.15);
             --box-border: #9f1239;
             --accent-red: #ff4d6d;
         }
@@ -32,8 +32,8 @@
         * {
             box-sizing: border-box;
             margin: 0; padding: 0;
-            font-family: 'Poppins', sans-serif;
-            transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+            font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         body {
@@ -45,7 +45,16 @@
             color: var(--text-main);
             overflow-x: hidden;
             position: relative;
-            padding-bottom: 30px;
+            padding: 15px;
+        }
+
+        /* --- ARKA PLAN CANVAS (Tıklamalara engel olmaması için pointer-events: none!) --- */
+        #bgCanvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            pointer-events: none !important;
+            z-index: 0;
         }
 
         /* --- ÜST ÇUBUK (NAVBAR) --- */
@@ -55,142 +64,181 @@
             left: 50%;
             transform: translateX(-50%);
             width: 92%;
-            max-width: 450px;
+            max-width: 420px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             z-index: 1000;
         }
 
         .top-day-counter {
             background: var(--card-bg);
             border: 1px solid var(--box-border);
-            padding: 6px 12px;
-            border-radius: 16px;
+            padding: 8px 14px;
+            border-radius: 18px;
             text-align: left;
             box-shadow: 0 4px 15px var(--card-shadow);
             backdrop-filter: blur(10px);
-            animation: pulseGlow 2.5s infinite alternate ease-in-out;
-            flex: 1; min-width: 0;
+            flex: 1;
+            min-width: 0;
         }
 
         .top-day-counter .day-title {
-            font-size: 11px; font-weight: 700; color: var(--accent-red);
+            font-size: 12px; font-weight: 700; color: var(--accent-red);
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
 
         .top-day-counter .day-sub {
-            font-size: 9px; color: var(--text-sub); font-weight: 600;
+            font-size: 10px; color: var(--text-sub); font-weight: 600;
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
 
-        .nav-controls { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
-
-        .control-btn {
-            background: var(--card-bg); border: 1px solid var(--input-border);
-            color: var(--text-main); padding: 6px 10px; border-radius: 20px;
-            cursor: pointer; font-weight: 600; font-size: 11px;
-            box-shadow: 0 4px 12px var(--card-shadow); backdrop-filter: blur(10px);
+        .theme-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--input-border);
+            color: var(--text-main);
+            width: 38px; height: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 4px 12px var(--card-shadow);
             display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
         }
 
-        @keyframes pulseGlow {
-            0% { transform: scale(1); box-shadow: 0 4px 15px var(--card-shadow); }
-            100% { transform: scale(1.01); box-shadow: 0 6px 20px rgba(230, 57, 70, 0.35); }
+        /* --- ANA KART --- */
+        .card {
+            background: var(--card-bg);
+            padding: 25px 20px;
+            border-radius: 28px;
+            box-shadow: 0 15px 35px var(--card-shadow);
+            text-align: center;
+            max-width: 420px;
+            width: 100%;
+            backdrop-filter: blur(12px);
+            position: relative;
+            z-index: 10;
+            margin-top: 50px;
         }
 
-        /* --- SPOTIFY OYNATICI TASARIMI --- */
+        h2 { color: var(--accent-red); margin-bottom: 10px; font-weight: 700; font-size: 20px; }
+        p { color: var(--text-sub); font-size: 13px; margin-bottom: 15px; line-height: 1.5; }
+
+        input[type="text"] {
+            width: 100%; padding: 14px;
+            border: 2px solid var(--input-border);
+            background: rgba(255, 255, 255, 0.5);
+            color: var(--text-main);
+            border-radius: 16px;
+            outline: none; font-size: 15px;
+            margin-bottom: 12px; text-align: center;
+        }
+
+        .btn-main {
+            width: 100%;
+            background-color: var(--accent-red);
+            color: white; border: none;
+            padding: 14px; border-radius: 16px;
+            font-size: 15px; font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
+            display: block;
+        }
+
+        .btn-main:active { transform: scale(0.98); }
+
+        .error-msg { color: var(--accent-red); font-size: 13px; margin-top: 10px; display: none; font-weight: 600; }
+
+        #main-content { display: none; }
+
+        /* --- SPOTIFY KART --- */
         .spotify-card {
-            background: rgba(18, 18, 18, 0.85);
+            background: rgba(18, 18, 18, 0.88);
             color: #ffffff;
             border-radius: 20px;
-            padding: 12px 15px;
+            padding: 14px;
             margin-top: 15px;
             box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-            backdrop-filter: blur(12px);
             border: 1px solid rgba(255,255,255,0.1);
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
             text-align: left;
         }
 
-        .spotify-header { display: flex; align-items: center; gap: 12px; }
+        .spotify-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
 
-        .vinyl-container {
-            width: 48px; height: 48px; position: relative; flex-shrink: 0;
-        }
-
+        .vinyl-container { width: 44px; height: 44px; flex-shrink: 0; }
         .vinyl-record {
             width: 100%; height: 100%; border-radius: 50%;
             background: radial-gradient(circle, #333 30%, #111 70%, #000 100%);
             border: 2px solid #222;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.5);
             display: flex; align-items: center; justify-content: center;
             animation: spin 4s linear infinite;
             animation-play-state: paused;
         }
-
         .vinyl-record.playing { animation-play-state: running; }
-
-        .vinyl-center {
-            width: 16px; height: 16px; background: #e63946; border-radius: 50%;
-            border: 2px solid #fff;
-        }
-
+        .vinyl-center { width: 14px; height: 14px; background: #e63946; border-radius: 50%; border: 2px solid #fff; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
         .track-info { flex-grow: 1; min-width: 0; }
         .track-title { font-size: 13px; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .track-artist { font-size: 11px; color: #b3b3b3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        /* EQUALIZER ANIMASYONU */
         .eq-bar-container { display: flex; align-items: flex-end; gap: 2px; height: 14px; }
         .eq-bar { width: 3px; background: #1db954; border-radius: 2px; height: 2px; }
         .eq-bar-container.playing .eq-bar:nth-child(1) { animation: eq 0.8s infinite alternate; }
         .eq-bar-container.playing .eq-bar:nth-child(2) { animation: eq 1.2s infinite alternate; }
         .eq-bar-container.playing .eq-bar:nth-child(3) { animation: eq 0.6s infinite alternate; }
-        .eq-bar-container.playing .eq-bar:nth-child(4) { animation: eq 1.0s infinite alternate; }
         @keyframes eq { 0% { height: 2px; } 100% { height: 14px; } }
 
-        .spotify-controls { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+        .spotify-controls { display: flex; align-items: center; gap: 10px; }
         .play-btn {
-            background: #1db954; border: none; width: 32px; height: 32px; border-radius: 50%;
+            background: #1db954; border: none; width: 36px; height: 36px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center; cursor: pointer; color: #000;
-            font-size: 14px; font-weight: bold; box-shadow: 0 3px 10px rgba(29,185,84,0.4);
+            font-size: 14px; font-weight: bold; flex-shrink: 0;
         }
 
-        .progress-box { flex-grow: 1; display: flex; flex-direction: column; gap: 3px; }
+        .progress-box { flex-grow: 1; display: flex; flex-direction: column; gap: 4px; }
         .progress-bar-bg { width: 100%; height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; overflow: hidden; }
-        .progress-bar-fill { width: 0%; height: 100%; background: #1db954; transition: width 0.3s linear; }
+        .progress-bar-fill { width: 0%; height: 100%; background: #1db954; transition: width 0.2s linear; }
         .time-text { font-size: 9px; color: #b3b3b3; display: flex; justify-content: space-between; }
 
-        /* --- CHATBOT WIDGET TASARIMI --- */
-        .chat-widget-btn {
-            position: fixed; bottom: 20px; right: 20px;
-            width: 52px; height: 52px; border-radius: 50%;
-            background: linear-gradient(135deg, #ff4d6d, #e63946);
-            color: #fff; border: none; font-size: 24px;
-            box-shadow: 0 6px 20px rgba(230,57,70,0.5);
-            cursor: pointer; z-index: 1000;
-            display: flex; align-items: center; justify-content: center;
-            animation: bounceBtn 3s infinite;
+        /* --- SORU VE EVET/HAYIR BUTONLARI --- */
+        .ask-container { margin-top: 15px; display: flex; justify-content: center; gap: 12px; }
+        .btn-vote { padding: 12px 26px; border-radius: 50px; font-weight: bold; cursor: pointer; border: none; font-size: 14px; }
+        #btn-yes { background-color: #2ecc71; color: white; box-shadow: 0 4px 12px rgba(46,204,113,0.3); }
+        #btn-no { background-color: #e74c3c; color: white; box-shadow: 0 4px 12px rgba(231,76,60,0.3); }
+
+        .action-btn {
+            background: linear-gradient(135deg, #ff4d6d 0%, #ff758f 100%);
+            color: white; border: none; padding: 12px 16px; border-radius: 20px; font-weight: 700;
+            font-size: 13px; cursor: pointer; margin-top: 12px; width: 100%;
         }
 
-        @keyframes bounceBtn {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-6px); }
+        .fortune-box {
+            background: var(--box-bg); padding: 12px; border-radius: 14px;
+            border: 1px dashed var(--box-border); margin-top: 10px; font-size: 13px; color: var(--accent-red);
+            font-weight: 600; min-height: 40px; display: flex; align-items: center; justify-content: center;
+        }
+
+        /* --- CHATBOT WIDGET --- */
+        .chat-widget-btn {
+            position: fixed; bottom: 20px; right: 20px;
+            width: 55px; height: 55px; border-radius: 50%;
+            background: linear-gradient(135deg, #ff4d6d, #e63946);
+            color: #fff; border: none; font-size: 26px;
+            box-shadow: 0 6px 20px rgba(230,57,70,0.5);
+            cursor: pointer; z-index: 2000;
+            display: flex; align-items: center; justify-content: center;
         }
 
         .chat-window {
             position: fixed; bottom: 85px; right: 20px;
-            width: 310px; height: 400px;
+            width: 300px; height: 380px;
             background: var(--card-bg); border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-            backdrop-filter: blur(15px); border: 1px solid var(--box-border);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 1px solid var(--box-border);
             display: none; flex-direction: column; overflow: hidden;
-            z-index: 1000; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 2000;
         }
 
         .chat-header {
@@ -200,89 +248,16 @@
         }
 
         .chat-close-btn { background: none; border: none; color: #fff; font-size: 16px; cursor: pointer; }
+        .chat-body { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+        .chat-msg { max-width: 82%; padding: 8px 12px; border-radius: 14px; font-size: 12px; line-height: 1.4; }
+        .chat-msg.bot { background: var(--box-bg); color: var(--text-main); align-self: flex-start; border: 1px solid var(--box-border); }
+        .chat-msg.user { background: var(--accent-red); color: #fff; align-self: flex-end; }
 
-        .chat-body {
-            flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;
-        }
+        .chat-footer { padding: 8px; border-top: 1px solid var(--input-border); display: flex; gap: 6px; }
+        .chat-input { flex: 1; padding: 8px 12px; border: 1px solid var(--input-border); border-radius: 20px; outline: none; font-size: 12px; background: transparent; color: var(--text-main); }
+        .chat-send-btn { background: var(--accent-red); color: #fff; border: none; padding: 8px 14px; border-radius: 20px; font-weight: 700; cursor: pointer; font-size: 12px; }
 
-        .chat-msg {
-            max-width: 80%; padding: 8px 12px; border-radius: 14px; font-size: 12px; line-height: 1.4;
-        }
-
-        .chat-msg.bot {
-            background: var(--box-bg); color: var(--text-main);
-            border-bottom-left-radius: 2px; align-self: flex-start;
-            border: 1px solid var(--box-border);
-        }
-
-        .chat-msg.user {
-            background: var(--accent-red); color: #fff;
-            border-bottom-right-radius: 2px; align-self: flex-end;
-        }
-
-        .chat-footer {
-            padding: 8px; border-top: 1px solid var(--input-border);
-            display: flex; gap: 6px; background: rgba(0,0,0,0.02);
-        }
-
-        .chat-input {
-            flex: 1; padding: 8px 12px; border: 1px solid var(--input-border);
-            border-radius: 20px; outline: none; font-size: 12px; background: transparent; color: var(--text-main);
-        }
-
-        .chat-send-btn {
-            background: var(--accent-red); color: #fff; border: none;
-            padding: 8px 14px; border-radius: 20px; font-weight: 700; cursor: pointer; font-size: 12px;
-        }
-
-        /* --- GENEL CARD VE CANVAS --- */
-        #bgCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
-        
-        .card {
-            background: var(--card-bg); padding: 25px 20px; border-radius: 30px;
-            box-shadow: 0 15px 35px var(--card-shadow); text-align: center;
-            max-width: 420px; width: 90%; backdrop-filter: blur(12px);
-            max-height: 85vh; overflow-y: auto; position: relative; z-index: 10;
-            margin-top: 55px;
-        }
-
-        h2 { color: var(--accent-red); margin-bottom: 10px; font-weight: 700; }
-        p { color: var(--text-sub); font-size: 13px; margin-bottom: 12px; line-height: 1.5; }
-
-        input[type="text"] {
-            width: 100%; padding: 12px; border: 2px solid var(--input-border);
-            background: transparent; color: var(--text-main); border-radius: 15px;
-            outline: none; font-size: 15px; margin-bottom: 12px; text-align: center;
-        }
-
-        .btn-main {
-            width: 100%; background-color: var(--accent-red); color: white; border: none;
-            padding: 12px; border-radius: 15px; font-size: 15px; font-weight: bold; cursor: pointer;
-            box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
-        }
-
-        .error-msg { color: var(--accent-red); font-size: 13px; margin-top: 10px; display: none; font-weight: 600; }
-
-        #main-content { display: none; }
-
-        .ask-container { margin-top: 15px; display: flex; justify-content: center; gap: 12px; }
-        .btn-vote { padding: 10px 24px; border-radius: 50px; font-weight: bold; cursor: pointer; border: none; font-size: 14px; }
-        #btn-yes { background-color: #2ecc71; color: white; box-shadow: 0 4px 12px rgba(46,204,113,0.3); }
-        #btn-no { background-color: #e74c3c; color: white; box-shadow: 0 4px 12px rgba(231,76,60,0.3); }
-
-        .action-btn {
-            background: linear-gradient(135deg, #ff4d6d 0%, #ff758f 100%);
-            color: white; border: none; padding: 10px 16px; border-radius: 20px; font-weight: 700;
-            font-size: 12px; cursor: pointer; margin-top: 10px; width: 100%; box-shadow: 0 4px 12px rgba(255,77,109,0.3);
-        }
-
-        .fortune-box {
-            background: var(--box-bg); padding: 10px; border-radius: 12px;
-            border: 1px dashed var(--box-border); margin-top: 10px; font-size: 12px; color: var(--accent-red);
-            font-weight: 600; min-height: 38px; display: flex; align-items: center; justify-content: center; text-align: center;
-        }
-
-        /* PAZARLIK MODAL */
+        /* --- PAZARLIK MODAL --- */
         .modal-backdrop {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px);
@@ -290,32 +265,16 @@
         }
 
         .modal-card {
-            background: var(--card-bg); border-radius: 25px; padding: 22px;
+            background: var(--card-bg); border-radius: 24px; padding: 22px;
             max-width: 380px; width: 100%; text-align: center;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            animation: popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             border: 2px solid var(--accent-red);
         }
 
-        @keyframes popIn { 0% { transform: scale(0.7); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .modal-badge { background: var(--accent-red); color: white; padding: 4px 12px; border-radius: 20px; font-size: 10px; font-weight: 700; display: inline-block; margin-bottom: 8px; }
+        .modal-btn-accept { width: 100%; background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%); color: white; border: none; padding: 12px; border-radius: 14px; font-weight: 700; cursor: pointer; margin-top: 10px; font-size: 13px; }
+        .modal-btn-next { width: 100%; background: transparent; color: var(--text-sub); border: 1px dashed var(--input-border); padding: 10px; border-radius: 14px; font-weight: 600; cursor: pointer; margin-top: 6px; font-size: 11px; }
 
-        .modal-badge {
-            background: var(--accent-red); color: white; padding: 4px 12px; border-radius: 20px;
-            font-size: 10px; font-weight: 700; display: inline-block; margin-bottom: 8px;
-        }
-
-        .modal-btn-accept {
-            width: 100%; background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
-            color: white; border: none; padding: 10px; border-radius: 12px; font-weight: 700;
-            cursor: pointer; margin-top: 10px; font-size: 13px;
-        }
-
-        .modal-btn-next {
-            width: 100%; background: transparent; color: var(--text-sub); border: 1px dashed var(--input-border);
-            padding: 8px; border-radius: 12px; font-weight: 600; cursor: pointer; margin-top: 6px; font-size: 11px;
-        }
-
-        /* POLICE ALARM OVERLAY */
         #police-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; display: none; opacity: 0.45; }
         .police-flash { animation: policeStrobe 0.25s infinite alternate ease-in-out; }
         @keyframes policeStrobe { 0% { background-color: rgba(255, 0, 55, 0.8); } 100% { background-color: rgba(0, 102, 255, 0.8); } }
@@ -334,16 +293,14 @@
             <div class="day-title">❤️ 13 Gündür Sevgiliyiz</div>
             <div class="day-sub">Dünyam değişti ✨</div>
         </div>
-        <div class="nav-controls">
-            <button class="control-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
-        </div>
+        <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
     </div>
 
     <!-- GİRİŞ EKRANI -->
     <div id="login-screen" class="card">
-        <h2 id="typewriter-title"></h2>
-        <p id="typewriter-desc"></p>
-        <div id="login-form-area" style="opacity: 0; transition: opacity 0.8s ease;">
+        <h2>Hoş Geldin ❤️</h2>
+        <p>Devam etmek için özel şifremizi girmen gerekiyor:</p>
+        <div>
             <input type="text" id="password-input" placeholder="Şifreniz..." onkeypress="handleKeyPress(event)">
             <button class="btn-main" onclick="checkPassword()">Giriş Yap</button>
         </div>
@@ -368,8 +325,7 @@
                     <div class="track-artist">Azer Bülbül ❤️</div>
                 </div>
                 <div class="eq-bar-container" id="eqContainer">
-                    <div class="eq-bar"></div><div class="eq-bar"></div>
-                    <div class="eq-bar"></div><div class="eq-bar"></div>
+                    <div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div>
                 </div>
             </div>
             <div class="spotify-controls">
@@ -415,16 +371,14 @@
         <div class="modal-card">
             <span class="modal-badge" id="modalBadge">🚨 GÜVENLİK İHLALİ</span>
             <h3 id="modalTitle" style="color: var(--accent-red); font-size: 16px; margin-bottom: 6px;">DİKKAT! Yasadışı Karar!</h3>
-            <p id="modalDesc" style="font-size: 12px; color: var(--text-sub); margin-bottom: 12px;">
-                "Hayır" butonuna basma yetkiniz kısıtlanmıştır!
-            </p>
+            <p id="modalDesc" style="font-size: 12px; color: var(--text-sub); margin-bottom: 12px;">"Hayır" butonuna basma yetkiniz kısıtlanmıştır!</p>
             <button class="modal-btn-accept" id="modalAcceptBtn" onclick="acceptFromModal()">🤝 Anlaştık, Affettim (Evet)</button>
             <button class="modal-btn-next" id="modalNextBtn" onclick="nextBargainStep()">Hala ikna olmadım</button>
         </div>
     </div>
 
     <script>
-        // CANLI ARKA PLAN
+        // ARKA PLAN ANİMASYONU
         const canvas = document.getElementById('bgCanvas');
         const ctx = canvas.getContext('2d');
         function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
@@ -432,11 +386,11 @@
         resizeCanvas();
 
         const particles = [];
-        for (let i = 0; i < 30; i++) {
+        for (let i = 0; i < 25; i++) {
             particles.push({
                 x: Math.random() * canvas.width, y: Math.random() * canvas.height,
-                size: Math.random() * 3 + 1, speedY: Math.random() * 0.8 + 0.3,
-                opacity: Math.random() * 0.5 + 0.2, isHeart: Math.random() > 0.6
+                size: Math.random() * 3 + 1, speedY: Math.random() * 0.7 + 0.2,
+                opacity: Math.random() * 0.5 + 0.2, isHeart: Math.random() > 0.5
             });
         }
 
@@ -453,25 +407,20 @@
         }
         animateBg();
 
-        // TYPEWRITER
-        const titleText = "Hoş Geldin ❤️";
-        const descText = "Devam etmek için özel şifremizi girmen gerekiyor:";
-        let tIndex = 0, dIndex = 0;
-        function typeWriter() {
-            if (tIndex < titleText.length) {
-                document.getElementById("typewriter-title").innerHTML += titleText.charAt(tIndex);
-                tIndex++; setTimeout(typeWriter, 70);
-            } else typeDesc();
+        // GİRİŞ KONTROLÜ
+        function checkPassword() {
+            const input = document.getElementById("password-input").value.trim().toLowerCase();
+            if (input === "azizemm") {
+                document.getElementById("login-screen").style.display = "none";
+                document.getElementById("main-content").style.display = "block";
+            } else {
+                document.getElementById("error-message").style.display = "block";
+                document.getElementById("password-input").value = "";
+            }
         }
-        function typeDesc() {
-            if (dIndex < descText.length) {
-                document.getElementById("typewriter-desc").innerHTML += descText.charAt(dIndex);
-                dIndex++; setTimeout(typeDesc, 40);
-            } else document.getElementById("login-form-area").style.opacity = "1";
-        }
-        window.onload = function() { setTimeout(typeWriter, 400); };
+        function handleKeyPress(e) { if (e.key === "Enter") checkPassword(); }
 
-        // GELİŞMİŞ SPOTIFY MÜZİK ÇALAR MANTIĞI
+        // SPOTIFY MÜZİK
         const bgMusic = new Audio('Azer Bülbül - Ben Seninle Mutluyum(_t1jBwvACMgk_).m4a');
         bgMusic.loop = true;
         let isMusicPlaying = false;
@@ -493,7 +442,7 @@
                     vinyl.classList.add("playing");
                     eq.classList.add("playing");
                     playBtn.innerText = "❚❚";
-                }).catch(e => {});
+                }).catch(e => { alert("Müzik dosyası yüklenemedi, lütfen dosya adını kontrol et."); });
             }
         }
 
@@ -501,8 +450,7 @@
             if (!bgMusic.duration) return;
             const cur = bgMusic.currentTime;
             const dur = bgMusic.duration;
-            const perc = (cur / dur) * 100;
-            document.getElementById("progressFill").style.width = perc + "%";
+            document.getElementById("progressFill").style.width = ((cur / dur) * 100) + "%";
             document.getElementById("currTime").innerText = formatTime(cur);
             document.getElementById("durTime").innerText = formatTime(dur);
         });
@@ -513,6 +461,7 @@
             return `${m}:${s < 10 ? '0' : ''}${s}`;
         }
 
+        // TEMA DEĞİŞTİRME
         function toggleTheme() {
             const currentTheme = document.documentElement.getAttribute("data-theme");
             const newTheme = currentTheme === "dark" ? "light" : "dark";
@@ -520,19 +469,7 @@
             document.getElementById("themeBtn").innerText = newTheme === "dark" ? "☀️" : "🌙";
         }
 
-        function checkPassword() {
-            const input = document.getElementById("password-input").value.trim().toLowerCase();
-            if (input === "azizemm") {
-                document.getElementById("login-screen").style.display = "none";
-                document.getElementById("main-content").style.display = "block";
-            } else {
-                document.getElementById("error-message").style.display = "block";
-                document.getElementById("password-input").value = "";
-            }
-        }
-        function handleKeyPress(e) { if (e.key === "Enter") checkPassword(); }
-
-        // PAZARLIK VE ALARM MANTIĞI
+        // PAZARLIK MODAL
         let bargainStep = 0;
         const bargainOffers = [
             { badge: "🚨 POLİS ALARMI", title: "Yasadışı Karar Önleme!", desc: "Kalp kırma suçu tespit edildi! <b>1 Karam</b> karşılığında anlaşalım?", btnText: "🍫 Karam'ı Kabul Et & Affet" },
@@ -576,7 +513,7 @@
                 <div class="fortune-box" id="fortuneText">Kart çekmek için yukarıdaki butona tıkla! 👆</div>
             `;
             if (!isMusicPlaying) toggleMusic();
-            triggerConfetti();
+            if (typeof confetti === 'function') confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
         }
 
         const loveReasons = [
@@ -587,11 +524,7 @@
         ];
         function spinWheel() { document.getElementById('fortuneText').innerText = loveReasons[Math.floor(Math.random() * loveReasons.length)]; }
 
-        function triggerConfetti() {
-            confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
-        }
-
-        // AKILLI CHATBOT MANTIĞI
+        // CHATBOT
         function toggleChat() {
             const chatWin = document.getElementById("chatWindow");
             chatWin.style.display = (chatWin.style.display === "flex") ? "none" : "flex";
@@ -610,7 +543,7 @@
             setTimeout(() => {
                 const reply = getBotReply(text.toLowerCase());
                 addChatMsg(reply, "bot");
-            }, 600);
+            }, 500);
         }
 
         function addChatMsg(text, sender) {
@@ -621,23 +554,14 @@
             chatBody.appendChild(msg);
             chatBody.scrollTop = chatBody.scrollHeight;
         }
+
         function getBotReply(input) {
             if (input.includes("seviyor") || input.includes("sevgi")) return "Seni dünyadaki HER ŞEYDEN daha çok seviyor! ❤️";
-            if (input.includes("affet") || input.includes("kızgın")) return "O seni asla kıramaz ki... Senin bir tek gülüşün bile onun içini eritiyor🥺";
-            if (input.includes("sarıl") || input.includes("öp")) return "Sana kocaman sarılıp öpücük yolluyor! 💋🫂";
-            if (input.includes("nasılsın") || input.includes("ne haber")) return "Seninle konuştuğum için harikayım! Sen nasılsın✨";
+            if (input.includes("affet") || input.includes("kızgın")) return "O seni asla kıramaz ki... Senin bir tek gülüşün bile onun içini eritiyor 🥺";
+            if (input.includes("sarıl") || input.includes("öp")) return "Sana kocaman sarılıp öpücük yolluyorum! 💋🫂";
+            if (input.includes("nasılsın")) return "Seninle konuştuğum için harikayım! Sen nasılsın melek? ✨";
             if (input.includes("müzik") || input.includes("şarkı")) return "Arka plandaki şarkı tam olarak sizin için çalıyor 🎵";
-            if (input.includes("kimsin")) return "Ben sizin aşkınız için tasarlanmış özel bir robotum 🤖❤️";
-              (input.includes("iyiyim")) return"iyi olduğuna sevindim bu beni mutlu etti ";
-              (input.includes("napıyorsun")) return" patronum senii özlüyor";
-            
-            const randomReplies = [
-                "Sen gerçekten çok özelsin 🥰",
-                "Gözlerinin güzelliği buraya kadar yansıyor ✨",
-                "Onun sana olan sevgisi kelimelere sığmaz!",
-                "Seni düşünüp gülümsediğine eminim ❤️"
-            ];
-            return randomReplies[Math.floor(Math.random() * randomReplies.length)];
+            return "Seni düşünüp gülümsediğine eminim ❤️🥰";
         }
     </script>
 </body>
