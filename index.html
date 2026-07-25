@@ -7,24 +7,28 @@
     <style>
         :root {
             --bg-gradient: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
-            --card-bg: rgba(255, 255, 255, 0.95);
+            --card-bg: rgba(255, 255, 255, 0.92);
             --text-main: #333333;
             --text-sub: #555555;
             --card-shadow: rgba(230, 57, 70, 0.15);
             --input-border: #ffccd5;
             --box-bg: #fff0f3;
             --box-border: #ffb3c1;
+            --wave-color: #e63946;
         }
+
         [data-theme="dark"] {
             --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #31103f 100%);
-            --card-bg: rgba(30, 41, 59, 0.92);
+            --card-bg: rgba(30, 41, 59, 0.88);
             --text-main: #f8fafc;
             --text-sub: #cbd5e1;
             --card-shadow: rgba(0, 0, 0, 0.5);
             --input-border: #475569;
             --box-bg: rgba(225, 29, 72, 0.1);
             --box-border: #9f1239;
+            --wave-color: #ff4d6d;
         }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -32,6 +36,7 @@
             font-family: 'Poppins', sans-serif;
             transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
         }
+
         body {
             background: var(--bg-gradient);
             height: 100vh;
@@ -42,7 +47,19 @@
             overflow: hidden;
             position: relative;
         }
-        /* Üst Butonlar (Gece Modu & Müzik Çalar) */
+
+        /* Arka Plan Canvas */
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Sağ Üst Kontroller */
         .top-controls {
             position: fixed;
             top: 20px;
@@ -51,20 +68,54 @@
             gap: 10px;
             z-index: 1000;
         }
+
         .control-btn {
             background: var(--card-bg);
             border: 1px solid var(--input-border);
             color: var(--text-main);
-            padding: 10px 16px;
+            padding: 8px 14px;
             border-radius: 30px;
             cursor: pointer;
             font-weight: 600;
             font-size: 13px;
             box-shadow: 0 4px 12px var(--card-shadow);
+            backdrop-filter: blur(10px);
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
         }
+
+        /* PROFESYONEL SES DALGASI (EQUALIZER) EFEKTİ */
+        .equalizer {
+            display: flex;
+            align-items: flex-end;
+            gap: 3px;
+            height: 15px;
+            width: 16px;
+        }
+
+        .equalizer .bar {
+            width: 3px;
+            background-color: var(--wave-color);
+            border-radius: 2px;
+            height: 3px;
+            transition: height 0.2s ease;
+        }
+
+        .equalizer.playing .bar {
+            animation: bounce 0.8s ease-in-out infinite alternate;
+        }
+
+        .equalizer.playing .bar:nth-child(1) { animation-delay: 0.1s; }
+        .equalizer.playing .bar:nth-child(2) { animation-delay: 0.4s; }
+        .equalizer.playing .bar:nth-child(3) { animation-delay: 0.2s; }
+        .equalizer.playing .bar:nth-child(4) { animation-delay: 0.5s; }
+
+        @keyframes bounce {
+            0% { height: 3px; }
+            100% { height: 15px; }
+        }
+
         .card {
             background: var(--card-bg);
             padding: 30px 20px;
@@ -73,15 +124,17 @@
             text-align: center;
             max-width: 450px;
             width: 90%;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             max-height: 90vh;
             overflow-y: auto;
             position: relative;
             z-index: 10;
         }
+
         .shake {
             animation: shake 0.3s ease-in-out;
         }
+
         @keyframes shake {
             0% { transform: translateX(0); }
             25% { transform: translateX(-10px); }
@@ -89,70 +142,75 @@
             75% { transform: translateX(-10px); }
             100% { transform: translateX(0); }
         }
-        h2 { color: #e63946; margin-bottom: 12px; font-weight: 700; }
-        p { color: var(--text-sub); font-size: 13px; margin-bottom: 12px; line-height: 1.5; }
+
+        h2 { color: #e63946; margin-bottom: 12px; font-weight: 700; min-height: 36px; }
+        p { color: var(--text-sub); font-size: 13px; margin-bottom: 12px; line-height: 1.5; min-height: 40px; }
+
         input {
             width: 100%; padding: 14px; border: 2px solid var(--input-border);
             background: transparent; color: var(--text-main); border-radius: 15px;
             outline: none; font-size: 16px; margin-bottom: 15px; text-align: center;
         }
+
         .btn-main {
             width: 100%; background-color: #e63946; color: white; border: none;
             padding: 14px; border-radius: 15px; font-size: 16px; font-weight: bold; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
         }
+
         .error-msg { color: #e63946; font-size: 14px; margin-top: 15px; display: none; font-weight: 600; }
         .toast-msg { color: #e63946; font-weight: bold; font-size: 13px; margin-top: 8px; min-height: 20px; }
+
         #main-content { display: none; }
+
         .ask-container { margin-top: 15px; position: relative; height: 100px; }
+
         .btn-vote {
             padding: 12px 28px; border-radius: 50px; font-weight: bold;
             cursor: pointer; border: none; position: absolute; font-size: 15px;
             transition: all 0.2s ease-out;
         }
+
         #btn-yes { background-color: #2ecc71; color: white; left: 20%; transform: translateX(-50%); z-index: 10; }
         #btn-no { background-color: #95a5a6; color: white; right: 20%; transform: translateX(50%); white-space: nowrap; }
-        /* Uçan/Aşağı Süzülen Sihirli Mektup Kalp */
+
         .magic-heart {
-            position: fixed; 
-            font-size: 38px; 
-            cursor: pointer; 
-            z-index: 999; 
-            display: none;
+            position: fixed; font-size: 38px; cursor: pointer; z-index: 999; display: none;
             filter: drop-shadow(0 0 12px rgba(230,57,70,0.6));
             animation: floatDown 7s linear infinite;
         }
+
         @keyframes floatDown {
             0% { top: -60px; left: 15%; transform: rotate(-10deg) scale(0.9); }
             50% { left: 80%; transform: rotate(10deg) scale(1.1); }
             100% { top: 105vh; left: 20%; transform: rotate(-10deg) scale(0.9); }
         }
-        /* Bildirim Kartları Container */
+
         .notification-container {
             position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
             width: 90%; max-width: 380px; z-index: 2000; display: flex; flex-direction: column; gap: 10px;
         }
+
         .notif {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(12px);
-            border-radius: 18px; padding: 12px 16px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            display: flex; align-items: center; gap: 12px;
-            transform: translateY(-100px); opacity: 0;
-            animation: slideDown 0.5s forwards ease-out;
-            border-left: 4px solid #e63946;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px);
+            border-radius: 18px; padding: 12px 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            display: flex; align-items: center; gap: 12px; transform: translateY(-100px); opacity: 0;
+            animation: slideDown 0.5s forwards ease-out; border-left: 4px solid #e63946;
         }
+
         .notif.pink { border-left-color: #d62976; }
         .notif.green { border-left-color: #25d366; }
+
         .notif-icon-img {
             width: 36px; height: 36px; border-radius: 9px; object-fit: cover; flex-shrink: 0;
         }
+
         .notif-text { text-align: left; width: 100%; }
         .notif-title { font-size: 13px; font-weight: bold; color: #111; margin-bottom: 2px; }
         .notif-desc { font-size: 12px; color: #444; margin-bottom: 0; }
-        @keyframes slideDown {
-            to { transform: translateY(0); opacity: 1; }
-        }
-        /* Yeni Eklenen Özellik Butonları & Alanları */
+
+        @keyframes slideDown { to { transform: translateY(0); opacity: 1; } }
+
         .action-btn {
             background: linear-gradient(135deg, #ff4d6d 0%, #ff758f 100%);
             color: white; border: none; padding: 10px 16px;
@@ -160,96 +218,197 @@
             cursor: pointer; margin-top: 10px; width: 100%;
             box-shadow: 0 4px 12px rgba(255,77,109,0.3);
         }
+
         .fortune-box {
             background: var(--box-bg); padding: 10px; border-radius: 12px;
             border: 1px dashed var(--box-border); margin-top: 10px;
             font-size: 13px; color: #e63946; font-weight: 600; min-height: 40px;
             display: flex; align-items: center; justify-content: center; text-align: center;
         }
+
         .scratch-container {
             position: relative; width: 100%; height: 100px; margin-top: 10px;
             border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             display: none;
         }
+
         .scratch-secret {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(135deg, #ffe5ec 0%, #ffc2d1 100%);
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             padding: 8px; color: #d62839; font-weight: 700; font-size: 13px; text-align: center;
         }
+
         canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: pointer; }
+
         @keyframes floatUp {
             0% { transform: translateY(0) rotate(0deg); opacity: 1; }
             100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
         }
+
         .floating-emoji {
             position: absolute; font-size: 24px; user-select: none;
             animation: floatUp 3s linear infinite; z-index: 100; pointer-events: none;
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- Konfeti Kütüphanesi -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
-    <!-- Sağ Üst Kontroller (Gece Modu & Müzik Çalar) -->
+
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- Sağ Üst Kontroller (Ses Dalgası Yenilendi) -->
     <div class="top-controls">
-        <button class="control-btn" onclick="toggleMusic()" id="musicBtn">🎵 Müzik: Kapalı</button>
+        <button class="control-btn" onclick="toggleMusic()" id="musicBtn">
+            <span id="musicText">🎵 Müzik</span>
+            <div class="equalizer" id="eqBars">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </button>
         <button class="control-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
     </div>
-    <!-- Bildirim Yuvası -->
+
     <div class="notification-container" id="notifArea"></div>
-    <!-- Tıklanacak Uçan Sihirli Mektup -->
     <div class="magic-heart" id="magicHeart" onclick="triggerNotifications()">💌</div>
+
     <!-- GİRİŞ EKRANI -->
     <div id="login-screen" class="card">
-        <h2>Hoş Geldin AZİZEMM❤️</h2>
-        <p>Devam etmek için özel şifremizi girmen gerekiyor:</p>
-        <input type="text" id="password-input" placeholder="Şifreniz..." onkeypress="handleKeyPress(event)">
-        <button class="btn-main" onclick="checkPassword()">Giriş Yap</button>
+        <h2 id="typewriter-title"></h2>
+        <p id="typewriter-desc"></p>
+        <div id="login-form-area" style="opacity: 0; transition: opacity 0.8s ease;">
+            <input type="text" id="password-input" placeholder="Şifreniz..." onkeypress="handleKeyPress(event)">
+            <button class="btn-main" onclick="checkPassword()">Giriş Yap</button>
+        </div>
         <div id="error-message" class="error-msg">Yanlış şifre! Bir daha dene bakalım 😜</div>
     </div>
+
     <!-- ANA İÇERİK -->
     <div id="main-content" class="card">
         <h2>Seni Çok Seviyorum! ✨</h2>
         <p>Biliyorum belki seni kırdım... Ama senin gönlünü almak benim için her şeyden önemli.</p>
         <h3 style="color: #e63946; margin-top: 8px; font-size: 15px;">Beni affettin mi? 🥺</h3>
+        
         <div id="toast" class="toast-msg"></div>
+
         <div class="ask-container">
             <button id="btn-yes" class="btn-vote" onclick="accepted()">Evet</button>
             <button id="btn-no" class="btn-vote" onmouseover="moveButton()" onclick="moveButton()">Hayır</button>
         </div>
     </div>
+
     <script>
+        // --- CANLI ARKA PLAN ---
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const particles = [];
+        for (let i = 0; i < 35; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 3 + 1,
+                speedY: Math.random() * 0.8 + 0.3,
+                opacity: Math.random() * 0.5 + 0.2,
+                isHeart: Math.random() > 0.6
+            });
+        }
+
+        function animateBg() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
+                if (p.isHeart) {
+                    ctx.font = `${p.size * 6}px Arial`;
+                    ctx.fillText('❤️', p.x, p.y);
+                } else {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                p.y -= p.speedY;
+                if (p.y < -10) {
+                    p.y = canvas.height + 10;
+                    p.x = Math.random() * canvas.width;
+                }
+            });
+            requestAnimationFrame(animateBg);
+        }
+        animateBg();
+
+        // --- TYPEWRITER EFEKTİ ---
+        const titleText = "Hoş Geldin AZİZEM❤️";
+        const descText = "Devam etmek için özel şifremizi girmen gerekiyor:";
+        let tIndex = 0, dIndex = 0;
+
+        function typeWriter() {
+            if (tIndex < titleText.length) {
+                document.getElementById("typewriter-title").innerHTML += titleText.charAt(tIndex);
+                tIndex++;
+                setTimeout(typeWriter, 70);
+            } else {
+                typeDesc();
+            }
+        }
+
+        function typeDesc() {
+            if (dIndex < descText.length) {
+                document.getElementById("typewriter-desc").innerHTML += descText.charAt(dIndex);
+                dIndex++;
+                setTimeout(typeDesc, 40);
+            } else {
+                document.getElementById("login-form-area").style.opacity = "1";
+            }
+        }
+
+        window.onload = function() {
+            setTimeout(typeWriter, 400);
+        };
+
+        // --- MÜZİK VE SES DALGASI KONTROLÜ ---
         const instaLogoUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/132px-Instagram_logo_2016.svg.png";
-        // Müzik Nesnesi
         const bgMusic = new Audio('Azer Bülbül - Ben Seninle Mutluyum(_t1jBwvACMgk_).m4a');
         bgMusic.loop = true;
         let isMusicPlaying = false;
+
         function toggleMusic() {
-            const musicBtn = document.getElementById("musicBtn");
+            const eqBars = document.getElementById("eqBars");
             if (isMusicPlaying) {
                 bgMusic.pause();
                 isMusicPlaying = false;
-                musicBtn.innerText = "🎵 Müzik: Kapalı";
+                eqBars.classList.remove("playing");
             } else {
                 bgMusic.play().then(() => {
                     isMusicPlaying = true;
-                    musicBtn.innerText = "🎵 Müzik: Açık";
+                    eqBars.classList.add("playing");
                 }).catch(e => {
-                    alert("Tarayıcı engeli nedeniyle müzik dosyası oynatılamadı.");
+                    alert("Müzik dosyası yüklenemedi veya engellendi.");
                 });
             }
         }
+
         function toggleTheme() {
             const currentTheme = document.documentElement.getAttribute("data-theme");
             const newTheme = currentTheme === "dark" ? "light" : "dark";
             document.documentElement.setAttribute("data-theme", newTheme);
             document.getElementById("themeBtn").innerText = newTheme === "dark" ? "☀️" : "🌙";
         }
+
         function checkPassword() {
             const input = document.getElementById("password-input").value.trim().toLowerCase();
             const errorMsg = document.getElementById("error-message");
+            
             if (input === "azizemm") {
                 document.getElementById("login-screen").style.display = "none";
                 document.getElementById("main-content").style.display = "block";
@@ -259,9 +418,11 @@
                 document.getElementById("password-input").value = "";
             }
         }
+
         function handleKeyPress(event) {
             if (event.key === "Enter") checkPassword();
         }
+
         const notificationPairs = [
             [
                 { type: 'pink', title: 'Instagram • Mesaj', desc: 'Seni Çok Özledim... 💬' },
@@ -276,58 +437,72 @@
                 { type: 'green', title: 'Günün Sorusu', desc: 'Birlikte yemek yemeye ne dersin? 😋' }
             ]
         ];
+
         let notifIndex = 0;
+
         function triggerNotifications() {
             const notifArea = document.getElementById("notifArea");
             notifArea.innerHTML = ""; 
             const currentPair = notificationPairs[notifIndex % notificationPairs.length];
+
             setTimeout(() => {
                 const n1 = document.createElement("div");
                 n1.className = `notif ${currentPair[0].type}`;
                 n1.innerHTML = `<img src="${instaLogoUrl}" class="notif-icon-img" alt="Instagram"><div class="notif-text"><div class="notif-title">${currentPair[0].title}</div><div class="notif-desc">${currentPair[0].desc}</div></div>`;
                 notifArea.appendChild(n1);
             }, 200);
+
             setTimeout(() => {
                 const n2 = document.createElement("div");
                 n2.className = `notif ${currentPair[1].type}`;
                 n2.innerHTML = `<img src="${instaLogoUrl}" class="notif-icon-img" alt="Instagram"><div class="notif-text"><div class="notif-title">${currentPair[1].title}</div><div class="notif-desc">${currentPair[1].desc}</div></div>`;
                 notifArea.appendChild(n2);
             }, 900);
+
             notifIndex++;
             setTimeout(() => { notifArea.innerHTML = ""; }, 5000);
         }
+
         let noCount = 0;
         let yesScale = 1;
         const noTexts = ["Hayır", "Emin misin?", "Bir daha düşün?", "Yapma lütfen 🥺", "Ciddi olamazsın!", "Bana kıyamazsın ki...", "Azer Bülbül üzülüyor!", "Bence Evet de 😉"];
         const warnings = ["Sistem Hatası: 'Hayır' cevabı kalbiniz tarafından reddedildi! 🚫", "Yanlış buton! Yeşil olana basman gerekiyordu 😜", "Cihazınız bu kararı kabul etmiyor! 🔥", "Lütfen kalbinizin sesini dinleyin 🥺"];
+
         function moveButton() {
             const btnNo = document.getElementById('btn-no');
             const btnYes = document.getElementById('btn-yes');
             const container = document.querySelector('.ask-container');
             const card = document.getElementById('main-content');
             const toast = document.getElementById('toast');
+
             noCount++;
             btnNo.innerText = noTexts[noCount % noTexts.length];
             yesScale += 0.15;
             btnYes.style.transform = `translateX(-50%) scale(${yesScale})`;
+
             card.classList.add('shake');
             setTimeout(() => card.classList.remove('shake'), 300);
+
             toast.innerText = warnings[noCount % warnings.length];
             createSadEmojis();
+
             const containerRect = container.getBoundingClientRect();
             const btnRect = btnNo.getBoundingClientRect();
             const maxX = containerRect.width - btnRect.width;
             const maxY = containerRect.height - btnRect.height;
+
             let newX, newY;
             do {
                 newX = Math.random() * maxX;
                 newY = Math.random() * maxY;
             } while (Math.abs(newX - btnNo.offsetLeft) < 40 && Math.abs(newY - btnNo.offsetTop) < 40);
+
             btnNo.style.left = newX + 'px';
             btnNo.style.top = newY + 'px';
             btnNo.style.right = 'auto';
             btnNo.style.transform = 'none';
         }
+
         function createSadEmojis() {
             const sadEmojis = ['🥺', '😭', '💔'];
             for(let i=0; i<3; i++) {
@@ -340,7 +515,7 @@
                 setTimeout(() => { emoji.remove(); }, 2500);
             }
         }
-        // --- "NEDEN SENİ SEVİYORUM?" SÖZLERİ ---
+
         const loveReasons = [
             "✨ Çünkü güldüğünde bütün dünyam aydınlanıyor.",
             "💖 Çünkü sesin bile içimi huzurla doldurmaya yetiyor.",
@@ -348,12 +523,13 @@
             "😍 Çünkü bakışınla kalbimi her seferinde yeniden çalmayı başarıyorsun.",
             "🫂 Çünkü hayatımda seni tanıdığım için her gün şükrediyorum."
         ];
+
         function spinWheel() {
             const box = document.getElementById('fortuneText');
             const randomReason = loveReasons[Math.floor(Math.random() * loveReasons.length)];
             box.innerText = randomReason;
         }
-        // --- KABUL ETME EYLEMİ (Konfeti + Yeni Özellikler) ---
+
         function accepted() {
             const mainContent = document.getElementById('main-content');
             mainContent.innerHTML = `
@@ -364,12 +540,12 @@
                     <p style="margin-bottom: 4px; font-style: italic; color: #e63946; font-size: 11px; font-weight: 600;">"Barıştığımıza göre... Şimdi kaybettiğim meleği geri öpebilirim ✨"</p>
                     <p style="margin-bottom: 0; font-style: italic; color: #e63946; font-size: 11px; font-weight: 600;">"Sen benim en güzel yanımsın, bir daha asla üzülmene izin vermeyeceğim ❤️"</p>
                 </div>
-                <!-- Şans Çarkı / Neden Seni Seviyorum Alanı -->
+
                 <button class="action-btn" onclick="spinWheel()">🎲 Neden Seni Seviyorum? Kart Çek</button>
                 <div class="fortune-box" id="fortuneText">Kart çekmek için yukarıdaki butona tıkla! 👆</div>
-                <!-- Kazı Kazan Butonu -->
+
                 <button class="action-btn" id="openScratchBtn" onclick="showScratchCard()" style="background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);">🪙 Gizli Mesajı Kazı</button>
-                <!-- Gizli Kazı Kazan Kartı -->
+
                 <div class="scratch-container" id="scratchCardArea">
                     <div class="scratch-secret">
                         ✨ "Gülüşünü özlediğim tek insan..." ✨
@@ -378,71 +554,81 @@
                     <canvas id="scratchCanvas"></canvas>
                 </div>
             `;
-            // Müziği otomatik başlatmayı dene
+
             if (!isMusicPlaying) {
                 bgMusic.play().then(() => {
                     isMusicPlaying = true;
-                    document.getElementById("musicBtn").innerText = "🎵 Müzik: Açık";
+                    document.getElementById("eqBars").classList.add("playing");
                 }).catch(e => {});
             }
-            // Muazzam Konfeti Patlaması
+
             triggerConfetti();
+
             for(let i=0; i<20; i++) {
                 createHeart();
             }
         }
+
         function triggerConfetti() {
             var duration = 3 * 1000;
             var animationEnd = Date.now() + duration;
             var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 3000 };
-            function randomInRange(min, max) {
-                return Math.random() * (max - min) + min;
-            }
+
+            function randomInRange(min, max) { return Math.random() * (max - min) + min; }
+
             var interval = setInterval(function() {
                 var timeLeft = animationEnd - Date.now();
-                if (timeLeft <= 0) {
-                    return clearInterval(interval);
-                }
+                if (timeLeft <= 0) return clearInterval(interval);
                 var particleCount = 50 * (timeLeft / duration);
                 confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
                 confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
             }, 250);
         }
+
         function showScratchCard() {
             document.getElementById('openScratchBtn').style.display = 'none';
             const cardArea = document.getElementById('scratchCardArea');
             cardArea.style.display = 'block';
             initScratchCard();
         }
+
         function initScratchCard() {
             const canvas = document.getElementById('scratchCanvas');
             const ctx = canvas.getContext('2d');
             canvas.width = canvas.offsetWidth;
             canvas.height = canvas.offsetHeight;
+
             ctx.fillStyle = '#b0bec5';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
+
             ctx.font = 'bold 13px Poppins';
             ctx.fillStyle = '#ffffff';
             ctx.textAlign = 'center';
             ctx.fillText('🪙 Kazımak İçin Dokun!', canvas.width / 2, canvas.height / 2 + 5);
+
             let isDrawing = false;
+
             function scratch(e) {
                 if (!isDrawing) return;
                 const rect = canvas.getBoundingClientRect();
                 const x = (e.clientX || e.touches[0].clientX) - rect.left;
                 const y = (e.clientY || e.touches[0].clientY) - rect.top;
+
                 ctx.globalCompositeOperation = 'destination-out';
                 ctx.beginPath();
                 ctx.arc(x, y, 16, 0, Math.PI * 2);
                 ctx.fill();
             }
+
             canvas.addEventListener('mousedown', () => isDrawing = true);
             canvas.addEventListener('mouseup', () => isDrawing = false);
             canvas.addEventListener('mousemove', scratch);
+
             canvas.addEventListener('touchstart', () => isDrawing = true);
             canvas.addEventListener('touchend', () => isDrawing = false);
             canvas.addEventListener('touchmove', scratch);
         }
+
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('floating-emoji');
