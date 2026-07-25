@@ -50,13 +50,17 @@
             z-index: 0;
         }
 
-        /* Üst Çubuk */
-        .top-navbar {
+        /* Üst Alan Komple Kapsayıcı */
+        .top-header-container {
             position: fixed; top: 12px; left: 50%;
             transform: translateX(-50%);
             width: 90%; max-width: 400px;
-            display: flex; justify-content: space-between; align-items: center;
+            display: flex; flex-direction: column; gap: 8px;
             z-index: 100;
+        }
+
+        .top-navbar {
+            display: flex; justify-content: space-between; align-items: center; width: 100%;
         }
 
         .top-info {
@@ -79,6 +83,28 @@
             display: flex; align-items: center; justify-content: center;
         }
 
+        /* YENİ ÜST MÜZİK KUTUSU (Tam İşaretlediğin Yer) */
+        .top-music-box {
+            background: rgba(20, 20, 20, 0.9);
+            color: white; border-radius: 20px;
+            padding: 8px 12px;
+            display: flex; align-items: center; gap: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            width: 100%;
+        }
+
+        .play-btn {
+            background: #1db954; border: none;
+            width: 32px; height: 32px; border-radius: 50%;
+            color: black; font-weight: bold; cursor: pointer;
+            flex-shrink: 0; font-size: 12px;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .music-info { flex: 1; overflow: hidden; }
+        .music-title { font-size: 11px; font-weight: bold; white-space: nowrap; text-overflow: ellipsis; }
+        .music-sub { font-size: 9px; color: #b3b3b3; }
+
         /* Ana Kart */
         .card {
             background: var(--card-bg);
@@ -88,7 +114,7 @@
             text-align: center;
             max-width: 400px; width: 100%;
             position: relative; z-index: 10;
-            margin-top: 40px;
+            margin-top: 80px; /* Üst çubuğa çarpmaması için alan açıldı */
         }
 
         h2 { color: var(--accent); margin-bottom: 10px; font-size: 20px; }
@@ -112,26 +138,6 @@
         .error-msg { color: var(--accent); font-size: 12px; margin-top: 8px; display: none; font-weight: bold; }
 
         #main-content { display: none; }
-
-        /* Müzik Kutusu */
-        .music-box {
-            background: rgba(20, 20, 20, 0.9);
-            color: white; border-radius: 16px;
-            padding: 12px; margin-top: 15px;
-            display: flex; align-items: center; gap: 10px;
-            text-align: left;
-        }
-
-        .play-btn {
-            background: #1db954; border: none;
-            width: 36px; height: 36px; border-radius: 50%;
-            color: black; font-weight: bold; cursor: pointer;
-            flex-shrink: 0; font-size: 14px;
-        }
-
-        .music-info { flex: 1; overflow: hidden; }
-        .music-title { font-size: 12px; font-weight: bold; white-space: nowrap; text-overflow: ellipsis; }
-        .music-sub { font-size: 10px; color: #b3b3b3; }
 
         /* Evet / Hayır */
         .vote-box { margin-top: 15px; display: flex; justify-content: center; gap: 10px; }
@@ -207,13 +213,24 @@
     <div id="police-overlay"></div>
     <canvas id="bgCanvas"></canvas>
 
-    <!-- Üst Bar -->
-    <div class="top-navbar">
-        <div class="top-info">
-            <div class="title">❤️ 13 Gündür Sevgiliyiz</div>
-            <div class="sub">Dünyam değişti ✨</div>
+    <!-- Üst Alan (Sayaç + Müzik Çalar) -->
+    <div class="top-header-container">
+        <div class="top-navbar">
+            <div class="top-info">
+                <div class="title">❤️ 13 Gündür Sevgiliyiz</div>
+                <div class="sub">Dünyam değişti ✨</div>
+            </div>
+            <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
         </div>
-        <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+
+        <!-- Müzik Kutusu İşaretlenen Yere Alındı -->
+        <div class="top-music-box">
+            <button class="play-btn" onclick="toggleMusic()" id="playBtn">▶</button>
+            <div class="music-info">
+                <div class="music-title">Ben Seninle Mutluyum</div>
+                <div class="music-sub">Azer Bülbül ❤️</div>
+            </div>
+        </div>
     </div>
 
     <!-- 1. GİRİŞ EKRANI -->
@@ -229,15 +246,6 @@
     <div id="main-content" class="card">
         <h2>Seni Çok Seviyorum! ✨</h2>
         <p id="main-desc"></p>
-
-        <!-- Müzik Kutusu -->
-        <div class="music-box">
-            <button class="play-btn" onclick="toggleMusic()" id="playBtn">▶</button>
-            <div class="music-info">
-                <div class="music-title">Ben Seninle Mutluyum</div>
-                <div class="music-sub">Azer Bülbül ❤️</div>
-            </div>
-        </div>
 
         <h3 style="color: var(--accent); margin-top: 15px; font-size: 13px;">Beni affettin mi? 🥺</h3>
         
@@ -273,7 +281,7 @@
     </div>
 
     <script>
-        // Daktilo Efekti Fonksiyonu
+        // Daktilo Efekti
         function typeWriter(elementId, text, speed = 40, callback) {
             const el = document.getElementById(elementId);
             if (!el) return;
@@ -291,10 +299,8 @@
             type();
         }
 
-        // Sayfa açıldığında giriş metnini yazdır
         window.onload = function() {
             typeWriter("login-desc", "Devam etmek için özel şifremizi gir:");
-            // Sohbet açılış mesajı
             setTimeout(() => {
                 addMsg("Selam güzellik! Bana istediğin şeyi sorabilirsin 🥰", "bot");
             }, 600);
@@ -351,7 +357,10 @@
                 music.play().then(() => {
                     isPlaying = true;
                     btn.innerText = "❚❚";
-                }).catch(() => alert("Müzik dosyası bulunamadı."));
+                }).catch((e) => {
+                    // Sessizce yut, hata uyarısı çıkarma
+                    console.log("Müzik başlatılamadı:", e);
+                });
             }
         }
 
@@ -404,7 +413,15 @@
                 <div class="fortune-box" id="fText">Kart çekmek için butona tıkla! 👆</div>
             `;
             typeWriter("accepted-desc", "Dünyanın en mutlu insanı benim! Seni çok seviyorum.");
-            if(!isPlaying) toggleMusic();
+            
+            // Eğer müzik zaten çalmıyorsa başlatmayı dener
+            if(!isPlaying) {
+                music.play().then(() => {
+                    isPlaying = true;
+                    document.getElementById("playBtn").innerText = "❚❚";
+                }).catch(() => {});
+            }
+
             if(typeof confetti === 'function') confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
         }
 
@@ -416,7 +433,6 @@
         ];
         function spinReason() {
             const randomReason = reasons[Math.floor(Math.random() * reasons.length)];
-            // Kart metnine de daktilo efekti verelim
             const fBox = document.getElementById('fText');
             fBox.innerHTML = "";
             let i = 0;
@@ -460,7 +476,6 @@
             div.className = `msg ${sender}`;
             body.appendChild(div);
             
-            // Mesajlara da daktilo efekti
             let i = 0;
             function typeMsg() {
                 if (i < txt.length) {
