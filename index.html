@@ -493,7 +493,7 @@
 
     <!-- 1. GİRİŞ EKRANI -->
     <div id="login-screen" class="card page-screen active">
-        <h2>Hoş Geldin ❤️</h2>
+        ## Hoş Geldin ❤️
         <p id="login-desc"></p>
         <input type="text" id="password-input" placeholder="Şifre..." onkeypress="if(event.key==='Enter') checkPassword()">
         <button class="btn-main" onclick="checkPassword()">Giriş Yap</button>
@@ -502,7 +502,7 @@
 
     <!-- 2. ANA İÇERİK EKRANI -->
     <div id="main-content" class="card page-screen">
-        <h2>Seni Çok Seviyorum! ✨</h2>
+        ## Seni Çok Seviyorum! ✨
         <p id="main-desc"></p>
 
         <h3 style="color: var(--accent); margin-top: 10px; font-size: 12px;">Beni affettin mi? 🥺</h3>
@@ -516,7 +516,7 @@
     <!-- 3. OYUN EKRANI: GİZLİ KELİME -->
     <div id="screen-game-word" class="card page-screen">
         <button class="btn-back" onclick="closeGameScreen()">← Ana Ekrana Dön</button>
-        <h2>🔤 Kelime Oyunu</h2>
+        ## 🔤 Kelime Oyunu
         <p>Gizli aşk kelimesini tahmin et:</p>
         <div class="word-display" id="wordGuessDisplay">_ _ _ _ _</div>
         <input type="text" id="wordInput" placeholder="Tahminin..." style="width:80%;">
@@ -527,7 +527,7 @@
     <!-- 4. OYUN EKRANI: ŞİFRE KASA -->
     <div id="screen-game-vault" class="card page-screen">
         <button class="btn-back" onclick="closeGameScreen()">← Ana Ekrana Dön</button>
-        <h2>🔐 Şifre Kasa Oyunu</h2>
+        ## 🔐 Şifre Kasa Oyunu
         <p>3 Haneli Gizli Şifreyi Bul:</p>
         <input type="number" id="vaultInput" placeholder="Örn: 123" style="width:80%;">
         <button class="btn-main" onclick="checkVaultGuess()">Şifreyi Dene</button>
@@ -537,14 +537,14 @@
     <!-- 5. OYUN EKRANI: XOX -->
     <div id="screen-game-xox" class="card page-screen">
         <button class="btn-back" onclick="closeGameScreen()">← Ana Ekrana Dön</button>
-        <h2>❌⭕ XOX Oyunu</h2>
+        ## ❌⭕ XOX Oyunu
         <p>Sen: 🤍 | Bot: ❤️</p>
         <div class="xox-board" id="xoxBoard"></div>
         <button class="btn-main" onclick="resetXOX()" style="margin-top:10px;">Yeniden Başlat</button>
         <div class="game-status" id="xoxStatus">Hamleni Yap!</div>
     </div>
 
-    <!-- 6. FOTOĞRAF KÖŞESİ (SADECE EVET'E BASTIKTAN SONRA GÖRÜNÜR) -->
+    <!-- 6. FOTOĞRAF KÖŞESİ -->
     <div class="photo-card" id="photoGallerySection">
         <div class="photo-frame" onclick="openLightbox('Screenshot_2026-07-14-00-26-15-279_com.zhiliaoapp.musically-edit.jpg')">
             <img src="Screenshot_2026-07-14-00-26-15-279_com.zhiliaoapp.musically-edit.jpg" alt="Meleğimin Küçüklüğü">
@@ -647,7 +647,7 @@
             }
         }
 
-        /* MÜZİK ÇALAR SİSTEMİ (TÜM ŞARKILAR ÇALIŞACAK ŞEKİLDE DÜZENLENDİ) */
+        /* GİTHUB DOSYA İSİMLERİ BİREBİR EŞLEŞTİRİLDİ */
         const playlist = [
             {
                 title: "Ben Seninle Mutluyum",
@@ -662,7 +662,7 @@
             {
                 title: "C'est La Vie 2.0",
                 artist: "Keizerkado & omer11 ✨",
-                src: "Keizerkado & omer11 - C_EST LA VIE 2.0(_S-aEEFiGK9Y_).m4a"
+                src: "Keizerkado & omer11 - C_EST LA VİE 2.0(_S-aEEFiGK9Y_).m4a"
             }
         ];
 
@@ -816,7 +816,7 @@
             document.getElementById("police-overlay").style.display = "none";
             const main = document.getElementById('main-content');
             main.innerHTML = `
-                <h2>OLEY! ❤️</h2>
+                ## OLEY! ❤️
                 <p id="accepted-desc" style="font-weight:bold;"></p>
 
                 <!-- Kazı Kazan -->
@@ -1013,10 +1013,7 @@
             return winPatterns.some(pattern => pattern.every(idx => xoxBoardState[idx] === symbol));
         }
 
-        /* ===================================================
-           SANAL ASİSTAN (CHATBOT) YANITLARI VE HARF TEMİZLEME
-           =================================================== */
-
+        /* SANAL ASİSTAN */
         function cleanRepeatedChars(text) {
             return text.toLowerCase().replace(/(.)\1+/g, '$1');
         }
