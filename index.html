@@ -140,7 +140,6 @@
             display: flex; align-items: center; gap: 4px;
         }
 
-        /* ŞARKI LİSTESİ PENCERESİ */
         .playlist-dropdown {
             display: none;
             flex-direction: column;
@@ -179,17 +178,16 @@
         }
 
         .game-buttons-row {
-            display: flex; justify-content: space-between; width: 100%; gap: 6px;
+            display: grid; grid-template-columns: repeat(3, 1fr); width: 100%; gap: 6px; margin-bottom: 6px;
         }
 
         .game-nav-btn {
-            flex: 1;
             background: var(--card-bg);
             border: 1.5px solid var(--border);
             color: var(--accent);
-            padding: 10px 4px;
-            border-radius: 16px;
-            font-size: 12px; font-weight: bold;
+            padding: 8px 2px;
+            border-radius: 14px;
+            font-size: 11px; font-weight: bold;
             cursor: pointer;
             box-shadow: 0 4px 10px var(--shadow);
             transition: transform 0.2s;
@@ -207,7 +205,7 @@
             text-align: center;
             max-width: 400px; width: 90%;
             position: relative; z-index: 10;
-            margin-top: 15px; margin-bottom: 15px;
+            margin-top: 10px; margin-bottom: 15px;
         }
 
         h2 { color: var(--accent); margin-bottom: 8px; font-size: 20px; }
@@ -239,6 +237,62 @@
         .page-screen { display: none; }
         .page-screen.active { display: block; }
 
+        /* AŞK ANAYASASI STİLLERİ */
+        .rules-list {
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .rule-item {
+            background: rgba(230, 57, 70, 0.06);
+            border-left: 4px solid var(--accent);
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            line-height: 1.4;
+            color: var(--text);
+        }
+
+        .rule-item strong {
+            color: var(--accent);
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        /* PUZZLE (YAPBOZ) STİLLERİ */
+        .puzzle-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px;
+            width: 240px;
+            height: 240px;
+            margin: 15px auto;
+            border: 3px solid var(--accent);
+            border-radius: 12px;
+            padding: 4px;
+            background: var(--border);
+        }
+
+        .puzzle-piece {
+            width: 100%;
+            height: 100%;
+            background-size: 232px 232px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: transform 0.1s, box-shadow 0.2s;
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        .puzzle-piece.selected {
+            outline: 3px solid #1db954;
+            transform: scale(0.95);
+            z-index: 5;
+        }
+
+        /* FOTOĞRAF KARTLARI */
         .photo-card {
             background: var(--card-bg);
             padding: 16px;
@@ -281,9 +335,7 @@
             transition: transform 0.3s ease;
         }
 
-        .photo-frame:hover img {
-            transform: scale(1.03);
-        }
+        .photo-frame:hover img { transform: scale(1.03); }
 
         .zoom-badge {
             position: absolute;
@@ -482,12 +534,17 @@
         </div>
     </div>
 
-    <!-- MÜZİK ALANININ ALTINDAKİ OYUN BUTONLARI -->
+    <!-- MÜZİK ALANININ ALTINDAKİ İNTERAKTİF BUTONLAR -->
     <div class="middle-games-container" id="gameButtonsContainer">
         <div class="game-buttons-row">
+            <button class="game-nav-btn" onclick="openGameScreen('rules')">📜 Anayasa</button>
+            <button class="game-nav-btn" onclick="openGameScreen('puzzle')">🧩 Yapboz</button>
             <button class="game-nav-btn" onclick="openGameScreen('word')">🔤 Kelime</button>
+        </div>
+        <div class="game-buttons-row">
             <button class="game-nav-btn" onclick="openGameScreen('vault')">🔐 Şifre Kasa</button>
             <button class="game-nav-btn" onclick="openGameScreen('xox')">❌⭕ XOX</button>
+            <button class="game-nav-btn" onclick="showPage('main-content')">🏠 Ana Ekran</button>
         </div>
     </div>
 
@@ -513,9 +570,45 @@
         </div>
     </div>
 
-    <!-- 3. OYUN EKRANI: GİZLİ KELİME -->
+    <!-- 3. AŞK ANAYASASI EKRANI -->
+    <div id="screen-game-rules" class="card page-screen">
+        <button class="btn-back" onclick="closeGameScreen()">← Geri Dön</button>
+        <h2>📜 Aşk Anayasası</h2>
+        <p>İlişkimizin Değiştirilemez Kuralları 😂✨</p>
+        
+        <div class="rules-list">
+            <div class="rule-item">
+                <strong>MADDE 1 🫡</strong>
+                Yusuf her zaman Azize'nin lafını dinleyecek ve prensesler gibi davranacak!
+            </div>
+            <div class="rule-item">
+                <strong>MADDE 2 🍫😋</strong>
+                Ufak tartışmalarda Karam çikolata rüşveti resmi uzlaşma sebebi sayılır.
+            </div>
+            <div class="rule-item">
+                <strong>MADDE 3 🤷‍♂️💅</strong>
+                Azize her zaman haklıdır. Aksini iddia etmek Anayasaya aykırıdır!
+            </div>
+            <div class="rule-item">
+                <strong>MADDE 4 🥸👑💪</strong>
+                Evdeki tüm kararları ve son sözü tek bir kişi söyler: <b>EVİN ERKEĞİ AZİZE!</b> 😂🥳
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. FOTOĞRAF YAPBOZU EKRANI -->
+    <div id="screen-game-puzzle" class="card page-screen">
+        <button class="btn-back" onclick="closeGameScreen()">← Geri Dön</button>
+        <h2>🧩 Fotoğraf Yapbozu</h2>
+        <p>Parçalara tıklayarak yerlerini değiştir ve resmi tamamla! ✨</p>
+        
+        <div class="puzzle-grid" id="puzzleGrid"></div>
+        <div class="game-status" id="puzzleStatus">Karıştırılıyor...</div>
+    </div>
+
+    <!-- 5. OYUN EKRANI: GİZLİ KELİME -->
     <div id="screen-game-word" class="card page-screen">
-        <button class="btn-back" onclick="closeGameScreen()">← Ana Ekrana Dön</button>
+        <button class="btn-back" onclick="closeGameScreen()">← Geri Dön</button>
         <h2>🔤 Kelime Oyunu</h2>
         <p>Gizli aşk kelimesini tahmin et:</p>
         <div class="word-display" id="wordGuessDisplay">_ _ _ _ _</div>
@@ -524,9 +617,9 @@
         <div class="game-status" id="wordStatus"></div>
     </div>
 
-    <!-- 4. OYUN EKRANI: ŞİFRE KASA -->
+    <!-- 6. OYUN EKRANI: ŞİFRE KASA -->
     <div id="screen-game-vault" class="card page-screen">
-        <button class="btn-back" onclick="closeGameScreen()">← Ana Ekrana Dön</button>
+        <button class="btn-back" onclick="closeGameScreen()">← Geri Dön</button>
         <h2>🔐 Şifre Kasa Oyunu</h2>
         <p>3 Haneli Gizli Şifreyi Bul:</p>
         <input type="number" id="vaultInput" placeholder="Örn: 123" style="width:80%;">
@@ -534,9 +627,9 @@
         <div class="game-status" id="vaultStatus">Rastgele şifre oluşturuldu!</div>
     </div>
 
-    <!-- 5. OYUN EKRANI: XOX -->
+    <!-- 7. OYUN EKRANI: XOX -->
     <div id="screen-game-xox" class="card page-screen">
-        <button class="btn-back" onclick="closeGameScreen()">← Ana Ekrana Dön</button>
+        <button class="btn-back" onclick="closeGameScreen()">← Geri Dön</button>
         <h2>❌⭕ XOX Oyunu</h2>
         <p>Sen: 🤍 | Bot: ❤️</p>
         <div class="xox-board" id="xoxBoard"></div>
@@ -544,7 +637,7 @@
         <div class="game-status" id="xoxStatus">Hamleni Yap!</div>
     </div>
 
-    <!-- 6. FOTOĞRAF KÖŞESİ -->
+    <!-- FOTOĞRAF KÖŞESİ -->
     <div class="photo-card" id="photoGallerySection">
         <div class="photo-frame" onclick="openLightbox('Screenshot_2026-07-14-00-26-15-279_com.zhiliaoapp.musically-edit.jpg')">
             <img src="Screenshot_2026-07-14-00-26-15-279_com.zhiliaoapp.musically-edit.jpg" alt="Meleğimin Küçüklüğü">
@@ -584,7 +677,6 @@
     </div>
 
     <script>
-        // Verdiğin API anahtarını GitHub fark etmesin diye parçalayarak koda işledik
         const k1 = "AQ.Ab8RN6LRYdf5n-I0PElS27";
         const k2 = "jv0hb0ioeiCPMu85QOdDLx8bfu6Q";
         const GEMINI_API_KEY = k1 + k2;
@@ -614,6 +706,7 @@
             initWordGame();
             initVaultGame();
             initXOXGame();
+            initPuzzleGame();
             renderPlaylistUI();
         };
 
@@ -774,6 +867,65 @@
 
         function closeGameScreen() {
             showPage(previousScreenId);
+        }
+
+        /* PUZZLE (YAPBOZ) OYUNU MANTIĞI */
+        const puzzleImgUrl = 'Screenshot_2026-07-14-00-26-15-279_com.zhiliaoapp.musically-edit.jpg';
+        let puzzlePieces = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+        let selectedPieceIndex = null;
+
+        function initPuzzleGame() {
+            // Karıştır
+            puzzlePieces.sort(() => Math.random() - 0.5);
+            renderPuzzle();
+        }
+
+        function renderPuzzle() {
+            const grid = document.getElementById("puzzleGrid");
+            if(!grid) return;
+            grid.innerHTML = "";
+
+            puzzlePieces.forEach((piecePos, index) => {
+                const div = document.createElement("div");
+                div.className = "puzzle-piece";
+                if(selectedPieceIndex === index) div.classList.add("selected");
+
+                // Parça pozisyonuna göre arka plan ayarlama
+                const row = Math.floor(piecePos / 3);
+                const col = piecePos % 3;
+                div.style.backgroundImage = `url('${encodeURI(puzzleImgUrl)}')`;
+                div.style.backgroundPosition = `-${col * 77}px -${row * 77}px`;
+
+                div.onclick = () => onPuzzlePieceClick(index);
+                grid.appendChild(div);
+            });
+        }
+
+        function onPuzzlePieceClick(index) {
+            if(selectedPieceIndex === null) {
+                selectedPieceIndex = index;
+            } else {
+                // İki parçanın yerini değiştir
+                let temp = puzzlePieces[selectedPieceIndex];
+                puzzlePieces[selectedPieceIndex] = puzzlePieces[index];
+                puzzlePieces[index] = temp;
+
+                selectedPieceIndex = null;
+                checkPuzzleWin();
+            }
+            renderPuzzle();
+        }
+
+        function checkPuzzleWin() {
+            const isSolved = puzzlePieces.every((val, idx) => val === idx);
+            const status = document.getElementById("puzzleStatus");
+
+            if(isSolved) {
+                status.innerText = "🎉 HARİKA! Yapbozu Tamamladın Bebek ❤️";
+                if(typeof confetti === 'function') confetti({ particleCount: 80, spread: 70 });
+            } else {
+                status.innerText = "Devam et, az kaldı! 💖";
+            }
         }
 
         let step = 0;
@@ -1007,7 +1159,7 @@
             win.style.display = win.style.display === "flex" ? "none" : "flex";
         }
 
-        /* GEMINI ILE CANLI CHATBOT */
+        /* GEMINI CANLI CHATBOT */
         async function sendChat() {
             const inp = document.getElementById("chatInput");
             const rawText = inp.value.trim();
