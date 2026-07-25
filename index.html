@@ -14,7 +14,6 @@
             --input-border: #ffccd5;
             --box-bg: #fff0f3;
             --box-border: #ffb3c1;
-            --wave-color: #e63946;
         }
 
         [data-theme="dark"] {
@@ -26,7 +25,6 @@
             --input-border: #475569;
             --box-bg: rgba(225, 29, 72, 0.1);
             --box-border: #9f1239;
-            --wave-color: #ff4d6d;
         }
 
         * {
@@ -48,45 +46,77 @@
             position: relative;
         }
 
-        /* 13. GÜN ÜST SAYAÇ / BADGE */
-        .top-day-counter {
+        /* --- TEK SIRA ÜST ÇUBUK (NAVBAR) --- */
+        .top-navbar {
             position: fixed;
-            top: 20px;
+            top: 15px;
             left: 50%;
             transform: translateX(-50%);
+            width: 95%;
+            max-width: 480px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 6px;
+            z-index: 1000;
+        }
+
+        .control-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--input-border);
+            color: var(--text-main);
+            padding: 6px 10px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+            box-shadow: 0 4px 12px var(--card-shadow);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        /* ORTADAKİ SAYAC */
+        .top-day-counter {
             background: var(--card-bg);
             border: 1px solid var(--box-border);
-            padding: 8px 18px;
-            border-radius: 25px;
+            padding: 4px 10px;
+            border-radius: 20px;
             text-align: center;
             box-shadow: 0 4px 15px var(--card-shadow);
             backdrop-filter: blur(10px);
-            z-index: 1000;
             animation: pulseGlow 2.5s infinite alternate ease-in-out;
+            flex-grow: 1;
+            overflow: hidden;
         }
 
         .top-day-counter .day-title {
-            font-size: 13px;
+            font-size: 11px;
             font-weight: 700;
             color: #e63946;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .top-day-counter .day-sub {
-            font-size: 10px;
+            font-size: 9px;
             color: var(--text-sub);
             font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         @keyframes pulseGlow {
-            0% { transform: translateX(-50%) scale(1); box-shadow: 0 4px 15px var(--card-shadow); }
-            100% { transform: translateX(-50%) scale(1.03); box-shadow: 0 6px 20px rgba(230, 57, 70, 0.35); }
+            0% { transform: scale(1); box-shadow: 0 4px 15px var(--card-shadow); }
+            100% { transform: scale(1.02); box-shadow: 0 6px 20px rgba(230, 57, 70, 0.35); }
         }
 
-        /* POLİS / POLICE ALARM OVERLAY */
+        /* POLICE ALARM OVERLAY */
         #police-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -105,30 +135,18 @@
             100% { background-color: rgba(0, 102, 255, 0.8); }
         }
 
-        /* Arka Plan Canvas */
+        /* Canvas */
         #bgCanvas {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 1;
-        }
-
-        .top-controls {
-            position: fixed; top: 20px; right: 20px;
-            display: flex; gap: 10px; z-index: 1000;
-        }
-
-        .control-btn {
-            background: var(--card-bg); border: 1px solid var(--input-border);
-            color: var(--text-main); padding: 8px 14px; border-radius: 30px;
-            cursor: pointer; font-weight: 600; font-size: 13px;
-            box-shadow: 0 4px 12px var(--card-shadow); backdrop-filter: blur(10px);
-            display: flex; align-items: center; gap: 8px;
         }
 
         .card {
             background: var(--card-bg); padding: 30px 20px; border-radius: 30px;
             box-shadow: 0 15px 35px var(--card-shadow); text-align: center;
             max-width: 450px; width: 90%; backdrop-filter: blur(12px);
-            max-height: 90vh; overflow-y: auto; position: relative; z-index: 10;
+            max-height: 85vh; overflow-y: auto; position: relative; z-index: 10;
+            margin-top: 50px;
         }
 
         h2 { color: #e63946; margin-bottom: 12px; font-weight: 700; }
@@ -173,7 +191,7 @@
             100% { top: 105vh; left: 20%; transform: rotate(-10deg) scale(0.9); }
         }
 
-        /* MODAL / AÇILIR PENCERE TASARIMI */
+        /* MODAL */
         .modal-backdrop {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px);
@@ -235,7 +253,6 @@
             padding: 8px; color: #d62839; font-weight: 700; font-size: 13px; text-align: center;
         }
 
-        /* SLIDER ÖZEL STİLLERİ */
         .love-slider-box {
             background: var(--box-bg);
             border: 1px solid var(--box-border);
@@ -269,15 +286,16 @@
     <div id="police-overlay"></div>
     <canvas id="bgCanvas"></canvas>
 
-    <!-- ÜST ORTADAKİ 13. GÜN KARTI -->
-    <div class="top-day-counter">
-        <div class="day-title">❤️ 13 Gündür Sevgiliyiz ❤️</div>
-        <div class="day-sub">13 gündür dünyam değişti ✨</div>
-    </div>
-
-    <div class="top-controls">
-        <button class="control-btn" onclick="toggleMusic()" id="musicBtn">🎵 Müzik</button>
+    <!-- ÜST ÇUBUK: SOL (GECE/GÜNDÜZ), ORTA (SAYAÇ), SAĞ (MÜZİK) -->
+    <div class="top-navbar">
         <button class="control-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+        
+        <div class="top-day-counter">
+            <div class="day-title">❤️ 13 Gündür Sevgiliyiz ❤️</div>
+            <div class="day-sub">13 gündür dünyam değişti ✨</div>
+        </div>
+
+        <button class="control-btn" onclick="toggleMusic()" id="musicBtn">🎵 Müzik</button>
     </div>
 
     <div class="magic-heart" id="magicHeart">💌</div>
@@ -474,7 +492,7 @@
                 <h2>OLEY! ❤️</h2>
                 <p style="font-weight: 600; margin-bottom: 8px;">Dünyanın en mutlu insanı benim! Seni çok seviyorum, iyi ki varsın.</p>
 
-                <!-- BENİ NE KADAR SEVİYORSUN SLIDER ALANI -->
+                <!-- SLIDER ALANI -->
                 <div class="love-slider-box">
                     <h4>Beni Ne Kadar Seviyorsun? 🤔</h4>
                     <input type="range" id="loveRange" min="0" max="100" value="50" oninput="updateLoveText()">
