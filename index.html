@@ -637,7 +637,7 @@
             }
         }
 
-        /* DİZİDEKİ TÜM DOSYA İSİMLERİ GİTHUB İLE BİREBİR AYNI DÜZENLENDİ */
+        /* GİTHUB'DAKİ YENİ TAM DOSYA ADI EŞLEŞTİRİLDİ */
         const playlist = [
             {
                 title: "Ben Seninle Mutluyum",
@@ -646,8 +646,8 @@
             },
             {
                 title: "Yenildiğim Tek Savaştın",
-                artist: "Özel Şarkımız 💖",
-                src: "./yenildiğiṁ tek savaştın(_K2-QZ-hEU9Y_).m4a"
+                artist: "ASLAR & Lessio & Astral 💖",
+                src: "./ASLAR & Lessio & Astral - yenildiğim tek savaştın _ Lyrics Video _(_a6Z8_oaGydU_).m4a"
             },
             {
                 title: "C'est La Vie 2.0",
@@ -659,14 +659,12 @@
         let currentTrackIndex = 0;
         let isPlaying = false;
         
-        // encodeURI kullanarak özel karakterlerin tarayıcı tarafında sorunsuz çözümlenmesini sağlıyoruz
         let music = new Audio(encodeURI(playlist[currentTrackIndex].src));
 
         music.addEventListener('ended', function() {
             nextTrack();
         });
 
-        // Olası bir dosya bulunamama hatasını yakalama mekanizması
         music.addEventListener('error', function(e) {
             console.error("Şarkı yüklenemedi! Aranan yol:", music.src, e);
         });
