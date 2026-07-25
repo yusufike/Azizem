@@ -1,539 +1,323 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Azizemm - Özel Sayfamız ❤️</title>
-    <!-- Konfeti Kütüphanesi -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-    <style>
-        :root {
-            --bg: linear-gradient(135deg, #ffb6c1 0%, #ffc0cb 50%, #ffe4e1 100%);
-            --card-bg: #ffffff;
-            --text: #2b2b2b;
-            --shadow: rgba(230, 57, 70, 0.15);
-            --accent: #e63946;
-            --insta-bg: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aşk Sitemiz ❤️</title>
+  <style>
+    :root {
+      --bg-color: #ffd6e0;
+      --card-bg: #ffffff;
+      --primary-color: #ff3b5c;
+      --text-color: #333;
+    }
 
-        [data-theme="dark"] {
-            --bg: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-            --card-bg: rgba(30, 41, 59, 0.95);
-            --text: #f8fafc;
-            --shadow: rgba(0, 0, 0, 0.4);
-            --accent: #ff4d6d;
-        }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(180deg, #ffdeeb 0%, #ffb6c1 100%);
+      margin: 0;
+      padding: 15px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-        * {
-            box-sizing: border-box;
-            margin: 0; padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
+    .container {
+      width: 100%;
+      max-width: 450px;
+    }
 
-        body {
-            background: var(--bg);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: var(--text);
-            padding: 12px;
-            position: relative;
-            overflow-x: hidden;
-        }
+    /* Üst Sayaç ve Tema */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
 
-        /* ÜST HEADER */
-        .top-container {
-            width: 100%;
-            max-width: 400px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 12px;
-        }
+    .counter-card {
+      background: #fff;
+      padding: 12px 15px;
+      border-radius: 20px;
+      flex: 1;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
 
-        .top-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 8px;
-        }
+    .counter-card h3 {
+      margin: 0;
+      color: var(--primary-color);
+      font-size: 15px;
+    }
 
-        .info-card {
-            background: #ffffff;
-            border-radius: 20px;
-            padding: 10px 16px;
-            flex: 1;
-            box-shadow: 0 4px 15px var(--shadow);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+    .counter-card p {
+      margin: 2px 0 0;
+      font-size: 12px;
+      color: #666;
+    }
 
-        .info-card .icon { font-size: 16px; }
-        .info-card .title { font-size: 13px; font-weight: 700; color: #e63946; }
-        .info-card .sub { font-size: 10px; color: #888; }
+    .theme-btn {
+      background: #fff;
+      border: none;
+      padding: 0 15px;
+      border-radius: 20px;
+      font-weight: bold;
+      color: #333;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
 
-        .theme-btn {
-            background: #ffffff;
-            border: none;
-            padding: 10px 16px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            color: #333;
-            box-shadow: 0 4px 15px var(--shadow);
-            cursor: pointer;
-        }
+    /* Müzik Çalar */
+    .music-card {
+      background: #111;
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
 
-        /* MÜZİK KUTUSU */
-        .music-box {
-            background: #181818;
-            color: white;
-            border-radius: 20px;
-            padding: 12px 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-        }
+    .music-info h4 { margin: 0; font-size: 14px; }
+    .music-info p { margin: 2px 0 0; font-size: 12px; color: var(--primary-color); }
 
-        .music-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    .play-btn {
+      background: #1db954;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
-        .music-details .song-title { font-size: 12px; font-weight: 700; color: #fff; }
-        .music-details .artist { font-size: 10px; color: #e63946; font-weight: 600; }
+    /* Menü Grid */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 15px;
+    }
 
-        .play-btn {
-            background: #1db954;
-            border: none;
-            padding: 6px 16px;
-            border-radius: 20px;
-            color: black;
-            font-size: 12px;
-            font-weight: 700;
-            cursor: pointer;
-        }
+    .menu-btn {
+      background: #fff;
+      border: none;
+      padding: 10px;
+      border-radius: 15px;
+      font-size: 12px;
+      font-weight: bold;
+      color: var(--primary-color);
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      transition: transform 0.2s;
+    }
 
-        /* MENÜ GRID */
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            width: 100%;
-            max-width: 400px;
-            margin-bottom: 12px;
-        }
+    .menu-btn:active {
+      transform: scale(0.95);
+    }
 
-        .menu-btn {
-            background: #ffffff;
-            border: none;
-            padding: 10px 4px;
-            border-radius: 16px;
-            font-size: 11px;
-            font-weight: 700;
-            color: #e63946;
-            box-shadow: 0 4px 12px var(--shadow);
-            cursor: pointer;
-            text-align: center;
-        }
+    /* İçerik Kartı */
+    .content-card {
+      background: #fff;
+      padding: 25px 20px;
+      border-radius: 25px;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
 
-        .menu-btn:active { transform: scale(0.95); }
+    .content-section {
+      display: none; /* Sayfaları varsayılan olarak gizle */
+    }
 
-        /* KARTLAR */
-        .card {
-            background: var(--card-bg);
-            width: 100%;
-            max-width: 400px;
-            border-radius: 24px;
-            padding: 24px 20px;
-            text-align: center;
-            box-shadow: 0 10px 30px var(--shadow);
-            display: none;
-        }
+    .content-section.active {
+      display: block; /* Sadece aktif olanı göster */
+    }
 
-        .card.active { display: block; }
+    .action-btns {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 20px;
+    }
 
-        .btn-group {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 15px;
-            position: relative;
-        }
+    .btn-evet {
+      background: #ff3b5c;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
-        .submit-btn {
-            flex: 1;
-            background: #e63946;
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 16px;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
-        }
+    .btn-hayir {
+      background: #8e8e93;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      position: relative;
+    }
 
-        .no-btn {
-            background: #888;
-            box-shadow: none;
-            transition: all 0.2s ease;
-        }
-
-        /* XOX GAME */
-        .xox-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
-            margin: 12px auto; max-width: 180px;
-        }
-        .xox-cell {
-            width: 55px; height: 55px; background: #fff0f3;
-            border: 1px solid #ffccd5; border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 20px; cursor: pointer; font-weight: 800;
-        }
-
-        .footer-tag { margin-top: 15px; font-size: 11px; color: #888; }
-
-        /* CHAT BOT */
-        .chat-fab {
-            position: fixed; bottom: 20px; right: 20px;
-            background: #e63946; width: 48px; height: 48px;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            color: white; font-size: 20px; box-shadow: 0 6px 18px rgba(230, 57, 70, 0.4);
-            cursor: pointer; z-index: 100;
-        }
-
-        .chat-win {
-            display: none; flex-direction: column; position: fixed;
-            bottom: 75px; right: 20px; width: 280px; height: 340px;
-            background: #ffffff; border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            z-index: 999; overflow: hidden; border: 1px solid #ffccd5;
-        }
-
-        .chat-header {
-            background: #e63946; color: white; padding: 10px 14px;
-            font-size: 12px; font-weight: 700; display: flex;
-            justify-content: space-between; align-items: center;
-        }
-
-        .chat-body {
-            flex: 1; padding: 10px; overflow-y: auto; display: flex;
-            flex-direction: column; gap: 8px; font-size: 11px;
-        }
-
-        .msg { padding: 6px 10px; border-radius: 12px; max-width: 80%; }
-        .msg.user { background: #e63946; color: white; align-self: flex-end; }
-        .msg.bot { background: #f1f1f1; color: #333; align-self: flex-start; }
-
-        .chat-input { display: flex; padding: 8px; border-top: 1px solid #eee; gap: 4px; }
-        .chat-input input {
-            flex: 1; border-radius: 10px; border: 1px solid #ddd;
-            padding: 6px 10px; font-size: 11px; outline: none;
-        }
-
-        .instagram-btn {
-            background: var(--insta-bg);
-            color: white !important;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 18px;
-            font-size: 13px;
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 10px;
-            box-shadow: 0 4px 15px rgba(225, 48, 108, 0.3);
-        }
-    </style>
+    /* Chat / Mesajlaşma Butonu */
+    .chat-btn {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: #ff3b5c;
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
 
-    <!-- ÜST BAR -->
-    <div class="top-container">
-        <div class="top-row">
-            <div class="info-card">
-                <span class="icon">❤️</span>
-                <div>
-                    <div class="title">13 Gündür Sevgiliyiz</div>
-                    <div class="sub">Dünyam değişti ✨</div>
-                </div>
-            </div>
-            <button class="theme-btn" onclick="toggleTheme()">🌸 Pembe</button>
-        </div>
-
-        <!-- MÜZİK KUTUSU -->
-        <div class="music-box">
-            <div class="music-top">
-                <div class="music-details">
-                    <div class="song-title">Ben Seninle Mutluyum</div>
-                    <div class="artist">Azer Bülbül ❤️</div>
-                </div>
-                <button class="play-btn" onclick="togglePlay()" id="playBtn">▶ Çal</button>
-            </div>
-        </div>
+  <div class="container">
+    
+    <!-- Üst Sayaç -->
+    <div class="top-bar">
+      <div class="counter-card">
+        <h3>❤️ 13 Gündür Sevgiliyiz</h3>
+        <p>Dünyam değişti ✨</p>
+      </div>
+      <button class="theme-btn" onclick="toggleTheme()">🌸 Pembe</button>
     </div>
 
-    <!-- SES DOSYASI -->
-    <audio id="bgAudio" src="muzik.mp3" preload="auto"></audio>
+    <!-- Müzik Çalar -->
+    <div class="music-card">
+      <div class="music-info">
+        <h4>Ben Seninle Mutluyum</h4>
+        <p>Azer Bülbül ❤️</p>
+      </div>
+      <button class="play-btn" id="playBtn" onclick="toggleAudio()">▶ Çal</button>
+      <audio id="bgMusic" loop src="sarki.mp3"></audio> <!-- Müzik dosyanın adını buraya yaz -->
+    </div>
 
-    <!-- MENÜ BUTONLARI -->
+    <!-- Menü Butonları -->
     <div class="menu-grid">
-        <button class="menu-btn" onclick="showCard('mainPage')">🏠 Ana Ekran</button>
-        <button class="menu-btn" onclick="showCard('anayasaPage')">📜 Anayasa</button>
-        <button class="menu-btn" onclick="showCard('yapbozPage')">🧩 Yapboz</button>
-        <button class="menu-btn" onclick="showCard('kelimePage')">🔤 Kelime</button>
-        <button class="menu-btn" onclick="showCard('kasaPage')">🔐 Şifre Kasa</button>
-        <button class="menu-btn" onclick="showCard('xoxPage')">❌⭕ XOX</button>
+      <button class="menu-btn" onclick="showSection('ana-ekran')">🏠 Ana Ekran</button>
+      <button class="menu-btn" onclick="showSection('anayasa')">📜 Anayasa</button>
+      <button class="menu-btn" onclick="showSection('yapboz')">🧩 Yapboz</button>
+      <button class="menu-btn" onclick="showSection('kelime')">🔤 Kelime</button>
+      <button class="menu-btn" onclick="showSection('sifre-kasa')">🔐 Şifre Kasa</button>
+      <button class="menu-btn" onclick="showSection('xox')">❌⭕ XOX</button>
     </div>
 
-    <!-- EKRAN 1: ANA SAYFA (EVET / HAYIR SORUSU) -->
-    <div id="mainPage" class="card active">
-        <h2 style="color: #e63946; font-size: 20px; margin-bottom: 8px;">Hoş Geldin Birtanem! ❤️</h2>
-        <p style="color: #666; font-size: 13px; margin-bottom: 12px; line-height: 1.5;">
-            Sana özel hazırladığım bu minik dünyayı keşfetmeye hazır mısın?
-        </p>
-        <div class="btn-group">
-            <button class="submit-btn" onclick="handleYes()">Evet! 🎉</button>
-            <button class="submit-btn no-btn" id="noBtn" onclick="handleNo()">Hayır 😜</button>
+    <!-- İçerik Alanı -->
+    <div class="content-card">
+      
+      <!-- 1. Ana Ekran -->
+      <div id="ana-ekran" class="content-section active">
+        <h2>Hoş Geldin Birtanem! ❤️</h2>
+        <p>Sana özel hazırladığım bu minik dünyayı keşfetmeye hazır mısın?</p>
+        <div class="action-btns">
+          <button class="btn-evet" onclick="evetTiklandi()">Evet! 🎉</button>
+          <button class="btn-hayir" id="hayirBtn" onmouseover="kacHayir()" onclick="kacHayir()">Hayır 😜</button>
         </div>
+      </div>
+
+      <!-- 2. Anayasa -->
+      <div id="anayasa" class="content-section">
+        <h2>📜 Bizim Anayasamız</h2>
+        <p>1. Her gün birbirimizi sevdiğimizi söyleyeceğiz.<br>2. Tartışsak bile asla kırgın uyumayacağız.</p>
+      </div>
+
+      <!-- 3. Yapboz -->
+      <div id="yapboz" class="content-section">
+        <h2>🧩 Yapboz Oyunu</h2>
+        <p>Çok yakında burada anılarımızın yapbozu olacak!</p>
+      </div>
+
+      <!-- 4. Kelime -->
+      <div id="kelime" class="content-section">
+        <h2>🔤 Kelime Oyunu</h2>
+        <p>Aşk kelimelerini bulma oyunu buraya gelecek.</p>
+      </div>
+
+      <!-- 5. Şifre Kasa -->
+      <div id="sifre-kasa" class="content-section">
+        <h2>🔐 Gizli Kasa</h2>
+        <p>Özel fotoğraflarımız ve notlarımız için şifreli alan.</p>
+      </div>
+
+      <!-- 6. XOX -->
+      <div id="xox" class="content-section">
+        <h2>❌⭕ XOX Oyunu</h2>
+        <p>Benimle XOX oynamaya var mısın?</p>
+      </div>
+
     </div>
 
-    <!-- EKRAN 2: İKİNCİ ADIM -->
-    <div id="secondPage" class="card">
-        <h2 style="color: #e63946; font-size: 20px; margin-bottom: 8px;">İyi ki Varsın! 🥰</h2>
-        <p style="color: #666; font-size: 13px; margin-bottom: 18px; line-height: 1.5;">
-            Hayatımda olduğun her gün için minnettarım.
-        </p>
-        <button class="submit-btn" onclick="showCard('thirdPage')">İleri Git ➡</button>
-    </div>
+    <p style="text-align: center; color: #666; font-size: 12px; margin-top: 15px;">
+      Günün yıldızı sensin 👑
+    </p>
 
-    <!-- EKRAN 3: İLETİŞİM / INSTAGRAM -->
-    <div id="thirdPage" class="card">
-        <h2 style="color: #e63946; font-size: 20px; margin-bottom: 8px;">Bana Ulaş 💬</h2>
-        <p style="color: #666; font-size: 13px; margin-bottom: 14px; line-height: 1.5;">
-            Bana istediğin zaman buradan ulaşabilirsin!
-        </p>
-        <a href="https://instagram.com/yusuf.i3152" target="_blank" class="instagram-btn">Instagram: yusuf.i3152</a>
-    </div>
+  </div>
 
-    <!-- EKRAN 4: ANAYASA -->
-    <div id="anayasaPage" class="card">
-        <h2 style="color: #e63946;">Bizim Anayasamız 📜</h2>
-        <p style="color: #666; font-size: 12px; margin-top: 8px; text-align: left; line-height: 1.6;">
-            1. Her gün birbirimizi sevdiğimizi söyleyeceğiz.<br>
-            2. Asla küs uyumayacağız.<br>
-            3. Her zaman birbirimizi dinleyeceğiz ❤️
-        </p>
-    </div>
+  <!-- Chat / Mesaj Butonu -->
+  <div class="chat-btn" onclick="alert('Seni çok seviyorum birtanem! 💬❤️')">💬</div>
 
-    <!-- EKRAN 5: YAPBOZ -->
-    <div id="yapbozPage" class="card">
-        <h2 style="color: #e63946;">Mini Yapboz 🧩</h2>
-        <p style="color: #666; font-size: 12px; margin-top: 8px;">
-            Çok yakında buraya anılarımızdan oluşan özel görseller eklenecek!
-        </p>
-    </div>
+  <script>
+    // 1. Menü Butonları Değiştirme Fonksiyonu
+    function showSection(sectionId) {
+      // Tüm sayfaları gizle
+      const sections = document.querySelectorAll('.content-section');
+      sections.forEach(section => {
+        section.classList.remove('active');
+      });
 
-    <!-- EKRAN 6: KELİME -->
-    <div id="kelimePage" class="card">
-        <h2 style="color: #e63946;">Kelime Oyunu 🔤</h2>
-        <p style="color: #666; font-size: 12px; margin-top: 8px;">
-            Sevgi kelimemizi tahmin et: **A _ _ Z _ M M**
-        </p>
-    </div>
+      // Sadece tıklanan sayfayı göster
+      const activeSection = document.getElementById(sectionId);
+      if (activeSection) {
+        activeSection.classList.add('active');
+      }
+    }
 
-    <!-- EKRAN 7: ŞİFRE KASA -->
-    <div id="kasaPage" class="card">
-        <h2 style="color: #e63946;">Özel Kasa 🔐</h2>
-        <p style="color: #666; font-size: 12px; margin-top: 8px; margin-bottom: 12px;">
-            Bana ulaşmak veya profilime bakmak için:
-        </p>
-        <a href="https://instagram.com/yusuf.i3152" target="_blank" class="instagram-btn">Instagram: yusuf.i3152</a>
-    </div>
+    // 2. Müzik Çal / Durdur
+    function toggleAudio() {
+      const audio = document.getElementById('bgMusic');
+      const playBtn = document.getElementById('playBtn');
 
-    <!-- EKRAN 8: XOX OYUNU -->
-    <div id="xoxPage" class="card">
-        <h2 style="color: #e63946;">XOX Oyunu ❌⭕</h2>
-        <p id="xoxStatus" style="color: #888; font-size: 11px;">Hamleni Yap!</p>
-        <div class="xox-grid" id="xoxBoard"></div>
-        <button class="submit-btn" onclick="resetXOX()" style="padding: 6px 12px; font-size: 11px; margin-top: 8px; width: auto;">Yeniden Başlat</button>
-    </div>
+      if (audio.paused) {
+        audio.play();
+        playBtn.innerText = "⏸ Durdur";
+        playBtn.style.background = "#e74c3c";
+      } else {
+        audio.pause();
+        playBtn.innerText = "▶ Çal";
+        playBtn.style.background = "#1db954";
+      }
+    }
 
-    <!-- ALT YAZI -->
-    <div class="footer-tag">Günün yıldızı sensin 👑</div>
+    // 3. Evet Butonu Aksiyonu
+    function evetTiklandi() {
+      alert("Harika! Seni seviyorum, hadi menüden bölümleri gezmeye başla! ❤️🎉");
+    }
 
-    <!-- CHATBOT -->
-    <div class="chat-fab" onclick="toggleChat()">💬</div>
+    // 4. "Hayır" Butonunun Kaçması / Değişmesi
+    function kacHayir() {
+      const btn = document.getElementById('hayirBtn');
+      const x = Math.random() * (window.innerWidth - 100);
+      const y = Math.random() * (window.innerHeight - 50);
+      btn.style.position = 'fixed';
+      btn.style.left = x + 'px';
+      btn.style.top = y + 'px';
+    }
 
-    <div class="chat-win" id="chatWin">
-        <div class="chat-header">
-            <span>Tatlı Asistan 🤖</span>
-            <span style="cursor:pointer" onclick="toggleChat()">✖</span>
-        </div>
-        <div class="chat-body" id="chatBody">
-            <div class="msg bot">Merhaba birtanem! Nasıl yardımcı olabilirim? ❤️</div>
-        </div>
-        <div class="chat-input">
-            <input type="text" id="chatInput" placeholder="Mesaj..." onkeypress="if(event.key==='Enter') sendChat()">
-            <button class="submit-btn" onclick="sendChat()" style="width: auto; padding: 4px 10px; font-size: 11px;">Gönder</button>
-        </div>
-    </div>
-
-    <script>
-        /* KARTLAR ARASI GEÇİŞ */
-        function showCard(cardId) {
-            document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
-            const target = document.getElementById(cardId);
-            if (target) target.classList.add('active');
-        }
-
-        /* EVET / HAYIR MANTIĞI */
-        let noClickCount = 0;
-        function handleYes() {
-            if (typeof confetti === 'function') {
-                confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
-            }
-            showCard('secondPage');
-        }
-
-        function handleNo() {
-            const noBtn = document.getElementById("noBtn");
-            noClickCount++;
-            if (noClickCount === 1) {
-                noBtn.innerText = "Emin misin? 🥺";
-            } else if (noClickCount === 2) {
-                noBtn.innerText = "Son kararın mı? 💔";
-            } else {
-                noBtn.style.transform = "scale(0.5)";
-                noBtn.innerText = "Cık, Hayır yok! 😜";
-            }
-        }
-
-        /* MÜZİK OYNATMA */
-        let isPlaying = false;
-        function togglePlay() {
-            const audio = document.getElementById("bgAudio");
-            const playBtn = document.getElementById("playBtn");
-
-            if (!isPlaying) {
-                audio.play().then(() => {
-                    isPlaying = true;
-                    playBtn.innerText = "⏸ Durdur";
-                }).catch(err => {
-                    alert("Şarkı çalınamadı. Lütfen HTML dosyasının yanına 'muzik.mp3' koyduğunuzdan emin olun.");
-                });
-            } else {
-                audio.pause();
-                isPlaying = false;
-                playBtn.innerText = "▶ Çal";
-            }
-        }
-
-        /* TEMA DEĞİŞTİRME */
-        function toggleTheme() {
-            document.body.toggleAttribute("data-theme");
-        }
-
-        /* CHATBOT */
-        function toggleChat() {
-            const win = document.getElementById("chatWin");
-            win.style.display = win.style.display === "flex" ? "none" : "flex";
-        }
-
-        function sendChat() {
-            const inp = document.getElementById("chatInput");
-            if (!inp.value.trim()) return;
-            
-            const body = document.getElementById("chatBody");
-            const userMsg = document.createElement("div");
-            userMsg.className = "msg user";
-            userMsg.innerText = inp.value;
-            body.appendChild(userMsg);
-
-            inp.value = "";
-            body.scrollTop = body.scrollHeight;
-
-            /* Buradaki cevabı kendin kod içerisinden değiştirebilirsin */
-            setTimeout(() => {
-                const botMsg = document.createElement("div");
-                botMsg.className = "msg bot";
-                botMsg.innerText = "Seni çok seviyorum ❤️";
-                body.appendChild(botMsg);
-                body.scrollTop = body.scrollHeight;
-            }, 600);
-        }
-
-        /* XOX GAME */
-        let xoxBoardState = Array(9).fill("");
-        let isGameActive = true;
-
-        function renderXOX() {
-            const board = document.getElementById("xoxBoard");
-            board.innerHTML = "";
-            xoxBoardState.forEach((val, idx) => {
-                const cell = document.createElement("div");
-                cell.className = "xox-cell";
-                cell.innerText = val;
-                cell.onclick = () => playerMove(idx);
-                board.appendChild(cell);
-            });
-        }
-
-        function playerMove(idx) {
-            if (xoxBoardState[idx] !== "" || !isGameActive) return;
-            xoxBoardState[idx] = "❌";
-            renderXOX();
-
-            if (checkXOXWin("❌")) {
-                document.getElementById("xoxStatus").innerText = "Kazandın! 🎉";
-                isGameActive = false;
-                return;
-            }
-
-            setTimeout(botMove, 300);
-        }
-
-        function botMove() {
-            if (!isGameActive) return;
-            const emptyIndices = xoxBoardState.map((val, idx) => val === "" ? idx : null).filter(val => val !== null);
-            if (emptyIndices.length > 0) {
-                const randomIndex = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
-                xoxBoardState[randomIndex] = "❤️";
-                renderXOX();
-
-                if (checkXOXWin("❤️")) {
-                    document.getElementById("xoxStatus").innerText = "Ben kazandım ama kalbim senin 🥰";
-                    isGameActive = false;
-                }
-            }
-        }
-
-        function checkXOXWin(symbol) {
-            const winPatterns = [
-                [0,1,2], [3,4,5], [6,7,8],
-                [0,3,6], [1,4,7], [2,5,8],
-                [0,4,8], [2,4,6]
-            ];
-            return winPatterns.some(pattern => pattern.every(idx => xoxBoardState[idx] === symbol));
-        }
-
-        function resetXOX() {
-            xoxBoardState = Array(9).fill("");
-            isGameActive = true;
-            document.getElementById("xoxStatus").innerText = "Hamleni Yap!";
-            renderXOX();
-        }
-
-        window.onload = () => {
-            renderXOX();
-        };
-    </script>
+    // 5. Renk Teması Değiştirme (Bonus)
+    function toggleTheme() {
+      alert("Tema değiştirmek için yeni renk paletleri eklenebilir! ✨");
+    }
+  </script>
 </body>
 </html>
