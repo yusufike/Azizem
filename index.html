@@ -14,6 +14,7 @@
             --input-border: #ffccd5;
             --box-bg: #fff0f3;
             --box-border: #ffb3c1;
+            --accent-red: #e63946;
         }
 
         [data-theme="dark"] {
@@ -25,28 +26,29 @@
             --input-border: #475569;
             --box-bg: rgba(225, 29, 72, 0.1);
             --box-border: #9f1239;
+            --accent-red: #ff4d6d;
         }
 
         * {
             box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             font-family: 'Poppins', sans-serif;
             transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
         }
 
         body {
             background: var(--bg-gradient);
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             color: var(--text-main);
-            overflow: hidden;
+            overflow-x: hidden;
             position: relative;
+            padding-bottom: 30px;
         }
 
-        /* --- ÜST ÇUBUK (NAVBAR) DÜZENLEMESİ --- */
+        /* --- ÜST ÇUBUK (NAVBAR) --- */
         .top-navbar {
             position: fixed;
             top: 12px;
@@ -61,61 +63,36 @@
             z-index: 1000;
         }
 
-        /* SOL TARAF: SAYAÇ KUTUSU */
         .top-day-counter {
             background: var(--card-bg);
             border: 1px solid var(--box-border);
-            padding: 6px 10px;
+            padding: 6px 12px;
             border-radius: 16px;
             text-align: left;
             box-shadow: 0 4px 15px var(--card-shadow);
             backdrop-filter: blur(10px);
             animation: pulseGlow 2.5s infinite alternate ease-in-out;
-            flex: 1;
-            min-width: 0; /* Metin taşmasını önler */
+            flex: 1; min-width: 0;
         }
 
         .top-day-counter .day-title {
-            font-size: 11px;
-            font-weight: 700;
-            color: #e63946;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            font-size: 11px; font-weight: 700; color: var(--accent-red);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
 
         .top-day-counter .day-sub {
-            font-size: 9px;
-            color: var(--text-sub);
-            font-weight: 600;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            font-size: 9px; color: var(--text-sub); font-weight: 600;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
 
-        /* SAĞ TARAF: BUTONLAR GRUBU */
-        .nav-controls {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            flex-shrink: 0;
-        }
+        .nav-controls { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
 
         .control-btn {
-            background: var(--card-bg);
-            border: 1px solid var(--input-border);
-            color: var(--text-main);
-            padding: 6px 10px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 11px;
-            box-shadow: 0 4px 12px var(--card-shadow);
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            white-space: nowrap;
+            background: var(--card-bg); border: 1px solid var(--input-border);
+            color: var(--text-main); padding: 6px 10px; border-radius: 20px;
+            cursor: pointer; font-weight: 600; font-size: 11px;
+            box-shadow: 0 4px 12px var(--card-shadow); backdrop-filter: blur(10px);
+            display: flex; align-items: center; justify-content: center;
         }
 
         @keyframes pulseGlow {
@@ -123,167 +100,225 @@
             100% { transform: scale(1.01); box-shadow: 0 6px 20px rgba(230, 57, 70, 0.35); }
         }
 
-        /* POLICE ALARM OVERLAY */
-        #police-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            pointer-events: none;
-            z-index: 9999;
-            display: none;
-            opacity: 0.45;
+        /* --- SPOTIFY OYNATICI TASARIMI --- */
+        .spotify-card {
+            background: rgba(18, 18, 18, 0.85);
+            color: #ffffff;
+            border-radius: 20px;
+            padding: 12px 15px;
+            margin-top: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            text-align: left;
         }
 
-        .police-flash {
-            animation: policeStrobe 0.25s infinite alternate ease-in-out;
+        .spotify-header { display: flex; align-items: center; gap: 12px; }
+
+        .vinyl-container {
+            width: 48px; height: 48px; position: relative; flex-shrink: 0;
         }
 
-        @keyframes policeStrobe {
-            0% { background-color: rgba(255, 0, 55, 0.8); }
-            100% { background-color: rgba(0, 102, 255, 0.8); }
+        .vinyl-record {
+            width: 100%; height: 100%; border-radius: 50%;
+            background: radial-gradient(circle, #333 30%, #111 70%, #000 100%);
+            border: 2px solid #222;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+            display: flex; align-items: center; justify-content: center;
+            animation: spin 4s linear infinite;
+            animation-play-state: paused;
         }
 
-        /* Canvas */
-        #bgCanvas {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 1;
+        .vinyl-record.playing { animation-play-state: running; }
+
+        .vinyl-center {
+            width: 16px; height: 16px; background: #e63946; border-radius: 50%;
+            border: 2px solid #fff;
         }
 
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        .track-info { flex-grow: 1; min-width: 0; }
+        .track-title { font-size: 13px; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .track-artist { font-size: 11px; color: #b3b3b3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        /* EQUALIZER ANIMASYONU */
+        .eq-bar-container { display: flex; align-items: flex-end; gap: 2px; height: 14px; }
+        .eq-bar { width: 3px; background: #1db954; border-radius: 2px; height: 2px; }
+        .eq-bar-container.playing .eq-bar:nth-child(1) { animation: eq 0.8s infinite alternate; }
+        .eq-bar-container.playing .eq-bar:nth-child(2) { animation: eq 1.2s infinite alternate; }
+        .eq-bar-container.playing .eq-bar:nth-child(3) { animation: eq 0.6s infinite alternate; }
+        .eq-bar-container.playing .eq-bar:nth-child(4) { animation: eq 1.0s infinite alternate; }
+        @keyframes eq { 0% { height: 2px; } 100% { height: 14px; } }
+
+        .spotify-controls { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+        .play-btn {
+            background: #1db954; border: none; width: 32px; height: 32px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; cursor: pointer; color: #000;
+            font-size: 14px; font-weight: bold; box-shadow: 0 3px 10px rgba(29,185,84,0.4);
+        }
+
+        .progress-box { flex-grow: 1; display: flex; flex-direction: column; gap: 3px; }
+        .progress-bar-bg { width: 100%; height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; overflow: hidden; }
+        .progress-bar-fill { width: 0%; height: 100%; background: #1db954; transition: width 0.3s linear; }
+        .time-text { font-size: 9px; color: #b3b3b3; display: flex; justify-content: space-between; }
+
+        /* --- CHATBOT WIDGET TASARIMI --- */
+        .chat-widget-btn {
+            position: fixed; bottom: 20px; right: 20px;
+            width: 52px; height: 52px; border-radius: 50%;
+            background: linear-gradient(135deg, #ff4d6d, #e63946);
+            color: #fff; border: none; font-size: 24px;
+            box-shadow: 0 6px 20px rgba(230,57,70,0.5);
+            cursor: pointer; z-index: 1000;
+            display: flex; align-items: center; justify-content: center;
+            animation: bounceBtn 3s infinite;
+        }
+
+        @keyframes bounceBtn {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        .chat-window {
+            position: fixed; bottom: 85px; right: 20px;
+            width: 310px; height: 400px;
+            background: var(--card-bg); border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            backdrop-filter: blur(15px); border: 1px solid var(--box-border);
+            display: none; flex-direction: column; overflow: hidden;
+            z-index: 1000; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #e63946, #ff758f);
+            color: #fff; padding: 12px 15px; font-weight: 700; font-size: 13px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .chat-close-btn { background: none; border: none; color: #fff; font-size: 16px; cursor: pointer; }
+
+        .chat-body {
+            flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;
+        }
+
+        .chat-msg {
+            max-width: 80%; padding: 8px 12px; border-radius: 14px; font-size: 12px; line-height: 1.4;
+        }
+
+        .chat-msg.bot {
+            background: var(--box-bg); color: var(--text-main);
+            border-bottom-left-radius: 2px; align-self: flex-start;
+            border: 1px solid var(--box-border);
+        }
+
+        .chat-msg.user {
+            background: var(--accent-red); color: #fff;
+            border-bottom-right-radius: 2px; align-self: flex-end;
+        }
+
+        .chat-footer {
+            padding: 8px; border-top: 1px solid var(--input-border);
+            display: flex; gap: 6px; background: rgba(0,0,0,0.02);
+        }
+
+        .chat-input {
+            flex: 1; padding: 8px 12px; border: 1px solid var(--input-border);
+            border-radius: 20px; outline: none; font-size: 12px; background: transparent; color: var(--text-main);
+        }
+
+        .chat-send-btn {
+            background: var(--accent-red); color: #fff; border: none;
+            padding: 8px 14px; border-radius: 20px; font-weight: 700; cursor: pointer; font-size: 12px;
+        }
+
+        /* --- GENEL CARD VE CANVAS --- */
+        #bgCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+        
         .card {
-            background: var(--card-bg); padding: 30px 20px; border-radius: 30px;
+            background: var(--card-bg); padding: 25px 20px; border-radius: 30px;
             box-shadow: 0 15px 35px var(--card-shadow); text-align: center;
-            max-width: 450px; width: 90%; backdrop-filter: blur(12px);
+            max-width: 420px; width: 90%; backdrop-filter: blur(12px);
             max-height: 85vh; overflow-y: auto; position: relative; z-index: 10;
-            margin-top: 50px;
+            margin-top: 55px;
         }
 
-        h2 { color: #e63946; margin-bottom: 12px; font-weight: 700; }
+        h2 { color: var(--accent-red); margin-bottom: 10px; font-weight: 700; }
         p { color: var(--text-sub); font-size: 13px; margin-bottom: 12px; line-height: 1.5; }
 
         input[type="text"] {
-            width: 100%; padding: 14px; border: 2px solid var(--input-border);
+            width: 100%; padding: 12px; border: 2px solid var(--input-border);
             background: transparent; color: var(--text-main); border-radius: 15px;
-            outline: none; font-size: 16px; margin-bottom: 15px; text-align: center;
+            outline: none; font-size: 15px; margin-bottom: 12px; text-align: center;
         }
 
         .btn-main {
-            width: 100%; background-color: #e63946; color: white; border: none;
-            padding: 14px; border-radius: 15px; font-size: 16px; font-weight: bold; cursor: pointer;
+            width: 100%; background-color: var(--accent-red); color: white; border: none;
+            padding: 12px; border-radius: 15px; font-size: 15px; font-weight: bold; cursor: pointer;
             box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
         }
 
-        .error-msg { color: #e63946; font-size: 14px; margin-top: 15px; display: none; font-weight: 600; }
+        .error-msg { color: var(--accent-red); font-size: 13px; margin-top: 10px; display: none; font-weight: 600; }
 
         #main-content { display: none; }
 
-        .ask-container {
-            margin-top: 20px; display: flex; justify-content: center; gap: 15px;
-        }
-
-        .btn-vote {
-            padding: 12px 30px; border-radius: 50px; font-weight: bold;
-            cursor: pointer; border: none; font-size: 15px; transition: all 0.2s ease;
-        }
-
+        .ask-container { margin-top: 15px; display: flex; justify-content: center; gap: 12px; }
+        .btn-vote { padding: 10px 24px; border-radius: 50px; font-weight: bold; cursor: pointer; border: none; font-size: 14px; }
         #btn-yes { background-color: #2ecc71; color: white; box-shadow: 0 4px 12px rgba(46,204,113,0.3); }
         #btn-no { background-color: #e74c3c; color: white; box-shadow: 0 4px 12px rgba(231,76,60,0.3); }
-
-        .magic-heart {
-            position: fixed; font-size: 38px; cursor: pointer; z-index: 999; display: none;
-            filter: drop-shadow(0 0 12px rgba(230,57,70,0.6)); animation: floatDown 7s linear infinite;
-        }
-
-        @keyframes floatDown {
-            0% { top: -60px; left: 15%; transform: rotate(-10deg) scale(0.9); }
-            50% { left: 80%; transform: rotate(10deg) scale(1.1); }
-            100% { top: 105vh; left: 20%; transform: rotate(-10deg) scale(0.9); }
-        }
-
-        /* MODAL */
-        .modal-backdrop {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px);
-            z-index: 10000; display: none; justify-content: center; align-items: center;
-            padding: 20px;
-        }
-
-        .modal-card {
-            background: var(--card-bg); border-radius: 25px; padding: 25px;
-            max-width: 400px; width: 100%; text-align: center;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            animation: popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 2px solid #e63946;
-        }
-
-        @keyframes popIn {
-            0% { transform: scale(0.7); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .modal-badge {
-            background: #e63946; color: white; padding: 4px 12px; border-radius: 20px;
-            font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
-            display: inline-block; margin-bottom: 10px;
-        }
-
-        .modal-btn-accept {
-            width: 100%; background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
-            color: white; border: none; padding: 12px; border-radius: 15px; font-weight: 700;
-            cursor: pointer; margin-top: 12px; font-size: 14px; box-shadow: 0 4px 12px rgba(46,204,113,0.4);
-        }
-
-        .modal-btn-next {
-            width: 100%; background: transparent; color: var(--text-sub); border: 1px dashed var(--input-border);
-            padding: 10px; border-radius: 15px; font-weight: 600; cursor: pointer; margin-top: 8px; font-size: 12px;
-        }
 
         .action-btn {
             background: linear-gradient(135deg, #ff4d6d 0%, #ff758f 100%);
             color: white; border: none; padding: 10px 16px; border-radius: 20px; font-weight: 700;
-            font-size: 13px; cursor: pointer; margin-top: 10px; width: 100%; box-shadow: 0 4px 12px rgba(255,77,109,0.3);
+            font-size: 12px; cursor: pointer; margin-top: 10px; width: 100%; box-shadow: 0 4px 12px rgba(255,77,109,0.3);
         }
 
         .fortune-box {
             background: var(--box-bg); padding: 10px; border-radius: 12px;
-            border: 1px dashed var(--box-border); margin-top: 10px; font-size: 13px; color: #e63946;
-            font-weight: 600; min-height: 40px; display: flex; align-items: center; justify-content: center; text-align: center;
+            border: 1px dashed var(--box-border); margin-top: 10px; font-size: 12px; color: var(--accent-red);
+            font-weight: 600; min-height: 38px; display: flex; align-items: center; justify-content: center; text-align: center;
         }
 
-        .scratch-container {
-            position: relative; width: 100%; height: 100px; margin-top: 10px;
-            border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: none;
+        /* PAZARLIK MODAL */
+        .modal-backdrop {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px);
+            z-index: 10000; display: none; justify-content: center; align-items: center; padding: 20px;
         }
 
-        .scratch-secret {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, #ffe5ec 0%, #ffc2d1 100%);
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            padding: 8px; color: #d62839; font-weight: 700; font-size: 13px; text-align: center;
+        .modal-card {
+            background: var(--card-bg); border-radius: 25px; padding: 22px;
+            max-width: 380px; width: 100%; text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            animation: popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid var(--accent-red);
         }
 
-        .love-slider-box {
-            background: var(--box-bg);
-            border: 1px solid var(--box-border);
-            border-radius: 15px;
-            padding: 15px 10px;
-            margin-top: 15px;
+        @keyframes popIn { 0% { transform: scale(0.7); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
+        .modal-badge {
+            background: var(--accent-red); color: white; padding: 4px 12px; border-radius: 20px;
+            font-size: 10px; font-weight: 700; display: inline-block; margin-bottom: 8px;
         }
 
-        .love-slider-box h4 {
-            font-size: 14px; color: #e63946; margin-bottom: 8px;
+        .modal-btn-accept {
+            width: 100%; background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white; border: none; padding: 10px; border-radius: 12px; font-weight: 700;
+            cursor: pointer; margin-top: 10px; font-size: 13px;
         }
 
-        .love-slider-box input[type="range"] {
-            width: 100%;
-            accent-color: #e63946;
-            cursor: pointer;
-            margin: 8px 0;
+        .modal-btn-next {
+            width: 100%; background: transparent; color: var(--text-sub); border: 1px dashed var(--input-border);
+            padding: 8px; border-radius: 12px; font-weight: 600; cursor: pointer; margin-top: 6px; font-size: 11px;
         }
 
-        #sliderText {
-            font-size: 13px; font-weight: 700; color: #e63946; min-height: 20px;
-        }
-
-        canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: pointer; }
+        /* POLICE ALARM OVERLAY */
+        #police-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; display: none; opacity: 0.45; }
+        .police-flash { animation: policeStrobe 0.25s infinite alternate ease-in-out; }
+        @keyframes policeStrobe { 0% { background-color: rgba(255, 0, 55, 0.8); } 100% { background-color: rgba(0, 102, 255, 0.8); } }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -293,20 +328,16 @@
     <div id="police-overlay"></div>
     <canvas id="bgCanvas"></canvas>
 
-    <!-- ÜST ÇUBUK: SOL (SAYAÇ), SAĞ (MÜZİK + TEMA) -->
+    <!-- ÜST ÇUBUK -->
     <div class="top-navbar">
         <div class="top-day-counter">
             <div class="day-title">❤️ 13 Gündür Sevgiliyiz</div>
             <div class="day-sub">Dünyam değişti ✨</div>
         </div>
-
         <div class="nav-controls">
-            <button class="control-btn" onclick="toggleMusic()" id="musicBtn">🎵 Müzik</button>
             <button class="control-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
         </div>
     </div>
-
-    <div class="magic-heart" id="magicHeart">💌</div>
 
     <!-- GİRİŞ EKRANI -->
     <div id="login-screen" class="card">
@@ -323,7 +354,39 @@
     <div id="main-content" class="card">
         <h2>Seni Çok Seviyorum! ✨</h2>
         <p>Biliyorum belki seni kırdım... Ama senin gönlünü almak benim için her şeyden önemli.</p>
-        <h3 style="color: #e63946; margin-top: 8px; font-size: 15px;">Beni affettin mi? 🥺</h3>
+
+        <!-- SPOTIFY MÜZİK KUTUSU -->
+        <div class="spotify-card">
+            <div class="spotify-header">
+                <div class="vinyl-container">
+                    <div class="vinyl-record" id="vinylRecord">
+                        <div class="vinyl-center"></div>
+                    </div>
+                </div>
+                <div class="track-info">
+                    <div class="track-title">Ben Seninle Mutluyum</div>
+                    <div class="track-artist">Azer Bülbül ❤️</div>
+                </div>
+                <div class="eq-bar-container" id="eqContainer">
+                    <div class="eq-bar"></div><div class="eq-bar"></div>
+                    <div class="eq-bar"></div><div class="eq-bar"></div>
+                </div>
+            </div>
+            <div class="spotify-controls">
+                <button class="play-btn" onclick="toggleMusic()" id="spotifyPlayBtn">▶</button>
+                <div class="progress-box">
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="progressFill"></div>
+                    </div>
+                    <div class="time-text">
+                        <span id="currTime">0:00</span>
+                        <span id="durTime">0:00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h3 style="color: var(--accent-red); margin-top: 15px; font-size: 14px;">Beni affettin mi? 🥺</h3>
         
         <div class="ask-container">
             <button id="btn-yes" class="btn-vote" onclick="accepted()">Evet ❤️</button>
@@ -331,17 +394,32 @@
         </div>
     </div>
 
-    <!-- PAZARLIK VE ALARM MODAL -->
+    <!-- CHATBOT WIDGET -->
+    <button class="chat-widget-btn" onclick="toggleChat()">💬</button>
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            <span>Sanal Asistan ❤️</span>
+            <button class="chat-close-btn" onclick="toggleChat()">✕</button>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <div class="chat-msg bot">Selam güzellik! Ben senin için buradayım. Bana aklındaki her şeyi sorabilirsin 🥰</div>
+        </div>
+        <div class="chat-footer">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Mesajını yaz..." onkeypress="handleChatKey(event)">
+            <button class="chat-send-btn" onclick="sendChatMessage()">Gönder</button>
+        </div>
+    </div>
+
+    <!-- PAZARLIK MODAL -->
     <div class="modal-backdrop" id="bargainModal">
         <div class="modal-card">
             <span class="modal-badge" id="modalBadge">🚨 GÜVENLİK İHLALİ</span>
-            <h3 id="modalTitle" style="color: #e63946; font-size: 18px; margin-bottom: 8px;">DİKKAT! Yasadışı Karar!</h3>
-            <p id="modalDesc" style="font-size: 13px; color: var(--text-sub); margin-bottom: 15px;">
-                "Hayır" butonuna basma yetkiniz kısıtlanmıştır. Kalp kırma suçu tespit edildi!
+            <h3 id="modalTitle" style="color: var(--accent-red); font-size: 16px; margin-bottom: 6px;">DİKKAT! Yasadışı Karar!</h3>
+            <p id="modalDesc" style="font-size: 12px; color: var(--text-sub); margin-bottom: 12px;">
+                "Hayır" butonuna basma yetkiniz kısıtlanmıştır!
             </p>
-            
             <button class="modal-btn-accept" id="modalAcceptBtn" onclick="acceptFromModal()">🤝 Anlaştık, Affettim (Evet)</button>
-            <button class="modal-btn-next" id="modalNextBtn" onclick="nextBargainStep()">Hala ikna olmadım (Daha fazla teklif)</button>
+            <button class="modal-btn-next" id="modalNextBtn" onclick="nextBargainStep()">Hala ikna olmadım</button>
         </div>
     </div>
 
@@ -354,7 +432,7 @@
         resizeCanvas();
 
         const particles = [];
-        for (let i = 0; i < 35; i++) {
+        for (let i = 0; i < 30; i++) {
             particles.push({
                 x: Math.random() * canvas.width, y: Math.random() * canvas.height,
                 size: Math.random() * 3 + 1, speedY: Math.random() * 0.8 + 0.3,
@@ -366,7 +444,7 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             particles.forEach(p => {
                 ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
-                if (p.isHeart) { ctx.font = `${p.size * 6}px Arial`; ctx.fillText('❤️', p.x, p.y); }
+                if (p.isHeart) { ctx.font = `${p.size * 5}px Arial`; ctx.fillText('❤️', p.x, p.y); }
                 else { ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill(); }
                 p.y -= p.speedY;
                 if (p.y < -10) { p.y = canvas.height + 10; p.x = Math.random() * canvas.width; }
@@ -376,7 +454,7 @@
         animateBg();
 
         // TYPEWRITER
-        const titleText = "Hoş Geldin AZİZEMM❤️";
+        const titleText = "Hoş Geldin ❤️";
         const descText = "Devam etmek için özel şifremizi girmen gerekiyor:";
         let tIndex = 0, dIndex = 0;
         function typeWriter() {
@@ -393,14 +471,46 @@
         }
         window.onload = function() { setTimeout(typeWriter, 400); };
 
-        // MÜZİK VE TEMA
+        // GELİŞMİŞ SPOTIFY MÜZİK ÇALAR MANTIĞI
         const bgMusic = new Audio('Azer Bülbül - Ben Seninle Mutluyum(_t1jBwvACMgk_).m4a');
         bgMusic.loop = true;
         let isMusicPlaying = false;
 
         function toggleMusic() {
-            if (isMusicPlaying) { bgMusic.pause(); isMusicPlaying = false; }
-            else { bgMusic.play().then(() => isMusicPlaying = true).catch(e => {}); }
+            const vinyl = document.getElementById("vinylRecord");
+            const eq = document.getElementById("eqContainer");
+            const playBtn = document.getElementById("spotifyPlayBtn");
+
+            if (isMusicPlaying) {
+                bgMusic.pause();
+                isMusicPlaying = false;
+                vinyl.classList.remove("playing");
+                eq.classList.remove("playing");
+                playBtn.innerText = "▶";
+            } else {
+                bgMusic.play().then(() => {
+                    isMusicPlaying = true;
+                    vinyl.classList.add("playing");
+                    eq.classList.add("playing");
+                    playBtn.innerText = "❚❚";
+                }).catch(e => {});
+            }
+        }
+
+        bgMusic.addEventListener("timeupdate", () => {
+            if (!bgMusic.duration) return;
+            const cur = bgMusic.currentTime;
+            const dur = bgMusic.duration;
+            const perc = (cur / dur) * 100;
+            document.getElementById("progressFill").style.width = perc + "%";
+            document.getElementById("currTime").innerText = formatTime(cur);
+            document.getElementById("durTime").innerText = formatTime(dur);
+        });
+
+        function formatTime(sec) {
+            const m = Math.floor(sec / 60);
+            const s = Math.floor(sec % 60);
+            return `${m}:${s < 10 ? '0' : ''}${s}`;
         }
 
         function toggleTheme() {
@@ -415,45 +525,25 @@
             if (input === "azizemm") {
                 document.getElementById("login-screen").style.display = "none";
                 document.getElementById("main-content").style.display = "block";
-                document.getElementById("magicHeart").style.display = "block";
             } else {
                 document.getElementById("error-message").style.display = "block";
                 document.getElementById("password-input").value = "";
             }
         }
-
         function handleKeyPress(e) { if (e.key === "Enter") checkPassword(); }
 
         // PAZARLIK VE ALARM MANTIĞI
         let bargainStep = 0;
         const bargainOffers = [
-            {
-                badge: "🚨 POLİS ALARMI & TEKLİF #1",
-                title: "Yasadışı Karar Önleme Sistemi!",
-                desc: "Kalp kırma suçu tespit edildi! Şöyle yapalım: <b>1 Karam</b> karşılığında bu karardan vazgeçelim?",
-                btnText: "🍫 Karam'ı Kabul Et & Affet"
-            },
-            {
-                badge: "📜 TEKLİF YÜKSELTİLDİ #2",
-                title: "Masa Üstündeki Yeni Teklif!",
-                desc: "Hâlâ mı? Peki o zaman: <b>Sonsuz sarılma + Sınırsız öpücük</b> sözleşmesi imzalıyoruz! Ne dersin?",
-                btnText: "💋 Sözleşmeyi İmzala & Affet"
-            },
-            {
-                badge: "👑 KRALİÇE PROTOKOLÜ #3",
-                title: "Son Ve En Büyük Teklif!",
-                desc: "Tamam tamam pes! Ömür boyu kraliçe protokolü devreye giriyor. Artık 'Evet' demek zorundasın 🥰",
-                btnText: "👑 Protokolü Onayla (Affedildin!)"
-            }
+            { badge: "🚨 POLİS ALARMI", title: "Yasadışı Karar Önleme!", desc: "Kalp kırma suçu tespit edildi! <b>1 Karam</b> karşılığında anlaşalım?", btnText: "🍫 Karam'ı Kabul Et & Affet" },
+            { badge: "📜 TEKLİF YÜKSELTİLDİ", title: "Masa Üstündeki Teklif!", desc: "<b>Sonsuz sarılma + Sınırsız öpücük</b> sözleşmesi imzalıyoruz!", btnText: "💋 Sözleşmeyi İmzala & Affet" },
+            { badge: "👑 KRALİÇE PROTOKOLÜ", title: "Son Ve En Büyük Teklif!", desc: "Kraliçe protokolü devreye girdi. Artık 'Evet' demek zorundasın 🥰", btnText: "👑 Onayla (Affedildin!)" }
         ];
 
         function triggerAlertAndBargain() {
             const overlay = document.getElementById("police-overlay");
-            overlay.style.display = "block";
-            overlay.classList.add("police-flash");
-
-            bargainStep = 0;
-            updateModalUI();
+            overlay.style.display = "block"; overlay.classList.add("police-flash");
+            bargainStep = 0; updateModalUI();
             document.getElementById("bargainModal").style.display = "flex";
         }
 
@@ -463,160 +553,92 @@
             document.getElementById("modalTitle").innerHTML = data.title;
             document.getElementById("modalDesc").innerHTML = data.desc;
             document.getElementById("modalAcceptBtn").innerHTML = data.btnText;
-
-            if (bargainStep >= bargainOffers.length - 1) {
-                document.getElementById("modalNextBtn").style.display = "none";
-            } else {
-                document.getElementById("modalNextBtn").style.display = "block";
-            }
+            document.getElementById("modalNextBtn").style.display = bargainStep >= bargainOffers.length - 1 ? "none" : "block";
         }
 
-        function nextBargainStep() {
-            if (bargainStep < bargainOffers.length - 1) {
-                bargainStep++;
-                updateModalUI();
-            }
-        }
+        function nextBargainStep() { if (bargainStep < bargainOffers.length - 1) { bargainStep++; updateModalUI(); } }
+        function acceptFromModal() { closePoliceAlarm(); document.getElementById("bargainModal").style.display = "none"; accepted(); }
+        function closePoliceAlarm() { const overlay = document.getElementById("police-overlay"); overlay.classList.remove("police-flash"); overlay.style.display = "none"; }
 
-        function acceptFromModal() {
-            closePoliceAlarm();
-            document.getElementById("bargainModal").style.display = "none";
-            accepted();
-        }
-
-        function closePoliceAlarm() {
-            const overlay = document.getElementById("police-overlay");
-            overlay.classList.remove("police-flash");
-            overlay.style.display = "none";
-        }
-
-        // EVET / KABUL EKRANI
+        // EVET EKRANI
         function accepted() {
             closePoliceAlarm();
-            document.getElementById("magicHeart").style.display = "none";
-
             const mainContent = document.getElementById('main-content');
             mainContent.innerHTML = `
                 <h2>OLEY! ❤️</h2>
-                <p style="font-weight: 600; margin-bottom: 8px;">Dünyanın en mutlu insanı benim! Seni çok seviyorum, iyi ki varsın.</p>
-
-                <!-- SLIDER ALANI -->
-                <div class="love-slider-box">
-                    <h4>Beni Ne Kadar Seviyorsun? 🤔</h4>
-                    <input type="range" id="loveRange" min="0" max="100" value="50" oninput="updateLoveText()">
-                    <div id="sliderText">%50 - Çok Seviyorum! 🥰</div>
-                    <button class="action-btn" style="margin-top: 8px; background: linear-gradient(135deg, #e63946 0%, #ff4d6d 100%);" onclick="confirmLoveLevel()">💖 İşte Sevgi Seviyem!</button>
-                </div>
+                <p style="font-weight: 600; margin-bottom: 8px;">Dünyanın en mutlu insanı benim! Seni çok seviyorum.</p>
                 
-                <div class="praise-box" style="background: var(--box-bg); padding: 10px; border-radius: 12px; border: 1px dashed var(--box-border); margin-top: 10px;">
-                    <p style="margin-bottom: 4px; font-style: italic; color: #e63946; font-size: 11px; font-weight: 600;">"Barıştığımıza göre... Şimdi kaybettiğim meleği geri öpebilirim ✨"</p>
-                    <p style="margin-bottom: 0; font-style: italic; color: #e63946; font-size: 11px; font-weight: 600;">"Sen benim en güzel yanımsın, bir daha asla üzülmene izin vermeyeceğim ❤️"</p>
+                <div style="background: var(--box-bg); padding: 12px; border-radius: 15px; border: 1px dashed var(--box-border); margin-top: 10px;">
+                    <p style="font-style: italic; color: var(--accent-red); font-size: 11px; font-weight: 600;">"Sen benim en güzel yanımsın, bir daha asla üzülmene izin vermeyeceğim ❤️"</p>
                 </div>
 
                 <button class="action-btn" onclick="spinWheel()">🎲 Neden Seni Seviyorum? Kart Çek</button>
                 <div class="fortune-box" id="fortuneText">Kart çekmek için yukarıdaki butona tıkla! 👆</div>
-
-                <button class="action-btn" id="openScratchBtn" onclick="showScratchCard()" style="background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);">🪙 Gizli Mesajı Kazı</button>
-
-                <div class="scratch-container" id="scratchCardArea">
-                    <div class="scratch-secret">
-                        ✨ "Gülüşünü özlediğim tek insan..." ✨
-                        <span style="font-size: 18px; margin-top: 3px;">💖💖💖</span>
-                    </div>
-                    <canvas id="scratchCanvas"></canvas>
-                </div>
             `;
-
-            if (!isMusicPlaying) {
-                bgMusic.play().then(() => { isMusicPlaying = true; }).catch(e => {});
-            }
-
+            if (!isMusicPlaying) toggleMusic();
             triggerConfetti();
-        }
-
-        // SLIDER YAZI VE MANTIĞI
-        function updateLoveText() {
-            const val = document.getElementById("loveRange").value;
-            const text = document.getElementById("sliderText");
-
-            if (val == 0) text.innerText = "%0 - Hiç mi?! 🥺 (İnanmam!)";
-            else if (val < 30) text.innerText = `%${val} - Azıcık Mı? 🙈 (Daha çok dene!)`;
-            else if (val < 60) text.innerText = `%${val} - Bayağı Seviyorum! 🥰`;
-            else if (val < 90) text.innerText = `%${val} - Çoook Seviyorum! 💖`;
-            else if (val < 100) text.innerText = `%${val} - Dünyalar Kadar! 🔥`;
-            else text.innerText = `%100 - SONSUZA KADAR & HER ŞEYDEN ÇOK! 🚀👑❤️`;
-        }
-
-        function confirmLoveLevel() {
-            const val = document.getElementById("loveRange").value;
-            if (val < 100) {
-                alert("Bu kadarcık mı?! Lütfen çubuğu %100'e (en sağa) kadar çek, kandıramazsın 😜❤️");
-            } else {
-                alert("BİLİYORDUM! Ben de seni her şeyden çok seviyorum! 💖✨");
-                triggerConfetti();
-            }
         }
 
         const loveReasons = [
             "✨ Çünkü güldüğünde bütün dünyam aydınlanıyor.",
             "💖 Çünkü sesin bile içimi huzurla doldurmaya yetiyor.",
             "🌹 Çünkü sen benim en güzel 'iyi ki'msin.",
-            "😍 Çünkü bakışınla kalbimi her seferinde yeniden çalmayı başarıyorsun.",
-            "🫂 Çünkü hayatımda seni tanıdığım için her gün şükrediyorum."
+            "😍 Çünkü bakışınla kalbimi her seferinde yeniden çalmayı başarıyorsun."
         ];
-
-        function spinWheel() {
-            document.getElementById('fortuneText').innerText = loveReasons[Math.floor(Math.random() * loveReasons.length)];
-        }
+        function spinWheel() { document.getElementById('fortuneText').innerText = loveReasons[Math.floor(Math.random() * loveReasons.length)]; }
 
         function triggerConfetti() {
-            var duration = 3 * 1000;
-            var animationEnd = Date.now() + duration;
-            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 3000 };
-            function randomInRange(min, max) { return Math.random() * (max - min) + min; }
-
-            var interval = setInterval(function() {
-                var timeLeft = animationEnd - Date.now();
-                if (timeLeft <= 0) return clearInterval(interval);
-                var particleCount = 50 * (timeLeft / duration);
-                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
-                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
-            }, 250);
+            confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
         }
 
-        function showScratchCard() {
-            document.getElementById('openScratchBtn').style.display = 'none';
-            document.getElementById('scratchCardArea').style.display = 'block';
-            initScratchCard();
+        // AKILLI CHATBOT MANTIĞI
+        function toggleChat() {
+            const chatWin = document.getElementById("chatWindow");
+            chatWin.style.display = (chatWin.style.display === "flex") ? "none" : "flex";
         }
 
-        function initScratchCard() {
-            const canvas = document.getElementById('scratchCanvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = canvas.offsetWidth;
-            canvas.height = canvas.offsetHeight;
+        function handleChatKey(e) { if (e.key === "Enter") sendChatMessage(); }
 
-            ctx.fillStyle = '#b0bec5';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.font = 'bold 13px Poppins'; ctx.fillStyle = '#ffffff'; ctx.textAlign = 'center';
-            ctx.fillText('🪙 Kazımak İçin Dokun!', canvas.width / 2, canvas.height / 2 + 5);
+        function sendChatMessage() {
+            const input = document.getElementById("chatInput");
+            const text = input.value.trim();
+            if (!text) return;
 
-            let isDrawing = false;
-            function scratch(e) {
-                if (!isDrawing) return;
-                const rect = canvas.getBoundingClientRect();
-                const x = (e.clientX || e.touches[0].clientX) - rect.left;
-                const y = (e.clientY || e.touches[0].clientY) - rect.top;
-                ctx.globalCompositeOperation = 'destination-out';
-                ctx.beginPath(); ctx.arc(x, y, 16, 0, Math.PI * 2); ctx.fill();
-            }
+            addChatMsg(text, "user");
+            input.value = "";
 
-            canvas.addEventListener('mousedown', () => isDrawing = true);
-            canvas.addEventListener('mouseup', () => isDrawing = false);
-            canvas.addEventListener('mousemove', scratch);
-            canvas.addEventListener('touchstart', () => isDrawing = true);
-            canvas.addEventListener('touchend', () => isDrawing = false);
-            canvas.addEventListener('touchmove', scratch);
+            setTimeout(() => {
+                const reply = getBotReply(text.toLowerCase());
+                addChatMsg(reply, "bot");
+            }, 600);
+        }
+
+        function addChatMsg(text, sender) {
+            const chatBody = document.getElementById("chatBody");
+            const msg = document.createElement("div");
+            msg.className = `chat-msg ${sender}`;
+            msg.innerText = text;
+            chatBody.appendChild(msg);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        function getBotReply(input) {
+            if (input.includes("seviyor") || input.includes("sevgi")) return "Seni dünyadaki HER ŞEYDEN daha çok seviyor! ❤️";
+            if (input.includes("affet") || input.includes("kızgın")) return "O seni asla kıramaz ki... Senin bir tek gülüşün bile onun içini eritiyor🥺";
+            if (input.includes("sarıl") || input.includes("öp")) return "Sana kocaman sarılıp öpücük yolluyor! 💋🫂";
+            if (input.includes("nasılsın") || input.includes("ne haber")) return "Seninle konuştuğum için harikayım! Sen nasılsın✨";
+            if (input.includes("müzik") || input.includes("şarkı")) return "Arka plandaki şarkı tam olarak sizin için çalıyor 🎵";
+            if (input.includes("kimsin")) return "Ben sizin aşkınız için tasarlanmış özel bir robotum 🤖❤️";
+              (input.includes("iyiyim")) return"iyi olduğuna sevindim bu beni mutlu etti ";
+              (input.includes("napıyorsun")) return" patronum senii özlüyor";
+            
+            const randomReplies = [
+                "Sen gerçekten çok özelsin 🥰",
+                "Gözlerinin güzelliği buraya kadar yansıyor ✨",
+                "Onun sana olan sevgisi kelimelere sığmaz!",
+                "Seni düşünüp gülümsediğine eminim ❤️"
+            ];
+            return randomReplies[Math.floor(Math.random() * randomReplies.length)];
         }
     </script>
 </body>
