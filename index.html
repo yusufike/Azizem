@@ -46,51 +46,33 @@
             position: relative;
         }
 
-        /* --- TEK SIRA ÜST ÇUBUK (NAVBAR) --- */
+        /* --- ÜST ÇUBUK (NAVBAR) DÜZENLEMESİ --- */
         .top-navbar {
             position: fixed;
-            top: 15px;
+            top: 12px;
             left: 50%;
             transform: translateX(-50%);
-            width: 95%;
-            max-width: 480px;
+            width: 92%;
+            max-width: 450px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             z-index: 1000;
         }
 
-        .control-btn {
-            background: var(--card-bg);
-            border: 1px solid var(--input-border);
-            color: var(--text-main);
-            padding: 6px 10px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 12px;
-            box-shadow: 0 4px 12px var(--card-shadow);
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
-
-        /* ORTADAKİ SAYAC */
+        /* SOL TARAF: SAYAÇ KUTUSU */
         .top-day-counter {
             background: var(--card-bg);
             border: 1px solid var(--box-border);
-            padding: 4px 10px;
-            border-radius: 20px;
-            text-align: center;
+            padding: 6px 10px;
+            border-radius: 16px;
+            text-align: left;
             box-shadow: 0 4px 15px var(--card-shadow);
             backdrop-filter: blur(10px);
             animation: pulseGlow 2.5s infinite alternate ease-in-out;
-            flex-grow: 1;
-            overflow: hidden;
+            flex: 1;
+            min-width: 0; /* Metin taşmasını önler */
         }
 
         .top-day-counter .day-title {
@@ -111,9 +93,34 @@
             text-overflow: ellipsis;
         }
 
+        /* SAĞ TARAF: BUTONLAR GRUBU */
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .control-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--input-border);
+            color: var(--text-main);
+            padding: 6px 10px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 11px;
+            box-shadow: 0 4px 12px var(--card-shadow);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+        }
+
         @keyframes pulseGlow {
             0% { transform: scale(1); box-shadow: 0 4px 15px var(--card-shadow); }
-            100% { transform: scale(1.02); box-shadow: 0 6px 20px rgba(230, 57, 70, 0.35); }
+            100% { transform: scale(1.01); box-shadow: 0 6px 20px rgba(230, 57, 70, 0.35); }
         }
 
         /* POLICE ALARM OVERLAY */
@@ -286,16 +293,17 @@
     <div id="police-overlay"></div>
     <canvas id="bgCanvas"></canvas>
 
-    <!-- ÜST ÇUBUK: SOL (GECE/GÜNDÜZ), ORTA (SAYAÇ), SAĞ (MÜZİK) -->
+    <!-- ÜST ÇUBUK: SOL (SAYAÇ), SAĞ (MÜZİK + TEMA) -->
     <div class="top-navbar">
-        <button class="control-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
-        
         <div class="top-day-counter">
-            <div class="day-title">❤️ 13 Gündür Sevgiliyiz ❤️</div>
-            <div class="day-sub">13 gündür dünyam değişti ✨</div>
+            <div class="day-title">❤️ 13 Gündür Sevgiliyiz</div>
+            <div class="day-sub">Dünyam değişti ✨</div>
         </div>
 
-        <button class="control-btn" onclick="toggleMusic()" id="musicBtn">🎵 Müzik</button>
+        <div class="nav-controls">
+            <button class="control-btn" onclick="toggleMusic()" id="musicBtn">🎵 Müzik</button>
+            <button class="control-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+        </div>
     </div>
 
     <div class="magic-heart" id="magicHeart">💌</div>
@@ -368,7 +376,7 @@
         animateBg();
 
         // TYPEWRITER
-        const titleText = "Hoş Geldin ❤️";
+        const titleText = "Hoş Geldin AZİZEMM❤️";
         const descText = "Devam etmek için özel şifremizi girmen gerekiyor:";
         let tIndex = 0, dIndex = 0;
         function typeWriter() {
