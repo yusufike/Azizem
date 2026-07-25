@@ -11,7 +11,6 @@
             --bg: linear-gradient(135deg, #ffb6c1 0%, #ffc0cb 50%, #ffe4e1 100%);
             --card-bg: #ffffff;
             --text: #2b2b2b;
-            --text-sub: #666666;
             --shadow: rgba(230, 57, 70, 0.15);
             --border: rgba(255, 182, 193, 0.6);
             --accent: #e63946;
@@ -22,7 +21,6 @@
             --bg: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
             --card-bg: rgba(30, 41, 59, 0.95);
             --text: #f8fafc;
-            --text-sub: #cbd5e1;
             --shadow: rgba(0, 0, 0, 0.4);
             --border: rgba(71, 85, 105, 0.8);
             --accent: #ff4d6d;
@@ -205,7 +203,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ŞİFRE KARTI ÖZEL */
         .lock-card h2 { color: #e63946; font-size: 22px; margin-bottom: 6px; font-weight: 800; }
         .lock-card p { color: #666; font-size: 12px; margin-bottom: 16px; }
 
@@ -234,7 +231,11 @@
             font-weight: 700;
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
+            display: inline-block;
+            text-decoration: none;
         }
+
+        .submit-btn:active { transform: scale(0.98); }
 
         .shake {
             animation: shake 0.4s ease-in-out;
@@ -266,14 +267,13 @@
             font-size: 20px; cursor: pointer; font-weight: 800;
         }
 
-        /* SUB FOOTER TEXT */
         .footer-tag {
             margin-top: 15px;
             font-size: 11px;
             color: #888;
         }
 
-        /* CHAT BOT BALLOON */
+        /* CHAT BOT */
         .chat-fab {
             position: fixed;
             bottom: 20px;
@@ -325,13 +325,14 @@
             background: var(--insta-bg);
             color: white !important;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border-radius: 18px;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 700;
             text-decoration: none;
             display: inline-block;
             margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(225, 48, 108, 0.3);
         }
     </style>
 </head>
@@ -389,15 +390,36 @@
         <div class="status-msg" id="statusMsg"></div>
     </div>
 
-    <!-- EKRAN 2: ANA SAYFA (ŞİFREDEN SONRA) -->
+    <!-- EKRAN 2: ANA SAYFA - EVET / HAYIR (ŞİFREDEN SONRA) -->
     <div id="mainPage" class="card">
-        <h2 style="color: #e63946;">Sana Özel Bir Dünya 🥰</h2>
-        <p style="color: #666; font-size: 13px; margin-top: 10px;">
-            Şifreyi bildiğin için teşekkür ederim birtanem! Yukarıdaki menülerden oyunlarımızı oynayabilir, anayasamıza göz atabilirsin.
+        <h2 style="color: #e63946; font-size: 20px; margin-bottom: 8px;">Hoş Geldin Birtanem! ❤️</h2>
+        <p style="color: #666; font-size: 13px; margin-bottom: 18px; line-height: 1.5;">
+            Sana özel hazırladığım bu minik dünyayı keşfetmeye hazır mısın?
         </p>
+        <button class="submit-btn" onclick="handleYes()">Evet, Hazırım! 🎉</button>
     </div>
 
-    <!-- EKRAN 3: ANAYASA -->
+    <!-- EKRAN 3: İKİNCİ ADIM -->
+    <div id="secondPage" class="card">
+        <h2 style="color: #e63946; font-size: 20px; margin-bottom: 8px;">İyi ki Varsın! 🥰</h2>
+        <p style="color: #666; font-size: 13px; margin-bottom: 18px; line-height: 1.5;">
+            <!-- CEVABINI VEYA ÖZEL MESAJINI BURAYA YAZABİLİRSİN -->
+            Hayatımda olduğun her gün için minnettarım.
+        </p>
+        <button class="submit-btn" onclick="openProtectedPage('thirdPage')">İleri Git ➡</button>
+    </div>
+
+    <!-- EKRAN 4: İLETİŞİM / INSTAGRAM (Yusufi) -->
+    <div id="thirdPage" class="card">
+        <h2 style="color: #e63946; font-size: 20px; margin-bottom: 8px;">Bana Ulaş 💬</h2>
+        <p style="color: #666; font-size: 13px; margin-bottom: 14px; line-height: 1.5;">
+            <!-- CEVABINI VEYA ÖZEL MESAJINI BURAYA YAZABİLİRSİN -->
+            Bana istediğin zaman buradan ulaşabilirsin!
+        </p>
+        <a href="https://instagram.com/Yusufi" target="_blank" class="instagram-btn">Instagram</a>
+    </div>
+
+    <!-- EKRAN 5: ANAYASA -->
     <div id="anayasaPage" class="card">
         <h2 style="color: #e63946;">Bizim Anayasamız 📜</h2>
         <p style="color: #666; font-size: 12px; margin-top: 8px; text-align: left; line-height: 1.6;">
@@ -407,7 +429,7 @@
         </p>
     </div>
 
-    <!-- EKRAN 4: YAPBOZ -->
+    <!-- EKRAN 6: YAPBOZ -->
     <div id="yapbozPage" class="card">
         <h2 style="color: #e63946;">Mini Yapboz 🧩</h2>
         <p style="color: #666; font-size: 12px; margin-top: 8px;">
@@ -415,7 +437,7 @@
         </p>
     </div>
 
-    <!-- EKRAN 5: KELİME -->
+    <!-- EKRAN 7: KELİME -->
     <div id="kelimePage" class="card">
         <h2 style="color: #e63946;">Kelime Oyunu 🔤</h2>
         <p style="color: #666; font-size: 12px; margin-top: 8px;">
@@ -423,7 +445,7 @@
         </p>
     </div>
 
-    <!-- EKRAN 6: ŞİFRE KASA -->
+    <!-- EKRAN 8: ŞİFRE KASA -->
     <div id="kasaPage" class="card">
         <h2 style="color: #e63946;">Özel Kasa 🔐</h2>
         <p style="color: #666; font-size: 12px; margin-top: 8px;">
@@ -432,7 +454,7 @@
         <a href="https://instagram.com/Yusufi" target="_blank" class="instagram-btn">Instagram: @Yusufi</a>
     </div>
 
-    <!-- EKRAN 7: XOX OYUNU -->
+    <!-- EKRAN 9: XOX OYUNU -->
     <div id="xoxPage" class="card">
         <h2 style="color: #e63946;">XOX Oyunu ❌⭕</h2>
         <p id="xoxStatus" style="color: #888; font-size: 11px;">Hamleni Yap!</p>
@@ -513,7 +535,6 @@
             const status = document.getElementById("statusMsg");
             const lockCard = document.getElementById("lockScreen");
 
-            // Şifre ekranına geri odakla
             showCard("lockScreen");
             status.style.color = "#e63946";
             status.innerText = "Lütfen önce doğru şifreyi gir!";
@@ -526,6 +547,14 @@
             document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
             const target = document.getElementById(cardId);
             if (target) target.classList.add('active');
+        }
+
+        /* EVET BUTONU AKSİYONU */
+        function handleYes() {
+            if (typeof confetti === 'function') {
+                confetti({ particleCount: 110, spread: 70, origin: { y: 0.6 } });
+            }
+            openProtectedPage('secondPage');
         }
 
         /* MÜZİK */
