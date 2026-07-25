@@ -29,6 +29,7 @@
             box-sizing: border-box;
             margin: 0; padding: 0;
             font-family: system-ui, -apple-system, sans-serif;
+            user-select: none;
         }
 
         body {
@@ -50,7 +51,7 @@
             z-index: 0;
         }
 
-        /* Üst Alan Komple Kapsayıcı */
+        /* Üst Header */
         .top-header-container {
             position: fixed; top: 12px; left: 50%;
             transform: translateX(-50%);
@@ -83,7 +84,7 @@
             display: flex; align-items: center; justify-content: center;
         }
 
-        /* YENİ ÜST MÜZİK KUTUSU (Tam İşaretlediğin Yer) */
+        /* Üst Müzik Kutusu */
         .top-music-box {
             background: rgba(20, 20, 20, 0.9);
             color: white; border-radius: 20px;
@@ -114,7 +115,7 @@
             text-align: center;
             max-width: 400px; width: 100%;
             position: relative; z-index: 10;
-            margin-top: 80px; /* Üst çubuğa çarpmaması için alan açıldı */
+            margin-top: 80px;
         }
 
         h2 { color: var(--accent); margin-bottom: 10px; font-size: 20px; }
@@ -158,7 +159,33 @@
             min-height: 35px; display: flex; align-items: center; justify-content: center;
         }
 
-        /* Chatbot Widget */
+        /* KAZI KAZAN ALANI */
+        .scratch-container {
+            position: relative;
+            width: 100%; max-width: 280px; height: 110px;
+            margin: 15px auto 5px auto;
+            border-radius: 16px; overflow: hidden;
+            border: 2px dashed var(--accent);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .scratch-secret {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: #fff;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            padding: 10px; text-align: center;
+            color: var(--accent); font-weight: bold; font-size: 13px;
+        }
+
+        .scratch-canvas {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            cursor: pointer; z-index: 2;
+        }
+
+        /* Chatbot */
         .chat-btn {
             position: fixed; bottom: 15px; right: 15px;
             width: 50px; height: 50px; border-radius: 50%;
@@ -223,7 +250,6 @@
             <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
         </div>
 
-        <!-- Müzik Kutusu İşaretlenen Yere Alındı -->
         <div class="top-music-box">
             <button class="play-btn" onclick="toggleMusic()" id="playBtn">▶</button>
             <div class="music-info">
@@ -357,10 +383,7 @@
                 music.play().then(() => {
                     isPlaying = true;
                     btn.innerText = "❚❚";
-                }).catch((e) => {
-                    // Sessizce yut, hata uyarısı çıkarma
-                    console.log("Müzik başlatılamadı:", e);
-                });
+                }).catch(() => {});
             }
         }
 
@@ -409,12 +432,25 @@
             main.innerHTML = `
                 <h2>OLEY! ❤️</h2>
                 <p id="accepted-desc" style="font-weight:bold;"></p>
+                
+                <!-- Kazı Kazan Kartı -->
+                <div class="scratch-container">
+                    <div class="scratch-secret">
+                        <span>🎁 SÜRPRİZ KAZANDIN!</span>
+                        <span style="font-size: 11px; font-weight: normal; margin-top: 4px; color: var(--text-sub);">
+                            Sınırsız Sarımsaklı Ekmek + Kocaman Bir Sarılma! 💖
+                        </span>
+                    </div>
+                    <canvas id="scratchCanvas" class="scratch-canvas"></canvas>
+                </div>
+
                 <button class="action-btn" onclick="spinReason()">🎲 Neden Seni Seviyorum?</button>
                 <div class="fortune-box" id="fText">Kart çekmek için butona tıkla! 👆</div>
             `;
-            typeWriter("accepted-desc", "Dünyanın en mutlu insanı benim! Seni çok seviyorum.");
             
-            // Eğer müzik zaten çalmıyorsa başlatmayı dener
+            typeWriter("accepted-desc", "Dünyanın en mutlu insanı benim! Seni çok seviyorum.");
+            initScratch(); // Kazı kazan motorunu başlat
+
             if(!isPlaying) {
                 music.play().then(() => {
                     isPlaying = true;
@@ -423,6 +459,49 @@
             }
 
             if(typeof confetti === 'function') confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
+        }
+
+        // KAZI KAZAN MOTORU
+        function initScratch() {
+            const sCanvas = document.getElementById('scratchCanvas');
+            if(!sCanvas) return;
+            const sCtx = sCanvas.getContext('2d');
+            const rect = sCanvas.parentElement.getBoundingClientRect();
+            sCanvas.width = rect.width;
+            sCanvas.height = rect.height;
+
+            // Gri Tabakayı Çiz
+            sCtx.fillStyle = '#c0c0c0';
+            sCtx.fillRect(0, 0, sCanvas.width, sCanvas.height);
+            
+            // Üzerine Yazı
+            sCtx.fillStyle = '#555';
+            sCtx.font = 'bold 12px system-ui';
+            sCtx.textAlign = 'center';
+            sCtx.fillText('✨ Burayı Kazı ✨', sCanvas.width / 2, sCanvas.height / 2 + 4);
+
+            let isScratching = false;
+
+            function scratch(e) {
+                if (!isScratching) return;
+                const cRect = sCanvas.getBoundingClientRect();
+                const touch = e.touches ? e.touches[0] : e;
+                const x = touch.clientX - cRect.left;
+                const y = touch.clientY - cRect.top;
+
+                sCtx.globalCompositeOperation = 'destination-out';
+                sCtx.beginPath();
+                sCtx.arc(x, y, 16, 0, Math.PI * 2);
+                sCtx.fill();
+            }
+
+            sCanvas.addEventListener('mousedown', () => isScratching = true);
+            sCanvas.addEventListener('mouseup', () => isScratching = false);
+            sCanvas.addEventListener('mousemove', scratch);
+
+            sCanvas.addEventListener('touchstart', (e) => { isScratching = true; scratch(e); });
+            sCanvas.addEventListener('touchend', () => isScratching = false);
+            sCanvas.addEventListener('touchmove', scratch);
         }
 
         const reasons = [
