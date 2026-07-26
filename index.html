@@ -85,18 +85,21 @@
             outline: none;
         }
 
-        .login-btn {
+        .login-btn, .game-btn, .music-btn {
             background: var(--accent);
-            color: white;
+            color: #fff;
             border: none;
-            padding: 12px 24px;
-            border-radius: 14px;
-            font-weight: 600;
+            padding: 10px 18px;
+            border-radius: 12px;
             cursor: pointer;
-            width: 100%;
-            font-size: 16px;
-            box-shadow: 0 4px 15px var(--shadow);
+            font-weight: bold;
+            box-shadow: 0 4px 12px var(--shadow);
             transition: 0.2s;
+        }
+
+        .login-btn:hover, .game-btn:hover, .music-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
         }
 
         /* ANA UYGULAMA */
@@ -171,22 +174,11 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 14px 18px;
+            padding: 12px 18px;
             background: var(--card-bg);
             border-radius: 18px;
             border: 1px solid var(--border);
             box-shadow: 0 4px 15px var(--shadow);
-        }
-
-        .music-btn, .game-btn {
-            background: var(--accent);
-            color: #fff;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            box-shadow: 0 4px 12px var(--shadow);
         }
 
         .content-section {
@@ -197,6 +189,60 @@
             display: block;
         }
 
+        /* İLK GİRİŞ SORU ALANI */
+        #questionArea {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 5px 0;
+            position: relative;
+        }
+
+        .choice-btns {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            width: 100%;
+            min-height: 45px;
+        }
+
+        #noBtn {
+            background: #555;
+            transition: transform 0.2s, font-size 0.2s, padding 0.2s;
+            position: relative;
+        }
+
+        /* ÖZEL SEVGİ EKRANI */
+        #loveContent {
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .photo-frame {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            margin: 10px auto;
+            border: 4px solid var(--accent);
+            overflow: hidden;
+            box-shadow: 0 8px 20px var(--shadow);
+            background: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
         /* KAZIMA KARTI */
         .scratch-container {
             position: relative;
@@ -204,13 +250,14 @@
             height: 120px;
             border-radius: 14px;
             overflow: hidden;
-            margin-top: 15px;
-            background: #f1f5f9;
+            margin-top: 5px;
+            background: #ffffff;
             border: 1px solid var(--border);
         }
 
         .scratch-secret {
             position: absolute;
+            top: 0; left: 0;
             width: 100%;
             height: 100%;
             display: flex;
@@ -220,6 +267,8 @@
             color: var(--accent);
             padding: 10px;
             text-align: center;
+            font-size: 14px;
+            z-index: 1;
         }
 
         #scratchCanvas {
@@ -227,9 +276,10 @@
             top: 0; left: 0;
             cursor: pointer;
             touch-action: none;
+            z-index: 2;
         }
 
-        /* ARCADE SALONU & SEKMELERİ */
+        /* ARCADE SALONU */
         .arcade-tabs {
             display: flex;
             gap: 6px;
@@ -260,22 +310,12 @@
             display: none;
         }
 
-        /* OYUN CANVASLARI (BÜYÜTÜLDÜ) */
         canvas {
-            background: #000;
-            border-radius: 14px;
+            border-radius: 12px;
             max-width: 100%;
             height: auto;
             margin: 10px auto;
             display: block;
-        }
-
-        /* YILAN OYUNU ÖZEL BOYUT */
-        #snakeCanvas {
-            width: 320px;
-            height: 320px;
-            background: #111;
-            border: 2px solid var(--border);
         }
 
         .game-controls {
@@ -286,7 +326,7 @@
             flex-wrap: wrap;
         }
 
-        /* CHATBOT */
+        /* ASİSTAN / CHATBOT */
         .chat-float {
             position: fixed;
             bottom: 20px;
@@ -327,7 +367,7 @@
     <div id="loginScreen">
         <h2>Hoş Geldin Azizem ❤️</h2>
         <p style="margin: 10px 0; font-size: 14px; opacity: 0.8;">Özel sayfamıza giriş için şifreni gir:</p>
-        <input type="password" id="passInput" class="login-input" placeholder="Şifre...">
+        <input type="password" id="passInput" class="login-input" placeholder="Şifre (azize)...">
         <button onclick="checkLogin()" class="login-btn">Giriş Yap</button>
     </div>
 
@@ -342,8 +382,12 @@
 
         <!-- MÜZİK ÇALAR -->
         <div class="music-player">
-            <span id="songTitle" style="font-weight: 600; font-size: 14px;">🎵 Romantik Melodi</span>
-            <button onclick="toggleMusic()" id="musicBtn" class="music-btn" style="padding: 6px 14px;">Çal ▶</button>
+            <span id="songTitle" style="font-weight: 600; font-size: 13px;">🎵 Beni Çok Sev - Tarkan</span>
+            <div style="display: flex; gap: 5px;">
+                <button onclick="prevSong()" class="music-btn" style="padding: 6px 10px; font-size: 12px;">⏮</button>
+                <button onclick="toggleMusic()" id="musicBtn" class="music-btn" style="padding: 6px 12px; font-size: 12px;">Çal ▶</button>
+                <button onclick="nextSong()" class="music-btn" style="padding: 6px 10px; font-size: 12px;">⏭</button>
+            </div>
         </div>
 
         <!-- MENÜ BUTONLARI -->
@@ -357,19 +401,38 @@
         <!-- 1. ANA EKRAN -->
         <div id="anaEkran" class="card content-section active">
             <h2>Sevgililer Günümüz Kutlu Olsun ❤️</h2>
-            <p style="margin-top: 10px; font-size: 14px; line-height: 1.5; opacity: 0.9;">Burası seninle olan güzel anılarımız ve eğlence dolu dünyamız için hazırlandı.</p>
+            <p style="margin-top: 6px; font-size: 13px; opacity: 0.9;">Burası seninle olan güzel anılarımız için hazırlandı.</p>
             
-            <div style="display: flex; justify-content: space-around; margin: 15px 0;">
-                <div style="background: rgba(230, 57, 70, 0.08); padding: 10px; border-radius: 12px; min-width: 65px; border: 1px solid var(--border);">
-                    <div class="time-num" style="font-size: 20px; font-weight: bold; color: var(--accent);">13</div>
-                    <div style="font-size: 11px; opacity: 0.8; margin-top: 2px;">Gün</div>
+            <!-- KÜÇÜLTÜLMÜŞ 13 GÜN KISMI VE YANINDA BENİ SEVİYOR MUSUN? SORUSU -->
+            <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin: 12px 0;">
+                <div style="background: rgba(230, 57, 70, 0.08); padding: 6px 10px; border-radius: 10px; border: 1px solid var(--border); flex-shrink: 0;">
+                    <div style="font-size: 14px; font-weight: bold; color: var(--accent);">13</div>
+                    <div style="font-size: 9px; opacity: 0.8;">Gün</div>
+                </div>
+                <div id="questionArea" style="flex: 1; text-align: left;">
+                    <p id="questionText" style="font-size: 13px; font-weight: bold; color: var(--accent); margin-bottom: 6px;">Beni çok seviyor musun? ❤️</p>
+                    <div class="choice-btns" style="justify-content: flex-start;">
+                        <button class="game-btn" onclick="clickYes()" style="padding: 6px 12px; font-size: 12px;">Evet 🥰</button>
+                        <button id="noBtn" class="game-btn" onclick="clickNo()" style="padding: 6px 12px; font-size: 12px;">Hayır 😜</button>
+                    </div>
                 </div>
             </div>
 
-            <!-- KAZIMA KARTI -->
-            <div class="scratch-container">
-                <div class="scratch-secret">Eczaneler dolu ilaç satıyorlar ama tek tedavim sensin ❤️✨</div>
-                <canvas id="scratchCanvas" width="300" height="120"></canvas>
+            <!-- EVET'E BASINCA AÇILACAK ÖZEL EKRAN -->
+            <div id="loveContent">
+                <!-- 1. İltifat -->
+                <p style="font-size: 15px; font-weight: bold; color: var(--accent); line-height: 1.4;">Dünyanın en güzel kalpli, en tatlı sevgilisi, iyi ki varsın hayatımda! ✨❤️</p>
+                
+                <!-- 2. Kazı Kazan -->
+                <div class="scratch-container">
+                    <div class="scratch-secret">Eczaneler dolu ilaç satıyorlar ama tek tedavim sensin ❤️✨</div>
+                    <canvas id="scratchCanvas" width="300" height="120"></canvas>
+                </div>
+
+                <!-- 3. Azize'nin Fotoğrafı -->
+                <div class="photo-frame">
+                    <img src="azize.jpg" alt="Azizem" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80'">
+                </div>
             </div>
         </div>
 
@@ -391,7 +454,7 @@
         </div>
 
         <!-- 4. ARCADE SALONU -->
-        <div id="arcadeSec" class="card content-section" style="display: none; flex-direction: column;">
+        <div id="arcadeSec" class="card content-section">
             <h2>Arcade Salonu 🕹️</h2>
             <div class="arcade-tabs" style="margin-top: 15px;">
                 <button class="arcade-tab active-tab" onclick="switchArcadeGame('flappy', event)">🐤 Flappy</button>
@@ -405,7 +468,7 @@
             <!-- FLAPPY BIRD -->
             <div id="gameFlappy" class="arcade-mod" style="display: block;">
                 <h3>Flappy Bird</h3>
-                <canvas id="flappyCanvas" width="280" height="320"></canvas>
+                <canvas id="flappyCanvas" width="280" height="320" style="background:#000;"></canvas>
                 <p style="margin: 8px 0;">Skor: <span id="fbScore">0</span> | En Yüksek: <span id="fbHighScore">0</span></p>
                 <div class="game-controls">
                     <button class="game-btn" onclick="if(typeof startFlappy === 'function') startFlappy()">Başlat</button>
@@ -416,7 +479,7 @@
             <!-- YILAN OYUNU -->
             <div id="gameSnake" class="arcade-mod">
                 <h3>Yılan Oyunu</h3>
-                <canvas id="snakeCanvas" width="320" height="320"></canvas>
+                <canvas id="snakeCanvas" width="300" height="300" style="background:#111; border:2px solid var(--border);"></canvas>
                 <p style="margin: 8px 0;">Skor: <span id="snakeScore">0</span></p>
                 <div class="game-controls">
                     <button class="game-btn" onclick="if(typeof startSnake === 'function') startSnake()">Başlat</button>
@@ -432,7 +495,7 @@
             <!-- TETRİS -->
             <div id="gameTetris" class="arcade-mod">
                 <h3>Tetris</h3>
-                <canvas id="tetrisCanvas" width="200" height="320"></canvas>
+                <canvas id="tetrisCanvas" width="200" height="320" style="background:#000;"></canvas>
                 <p style="margin: 8px 0;">Skor: <span id="tetrisScore">0</span></p>
                 <div class="game-controls">
                     <button class="game-btn" onclick="if(typeof startTetris === 'function') startTetris()">Başlat</button>
@@ -445,7 +508,7 @@
             <!-- XOX -->
             <div id="gameXOX" class="arcade-mod">
                 <h3>XOX</h3>
-                <canvas id="xoxCanvas" width="240" height="240"></canvas>
+                <canvas id="xoxCanvas" width="240" height="240" style="background:#000;"></canvas>
                 <p id="xoxStatus" style="margin: 8px 0;">Sıra sende! (X)</p>
                 <button class="game-btn" onclick="if(typeof startXox === 'function') startXox()">Başlat</button>
             </div>
@@ -453,7 +516,7 @@
             <!-- AZİZE KELİME OYUNU -->
             <div id="gameKelime" class="arcade-mod">
                 <h3>Azize Kelime</h3>
-                <canvas id="wordCanvas" width="280" height="150"></canvas>
+                <canvas id="wordCanvas" width="280" height="150" style="background:#000;"></canvas>
                 <p style="margin: 8px 0;">Skor: <span id="wordScore">0</span></p>
                 <div class="game-controls" style="flex-direction: column; gap: 8px;">
                     <input type="text" id="wordInput" placeholder="Kelimeyi yaz..." style="padding: 8px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text); text-align: center;">
@@ -472,15 +535,17 @@
         </div>
     </div>
 
-    <!-- CHATBOT -->
+    <!-- ASİSTAN / CHATBOT -->
     <div class="chat-float" onclick="toggleChat()">💬</div>
     <div id="chatWin" class="chat-window">
         <div style="background: var(--accent); color: #fff; padding: 12px; font-weight: bold; display: flex; justify-content: space-between;">
             <span>Asistan ❤️</span>
             <span onclick="toggleChat()" style="cursor: pointer;">✕</span>
         </div>
-        <div id="chatBody" style="flex: 1; padding: 10px; overflow-y: auto; font-size: 13px; display: flex; flex-direction: column; gap: 6px;">
-            <div style="text-align: left;"><span style="background:#e0e0e0; color:#333; padding:8px 12px; border-radius:10px; display:inline-block;">Efendim sevgilim, nasılsın? ❤️</span></div>
+        <div id="chatBody" style="flex: 1; padding: 10px; overflow-y: auto; font-size: 13px; display: flex; flex-direction: column; gap: 8px;">
+            <div style="text-align: left;">
+                <span style="background:#e0e0e0; color:#333; padding:8px 12px; border-radius:10px; display:inline-block;">Efendim sevgilim, bugün beni çok seviyor musun bakalım? ❤️</span>
+            </div>
         </div>
         <div style="padding: 8px; display: flex; gap: 6px; border-top: 1px solid var(--border); background: var(--card-bg);">
             <input type="text" id="chatInput" placeholder="Yaz..." style="flex:1; padding:6px; border-radius:6px; border:1px solid var(--border); background:var(--card-bg); color:var(--text);">
@@ -496,9 +561,8 @@
                 document.getElementById("loginScreen").style.display = "none";
                 document.getElementById("mainApp").style.display = "flex";
                 if (typeof confetti === 'function') confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-                initScratchCard();
             } else {
-                alert("Yanlış şifre bebeğim! Tekrar dene 🌸");
+                alert("Yanlış şifre bebeğim! 'azize' yazarak deneyebilirsin 🌸");
             }
         }
 
@@ -510,10 +574,74 @@
         function showSection(sectionId) {
             document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
             const target = document.getElementById(sectionId);
-            if (target) {
-                target.classList.add('active');
-                if (sectionId === 'arcadeSec') target.style.display = 'flex';
+            if (target) target.classList.add('active');
+        }
+
+        /* HAYIR BUTONU KACMA VE KÜÇÜLME MANTIĞI */
+        let noClickCount = 0;
+        const noMessages = [
+            "Hayır basamazsın, kalbin bunu kabul etmiyor sevgilim! ❤️",
+            "Aşk olsun, gerçekten mi? Tekrar düşün bence 🥺",
+            "Bu butona basmak yasak kuralımız var! 🥰",
+            "Parmakların yanlışlıkla basıyor olmalı 😄",
+            "Şansını zorlama sevgilim, EVET'e bas ❤️"
+        ];
+
+        function clickNo() {
+            noClickCount++;
+            const noBtn = document.getElementById("noBtn");
+            const qText = document.getElementById("questionText");
+            
+            const msgIdx = (noClickCount - 1) % noMessages.length;
+            qText.innerText = noMessages[msgIdx];
+
+            const randomX = (Math.random() - 0.5) * 120;
+            const randomY = (Math.random() - 0.5) * 50;
+            noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+
+            let scale = Math.max(0.4, 1 - (noClickCount * 0.12));
+            noBtn.style.transform += ` scale(${scale})`;
+        }
+
+        function clickYes() {
+            document.getElementById("questionArea").style.display = "none";
+            document.querySelector("#anaEkran > div:nth-child(3)").style.display = "none"; // 13 günlük küçük kutuyu da gizle
+            document.getElementById("loveContent").style.display = "flex";
+            if (typeof confetti === 'function') {
+                confetti({ particleCount: 120, spread: 80, origin: { y: 0.5 } });
             }
+            initScratchCard();
+        }
+
+        /* KAZIMA KARTI */
+        function initScratchCard() {
+            const canvas = document.getElementById("scratchCanvas");
+            if (!canvas) return;
+            const ctx = canvas.getContext("2d");
+            ctx.fillStyle = "#C0C0C0";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#444444";
+            ctx.font = "bold 15px sans-serif";
+            ctx.textAlign = "center";
+            ctx.fillText("Burayı Kazı! 🪙", canvas.width / 2, canvas.height / 2 + 5);
+
+            let isScratching = false;
+            function scratch(e) {
+                if (!isScratching) return;
+                const rect = canvas.getBoundingClientRect();
+                const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+                const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
+                ctx.globalCompositeOperation = "destination-out";
+                ctx.beginPath();
+                ctx.arc(x, y, 18, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            canvas.addEventListener("mousedown", () => isScratching = true);
+            window.addEventListener("mouseup", () => isScratching = false);
+            canvas.addEventListener("mousemove", scratch);
+            canvas.addEventListener("touchstart", () => isScratching = true);
+            window.addEventListener("touchend", () => isScratching = false);
+            canvas.addEventListener("touchmove", scratch);
         }
 
         function switchArcadeGame(game, evt) {
@@ -530,41 +658,41 @@
             else if (game === 'kasa') document.getElementById('gameKasa').style.display = 'block';
         }
 
-        function initScratchCard() {
-            const canvas = document.getElementById("scratchCanvas");
-            if (!canvas) return;
-            const ctx = canvas.getContext("2d");
-            ctx.fillStyle = "#C0C0C0";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "#555555";
-            ctx.font = "bold 14px sans-serif";
-            ctx.textAlign = "center";
-            ctx.fillText("Burayı Kazı! 🪙", canvas.width / 2, canvas.height / 2 + 5);
-
-            let isScratching = false;
-            function scratch(e) {
-                if (!isScratching) return;
-                const rect = canvas.getBoundingClientRect();
-                const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
-                const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
-                ctx.globalCompositeOperation = "destination-out";
-                ctx.beginPath();
-                ctx.arc(x, y, 16, 0, Math.PI * 2);
-                ctx.fill();
-            }
-            canvas.addEventListener("mousedown", () => isScratching = true);
-            window.addEventListener("mouseup", () => isScratching = false);
-            canvas.addEventListener("mousemove", scratch);
-            canvas.addEventListener("touchstart", () => isScratching = true);
-            window.addEventListener("touchend", () => isScratching = false);
-            canvas.addEventListener("touchmove", scratch);
-        }
-
         function feedPet() {
             document.getElementById("petStatus").innerText = "Mamamızı yedik, çok mutluyuz! 🐾";
             if (typeof confetti === 'function') confetti({ particleCount: 40, spread: 50, origin: { y: 0.8 } });
         }
 
+        /* ŞARKI SİSTEMİ */
+        const songs = [
+            { title: "🎵 Beni Çok Sev - Tarkan" },
+            { title: "🎵 Seni Unutmaya Ömrüm Yeter mi?" },
+            { title: "🎵 Kalbim Seni Seçti" }
+        ];
+        let currentSongIdx = 0;
+        let isPlaying = false;
+
+        function toggleMusic() {
+            isPlaying = !isPlaying;
+            document.getElementById("musicBtn").innerText = isPlaying ? "Durdur ⏸" : "Çal ▶";
+            if (isPlaying && typeof confetti === 'function') confetti({ particleCount: 15, spread: 30, origin: { y: 0.1 } });
+        }
+
+        function nextSong() {
+            currentSongIdx = (currentSongIdx + 1) % songs.length;
+            document.getElementById("songTitle").innerText = songs[currentSongIdx].title;
+            isPlaying = true;
+            document.getElementById("musicBtn").innerText = "Durdur ⏸";
+        }
+
+        function prevSong() {
+            currentSongIdx = (currentSongIdx - 1 + songs.length) % songs.length;
+            document.getElementById("songTitle").innerText = songs[currentSongIdx].title;
+            isPlaying = true;
+            document.getElementById("musicBtn").innerText = "Durdur ⏸";
+        }
+
+        /* ASİSTAN */
         function toggleChat() {
             const win = document.getElementById("chatWin");
             win.style.display = win.style.display === "flex" ? "none" : "flex";
@@ -579,15 +707,9 @@
             inp.value = "";
             body.scrollTop = body.scrollHeight;
             setTimeout(() => {
-                body.innerHTML += `<div style="text-align:left;"><span style="background:#e0e0e0; color:#333; padding:6px 10px; border-radius:8px; display:inline-block;">Seni çok seviyorum ❤️</span></div>`;
+                body.innerHTML += `<div style="text-align:left;"><span style="background:#e0e0e0; color:#333; padding:6px 10px; border-radius:8px; display:inline-block;">Harikasın bebeğim! ❤️</span></div>`;
                 body.scrollTop = body.scrollHeight;
             }, 600);
-        }
-
-        let isPlaying = false;
-        function toggleMusic() {
-            isPlaying = !isPlaying;
-            document.getElementById("musicBtn").innerText = isPlaying ? "Durdur ⏸" : "Çal ▶";
         }
     </script>
 
