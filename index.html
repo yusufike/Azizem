@@ -382,7 +382,7 @@
 
         <!-- MÜZİK ÇALAR -->
         <div class="music-player">
-            <span id="songTitle" style="font-weight: 600; font-size: 13px;">🎵 Beni Çok Sev - Tarkan</span>
+            <span id="songTitle" style="font-weight: 600; font-size: 13px;">🎵 Müzik Yükleniyor...</span>
             <div style="display: flex; gap: 5px;">
                 <button onclick="prevSong()" class="music-btn" style="padding: 6px 10px; font-size: 12px;">⏮</button>
                 <button onclick="toggleMusic()" id="musicBtn" class="music-btn" style="padding: 6px 12px; font-size: 12px;">Çal ▶</button>
@@ -431,7 +431,7 @@
 
                 <!-- 3. Azize'nin Fotoğrafı -->
                 <div class="photo-frame">
-                    <img src="azize.jpg" alt="Azizem" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80'">
+                    <img src="Screenshot_2026-07-14-00-26-15-279_com.zhiliaopapp.musically-edit.jpg" alt="Azizem" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80'">
                 </div>
             </div>
         </div>
@@ -575,6 +575,29 @@
             document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
             const target = document.getElementById(sectionId);
             if (target) target.classList.add('active');
+
+            // Ana ekrana dönüldüğünde soru alanını, 13 gün kutusunu sıfırla ve sevgi ekranını kapat
+            if (sectionId === 'anaEkran') {
+                const qArea = document.getElementById("questionArea");
+                if (qArea) qArea.style.display = "flex";
+                
+                const daysBox = document.querySelector("#anaEkran > div:nth-child(3)");
+                if (daysBox) daysBox.style.display = "flex";
+                
+                const loveContent = document.getElementById("loveContent");
+                if (loveContent) loveContent.style.display = "none";
+
+                // Hayır butonunun konumunu ve boyutunu sıfırla
+                const noBtn = document.getElementById("noBtn");
+                if (noBtn) {
+                    noBtn.style.transform = "none";
+                }
+                noClickCount = 0;
+                const qText = document.getElementById("questionText");
+                if (qText) {
+                    qText.innerText = "Beni çok seviyor musun? ❤️";
+                }
+            }
         }
 
         /* HAYIR BUTONU KACMA VE KÜÇÜLME MANTIĞI */
@@ -663,35 +686,6 @@
             if (typeof confetti === 'function') confetti({ particleCount: 40, spread: 50, origin: { y: 0.8 } });
         }
 
-        /* ŞARKI SİSTEMİ */
-        const songs = [
-            { title: "🎵 Beni Çok Sev - Tarkan" },
-            { title: "🎵 Seni Unutmaya Ömrüm Yeter mi?" },
-            { title: "🎵 Kalbim Seni Seçti" }
-        ];
-        let currentSongIdx = 0;
-        let isPlaying = false;
-
-        function toggleMusic() {
-            isPlaying = !isPlaying;
-            document.getElementById("musicBtn").innerText = isPlaying ? "Durdur ⏸" : "Çal ▶";
-            if (isPlaying && typeof confetti === 'function') confetti({ particleCount: 15, spread: 30, origin: { y: 0.1 } });
-        }
-
-        function nextSong() {
-            currentSongIdx = (currentSongIdx + 1) % songs.length;
-            document.getElementById("songTitle").innerText = songs[currentSongIdx].title;
-            isPlaying = true;
-            document.getElementById("musicBtn").innerText = "Durdur ⏸";
-        }
-
-        function prevSong() {
-            currentSongIdx = (currentSongIdx - 1 + songs.length) % songs.length;
-            document.getElementById("songTitle").innerText = songs[currentSongIdx].title;
-            isPlaying = true;
-            document.getElementById("musicBtn").innerText = "Durdur ⏸";
-        }
-
         /* ASİSTAN */
         function toggleChat() {
             const win = document.getElementById("chatWin");
@@ -712,6 +706,9 @@
             }, 600);
         }
     </script>
+
+    <!-- ŞARKI DOSYASI -->
+    <script src="sarkilar/sarkilar.js"></script>
 
     <!-- OYUN DOSYASI BAĞLANTILARI -->
     <script src="bird.js"></script>
