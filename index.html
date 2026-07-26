@@ -40,9 +40,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             color: var(--text);
-            padding: 12px;
+            padding: 8px 12px 20px;
             position: relative;
             overflow-x: hidden;
             transition: background 0.3s ease;
@@ -59,6 +59,8 @@
             border: 1px solid var(--border);
             text-align: center;
             z-index: 1000;
+            margin-top: auto;
+            margin-bottom: auto;
         }
 
         .pass-input {
@@ -88,8 +90,9 @@
             width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-bottom: 12px;
+            gap: 8px;
+            margin-bottom: 10px;
+            margin-top: 0;
         }
 
         .top-row {
@@ -266,6 +269,22 @@
             transition: all 0.2s ease;
         }
 
+        /* FOTOĞRAF KARTI */
+        .photo-box {
+            width: 100%;
+            max-height: 280px;
+            border-radius: 18px;
+            overflow: hidden;
+            margin: 12px 0;
+            border: 2px solid var(--border);
+        }
+
+        .photo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
         /* ARCADE SALONU SEKMELERİ */
         .arcade-tab-btns {
             display: flex;
@@ -424,9 +443,8 @@
             display: inline-block; margin-top: 10px;
         }
 
-        .footer-tag { margin-top: 20px; font-size: 11px; color: #888; margin-bottom: 20px; text-align: center; }
+        .footer-tag { margin-top: 15px; font-size: 11px; color: #888; margin-bottom: 15px; text-align: center; }
         
-        /* D-PAD VE KONTROL BUTONLARI */
         .d-pad {
             display: grid; grid-template-columns: repeat(3, 1fr);
             gap: 6px; width: 150px; margin: 10px auto 0;
@@ -471,7 +489,7 @@
                         <div class="sub">Dünyam değişti ✨</div>
                     </div>
                 </div>
-                <button class="theme-btn" onclick="toggleTheme()">🌸 Pembe</button>
+                <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">🌸 Pembe</button>
             </div>
 
             <!-- MÜZİK KUTUSU -->
@@ -515,13 +533,19 @@
                 <button class="submit-btn" style="background:#2ec4b6;" onclick="handleYes()">Evet ❤️</button>
                 <button class="submit-btn no-btn" id="noBtn" onclick="handleNo()">Hayır 💔</button>
             </div>
+            <div id="yesMessage" style="display:none; margin-top: 15px; color: var(--accent); font-weight: bold; font-size: 14px;">
+                Seni Çok Seviyorum Birtanem! 🥰
+            </div>
         </div>
 
-        <!-- 2. KART: İKİNCİ ADIM -->
+        <!-- 2. KART: ANILARIMIZ VE FOTOĞRAF -->
         <div id="secondPage" class="card">
             <h2 style="color: var(--accent); font-size: 20px; margin-bottom: 8px;">İyi ki Varsın! 🥰</h2>
+            <div class="photo-box">
+                <img src="Screenshot_2026-07-14-00-26-15-279_com.zhiliaoapp.musically-edit.jpg" alt="Bizim Fotoğrafımız">
+            </div>
             <p style="color: #666; font-size: 13px; margin-bottom: 18px; line-height: 1.5;">
-                Hayatımda olduğun her gün için minnettarım. Seninle geçirdiğim her an çok kıymetli.
+                Gülüşünle hayatımı güzelleştirdiğin, yanımda olduğun her an için teşekkür ederim. Seni her şeyden çok seviyorum! ❤️
             </p>
             <button class="submit-btn" onclick="showCard('thirdPage')">İleri Git ➡</button>
         </div>
@@ -546,11 +570,14 @@
             </p>
         </div>
 
-        <!-- 5. KART: YAPBOZ -->
+        <!-- 5. KART: YAPBOZ (FOTOĞRAF EKLENDİ) -->
         <div id="yapbozPage" class="card">
             <h2 style="color: var(--accent);">Mini Yapboz 🧩</h2>
+            <div class="photo-box" style="max-height: 220px;">
+                <img src="Screenshot_2026-07-14-00-26-15-279_com.zhiliaoapp.musically-edit.jpg" alt="Yapboz Fotoğrafı">
+            </div>
             <p style="color: #666; font-size: 12px; margin-top: 10px; line-height: 1.5;">
-                Fotoğraflarımızı buraya yükleyip yapboz haline getireceğimiz bölüm çok yakında eklenecek!
+                Sürüklenebilir fotoğraf yapboz oyunumuz çok yakında aktif olacak!
             </p>
         </div>
 
@@ -558,7 +585,6 @@
         <div id="arcadePage" class="card">
             <h2 style="color: var(--accent); margin-bottom: 10px;">🎮 Arcade Salonu</h2>
             
-            <!-- Sekme Butonları -->
             <div class="arcade-tab-btns">
                 <button class="arcade-tab active-tab" onclick="switchArcadeGame('xox', event)">❌⭕ XOX</button>
                 <button class="arcade-tab" onclick="switchArcadeGame('kelime', event)">🔤 Kelime</button>
@@ -568,14 +594,14 @@
                 <button class="arcade-tab" onclick="switchArcadeGame('kasa', event)">🔐 Kasa</button>
             </div>
 
-            <!-- 1. XOX Modülü -->
+            <!-- XOX -->
             <div id="gameXOX" class="arcade-mod">
                 <p id="xoxStatus" style="color: #888; font-size: 11px;">Hamleni Yap!</p>
                 <div class="xox-grid" id="xoxBoard"></div>
                 <button class="submit-btn" onclick="resetXOX()" style="padding: 6px 12px; font-size: 11px; width: auto; margin-top: 6px;">Yeniden Başlat</button>
             </div>
 
-            <!-- 2. Kelime Oyunu Modülü -->
+            <!-- Kelime -->
             <div id="gameKelime" class="arcade-mod" style="display: none;">
                 <p style="color: #666; font-size: 12px;">Sevgi kelimemizi tahmin et:</p>
                 <h3 style="letter-spacing: 4px; margin: 10px 0; color: var(--accent);">A Z İ Z E M M</h3>
@@ -586,7 +612,7 @@
                 </div>
             </div>
 
-            <!-- 3. Flappy Bird Modülü -->
+            <!-- Flappy Bird -->
             <div id="gameFlappy" class="arcade-mod" style="display: none;">
                 <div class="score-board">
                     <span>Skor: <span id="fbScore">0</span></span>
@@ -601,7 +627,7 @@
                 </div>
             </div>
 
-            <!-- 4. Tetris Modülü -->
+            <!-- Tetris -->
             <div id="gameTetris" class="arcade-mod" style="display: none;">
                 <div class="score-board">
                     <span>Skor: <span id="tetrisScore">0</span></span>
@@ -621,7 +647,7 @@
                 </div>
             </div>
 
-            <!-- 5. Şifre Kasa Modülü -->
+            <!-- Kasa -->
             <div id="gameKasa" class="arcade-mod" style="display: none;">
                 <p style="color: #666; font-size: 12px; margin-bottom: 12px;">
                     Sadece bize özel alan ve bağlantılar:
@@ -629,14 +655,13 @@
                 <a href="https://instagram.com/yusuf.i3152" target="_blank" class="instagram-btn">Instagram: yusuf.i3152</a>
             </div>
 
-            <!-- 6. Yılan Oyunu Modülü -->
+            <!-- Yılan -->
             <div id="gameSnake" class="arcade-mod" style="display: none;">
                 <div class="score-board">
                     <span>Skor: <span id="snakeScore">0</span></span>
                     <span>En Yüksek: <span id="snakeHighScore">0</span></span>
                 </div>
                 <canvas id="snakeCanvas" width="200" height="200" style="background: #181818; border-radius: 12px; border: 2px solid var(--border);"></canvas>
-                
                 <div class="d-pad">
                     <div></div>
                     <button class="d-btn" onclick="setSnakeDir('UP')">▲</button>
@@ -645,7 +670,6 @@
                     <button class="d-btn" onclick="setSnakeDir('DOWN')">▼</button>
                     <button class="d-btn" onclick="setSnakeDir('RIGHT')">►</button>
                 </div>
-
                 <div style="margin-top: 8px;">
                     <button class="submit-btn" onclick="startSnake()" style="padding: 6px 12px; font-size: 11px; width: auto;">Oyunu Başlat 🐍</button>
                 </div>
@@ -688,7 +712,7 @@
     </div>
 
     <script>
-        /* MÜZİK LİSTESİ (GITHUB REPO MÜZİKLERİNİZ) */
+        /* MÜZİK LİSTESİ */
         const playlist = [
             {
                 title: "Ben Seninle Mutluyum",
@@ -797,7 +821,7 @@
             if (typeof confetti === 'function') {
                 confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
             }
-            showCard('secondPage');
+            document.getElementById("yesMessage").style.display = "block";
         }
 
         function handleNo() {
@@ -815,7 +839,14 @@
 
         /* TEMA DEGISTIRME */
         function toggleTheme() {
-            document.body.toggleAttribute("data-theme");
+            const btn = document.getElementById("themeBtn");
+            if (document.body.hasAttribute("data-theme")) {
+                document.body.removeAttribute("data-theme");
+                btn.innerText = "🌸 Pembe";
+            } else {
+                document.body.setAttribute("data-theme", "dark");
+                btn.innerText = "🌙 Gece";
+            }
         }
 
         /* SANAL EVCİL HAYVAN MANTIGI */
@@ -941,7 +972,7 @@
             renderXOX();
         }
 
-        /* YILAN OYUNU MANTIGI VE KONTROLLERİ */
+        /* YILAN OYUNU */
         let snakeInterval;
         let snakeHighScore = localStorage.getItem("snakeHS") || 0;
         let snakeDx = 1, snakeDy = 0;
@@ -1006,7 +1037,7 @@
             }, 150);
         }
 
-        /* FLAPPY BIRD MANTIGI VE KONTROLLERİ */
+        /* FLAPPY BIRD */
         let fbLoop;
         let fbHighScore = localStorage.getItem("flappyHS") || 0;
         let fbVelocity = 0;
@@ -1075,7 +1106,7 @@
             }, 1000/60);
         }
 
-        /* TETRIS MANTIGI */
+        /* TETRIS */
         let tetrisLoop;
         let tetrisScore = 0;
         let tetrisHighScore = localStorage.getItem("tetrisHS") || 0;
