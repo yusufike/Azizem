@@ -17,6 +17,7 @@
             --insta-bg: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
         }
 
+        /* GECE TEMASI */
         [data-theme="dark"] {
             --bg: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
             --card-bg: rgba(30, 41, 59, 0.95);
@@ -24,6 +25,16 @@
             --shadow: rgba(0, 0, 0, 0.4);
             --border: rgba(71, 85, 105, 0.8);
             --accent: #ff4d6d;
+        }
+
+        /* SİNEMATİK TEMA */
+        [data-theme="cinematic"] {
+            --bg: linear-gradient(135deg, #121212 0%, #2a0845 50%, #6441a5 100%);
+            --card-bg: rgba(20, 20, 20, 0.9);
+            --text: #ffffff;
+            --shadow: rgba(100, 65, 165, 0.5);
+            --border: rgba(100, 65, 165, 0.8);
+            --accent: #bb86fc;
         }
 
         * {
@@ -40,7 +51,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             color: var(--text);
             padding: 12px;
             position: relative;
@@ -59,6 +70,8 @@
             border: 1px solid var(--border);
             text-align: center;
             z-index: 1000;
+            margin-top: auto;
+            margin-bottom: auto;
         }
 
         .pass-input {
@@ -83,7 +96,7 @@
             align-items: center;
         }
 
-        /* ÜST HEADER VE BİLGİ KARTLARI */
+        /* EN ÜST DÜZENİ */
         .top-container {
             width: 100%;
             display: flex;
@@ -92,28 +105,27 @@
             margin-bottom: 12px;
         }
 
-        .top-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .info-card {
+        .full-width-card {
             background: var(--card-bg);
             border-radius: 20px;
-            padding: 10px 16px;
-            flex: 1;
+            padding: 12px 18px;
+            width: 100%;
             box-shadow: 0 4px 15px var(--shadow);
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: space-between;
             border: 1px solid var(--border);
         }
 
-        .info-card .icon { font-size: 16px; }
-        .info-card .title { font-size: 13px; font-weight: 700; color: var(--accent); }
-        .info-card .sub { font-size: 10px; color: #888; }
+        .info-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-content .icon { font-size: 20px; }
+        .info-content .title { font-size: 15px; font-weight: 700; color: var(--accent); }
+        .info-content .sub { font-size: 11px; color: #888; }
 
         .theme-btn {
             background: var(--card-bg);
@@ -121,11 +133,12 @@
             padding: 10px 16px;
             border-radius: 20px;
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--text);
             box-shadow: 0 4px 15px var(--shadow);
             cursor: pointer;
             transition: transform 0.1s;
+            z-index: 10;
         }
 
         .theme-btn:active { transform: scale(0.95); }
@@ -266,7 +279,65 @@
             transition: all 0.2s ease;
         }
 
-        /* ARCADE SALONU SEKMELERİ */
+        /* KAZI KAZAN ALANI */
+        .scratch-container {
+            position: relative;
+            width: 220px;
+            height: 110px;
+            margin: 15px auto;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            border: 2px dashed var(--accent);
+        }
+
+        .scratch-secret {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--accent);
+            font-size: 12px;
+            padding: 10px;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        canvas#scratchCanvas {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        /* FOTOĞRAF KARTI */
+        .photo-card {
+            width: 100%;
+            max-width: 260px;
+            height: 180px;
+            margin: 15px auto;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 3px solid var(--border);
+            box-shadow: 0 6px 18px var(--shadow);
+            background: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* ARCADE STİLLERİ */
         .arcade-tab-btns {
             display: flex;
             gap: 6px;
@@ -289,7 +360,6 @@
             color: white;
         }
 
-        /* XOX OYUNU STİLLERİ */
         .xox-grid {
             display: grid; 
             grid-template-columns: repeat(3, 1fr); 
@@ -312,7 +382,6 @@
             font-weight: 800;
         }
 
-        /* KELİME OYUNU STİLLERİ */
         .word-game-box {
             display: flex;
             flex-direction: column;
@@ -341,7 +410,7 @@
             justify-content: space-around;
         }
 
-        /* ALT SEKSİYON (MİNİK DOST) */
+        /* ALT SEKSİYON */
         .bottom-section {
             width: 100%;
             margin-top: 12px;
@@ -381,7 +450,7 @@
             font-size: 11px; font-weight: 700; cursor: pointer;
         }
 
-        /* CHATBOT STİLLERİ */
+        /* CHATBOT */
         .chat-fab {
             position: fixed; bottom: 20px; right: 20px;
             background: var(--accent); width: 50px; height: 50px;
@@ -428,7 +497,7 @@
 
         .footer-tag { margin-top: 20px; font-size: 11px; color: #888; margin-bottom: 20px; text-align: center; }
         
-        /* D-PAD VE KONTROL BUTONLARI */
+        /* D-PAD */
         .d-pad {
             display: grid; grid-template-columns: repeat(3, 1fr);
             gap: 6px; width: 150px; margin: 10px auto 0;
@@ -448,12 +517,7 @@
         }
         .jump-btn:active { transform: scale(0.95); }
 
-        /* AKICI OYUN CANVAS KAPLAMASI */
-        canvas {
-            display: block;
-            margin: 0 auto;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
+        canvas { display: block; margin: 0 auto; }
     </style>
 </head>
 <body>
@@ -470,17 +534,17 @@
     <!-- 🌐 ANA İÇERİK -->
     <div id="mainApp">
 
-        <!-- ÜST BAR -->
+        <!-- ÜST BAR (13 GÜNDÜR SEVGİLİYİZ VE TEMA BUTONU EN ÜSTTE) -->
         <div class="top-container">
-            <div class="top-row">
-                <div class="info-card">
+            <div class="full-width-card">
+                <div class="info-content">
                     <span class="icon">❤️</span>
                     <div>
                         <div class="title">13 Gündür Sevgiliyiz</div>
                         <div class="sub">Dünyam değişti ✨</div>
                     </div>
                 </div>
-                <button class="theme-btn" onclick="toggleTheme()">🌸 Pembe</button>
+                <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">🌸 Pembe</button>
             </div>
 
             <!-- MÜZİK KUTUSU -->
@@ -502,10 +566,9 @@
             </div>
         </div>
 
-        <!-- MÜZİK SES ELEMANI -->
         <audio id="bgAudio" preload="auto"></audio>
 
-        <!-- SADELEŞTİRİLMİŞ ÜST MENÜ -->
+        <!-- MENÜ NAVİGASYONU -->
         <div class="menu-grid">
             <button class="menu-btn" onclick="showCard('mainPage')">🏠 Ana Ekran</button>
             <button class="menu-btn" onclick="showCard('anayasaPage')">📜 Anayasa</button>
@@ -526,13 +589,23 @@
             </div>
         </div>
 
-        <!-- 2. KART: İKİNCİ ADIM -->
+        <!-- 2. KART: EVET EKRANI (KAZI KAZAN VE FOTOĞRAF) -->
         <div id="secondPage" class="card">
-            <h2 style="color: var(--accent); font-size: 20px; margin-bottom: 8px;">İyi ki Varsın! 🥰</h2>
-            <p style="color: #666; font-size: 13px; margin-bottom: 18px; line-height: 1.5;">
-                Hayatımda olduğun her gün için minnettarım. Seninle geçirdiğim her an çok kıymetli.
-            </p>
-            <button class="submit-btn" onclick="showCard('thirdPage')">İleri Git ➡</button>
+            <h2 style="color: var(--accent); font-size: 20px; margin-bottom: 6px;">İyi ki Varsın! 🥰</h2>
+            <p style="color: #666; font-size: 12px; margin-bottom: 10px;">Sana özel sürpriz kartı kazı! 👇</p>
+            
+            <!-- KAZI KAZAN BÖLÜMÜ -->
+            <div class="scratch-container">
+                <div class="scratch-secret">Eczaneler dolu ilaç satıyorlar ama tek tedavim sensin ❤️✨</div>
+                <canvas id="scratchCanvas" width="220" height="110"></canvas>
+            </div>
+
+            <!-- FOTOĞRAF KARTI -->
+            <div class="photo-card">
+                <img src="https://picsum.photos/300/200?romantic" alt="Bizim Fotoğrafımız">
+            </div>
+
+            <button class="submit-btn" onclick="showCard('thirdPage')" style="margin-top: 10px;">İleri Git ➡</button>
         </div>
 
         <!-- 3. KART: INSTAGRAM İLETİŞİM -->
@@ -567,7 +640,6 @@
         <div id="arcadePage" class="card">
             <h2 style="color: var(--accent); margin-bottom: 10px;">🎮 Arcade Salonu</h2>
             
-            <!-- Sekme Butonları -->
             <div class="arcade-tab-btns">
                 <button class="arcade-tab active-tab" onclick="switchArcadeGame('xox', event)">❌⭕ XOX</button>
                 <button class="arcade-tab" onclick="switchArcadeGame('kelime', event)">🔤 Kelime</button>
@@ -577,14 +649,14 @@
                 <button class="arcade-tab" onclick="switchArcadeGame('kasa', event)">🔐 Kasa</button>
             </div>
 
-            <!-- 1. XOX Modülü -->
+            <!-- XOX -->
             <div id="gameXOX" class="arcade-mod">
                 <p id="xoxStatus" style="color: #888; font-size: 11px;">Hamleni Yap!</p>
                 <div class="xox-grid" id="xoxBoard"></div>
                 <button class="submit-btn" onclick="resetXOX()" style="padding: 6px 12px; font-size: 11px; width: auto; margin-top: 6px;">Yeniden Başlat</button>
             </div>
 
-            <!-- 2. Kelime Oyunu Modülü -->
+            <!-- Kelime Oyunu -->
             <div id="gameKelime" class="arcade-mod" style="display: none;">
                 <p style="color: #666; font-size: 12px;">Sevgi kelimemizi tahmin et:</p>
                 <h3 style="letter-spacing: 4px; margin: 10px 0; color: var(--accent);">A Z İ Z E M M</h3>
@@ -595,7 +667,7 @@
                 </div>
             </div>
 
-            <!-- 3. Flappy Bird Modülü -->
+            <!-- Flappy Bird -->
             <div id="gameFlappy" class="arcade-mod" style="display: none;">
                 <div class="score-board">
                     <span>Skor: <span id="fbScore">0</span></span>
@@ -610,7 +682,7 @@
                 </div>
             </div>
 
-            <!-- 4. Tetris Modülü -->
+            <!-- Tetris -->
             <div id="gameTetris" class="arcade-mod" style="display: none;">
                 <div class="score-board">
                     <span>Skor: <span id="tetrisScore">0</span></span>
@@ -630,15 +702,13 @@
                 </div>
             </div>
 
-            <!-- 5. Şifre Kasa Modülü -->
+            <!-- Kasa -->
             <div id="gameKasa" class="arcade-mod" style="display: none;">
-                <p style="color: #666; font-size: 12px; margin-bottom: 12px;">
-                    Sadece bize özel alan ve bağlantılar:
-                </p>
+                <p style="color: #666; font-size: 12px; margin-bottom: 12px;">Sadece bize özel alan ve bağlantılar:</p>
                 <a href="https://instagram.com/yusuf.i3152" target="_blank" class="instagram-btn">Instagram: yusuf.i3152</a>
             </div>
 
-            <!-- 6. Yılan Oyunu Modülü -->
+            <!-- Yılan -->
             <div id="gameSnake" class="arcade-mod" style="display: none;">
                 <div class="score-board">
                     <span>Skor: <span id="snakeScore">0</span></span>
@@ -679,7 +749,7 @@
 
     </div>
 
-    <!-- CHATBOT CANLI ASİSTAN -->
+    <!-- CHATBOT -->
     <div class="chat-fab" onclick="toggleChat()">💬</div>
 
     <div class="chat-win" id="chatWin">
@@ -697,7 +767,7 @@
     </div>
 
     <script>
-        /* MÜZİK LİSTESİ (GITHUB REPO MÜZİKLERİNİZ) */
+        /* MÜZİK LİSTESİ */
         const playlist = [
             {
                 title: "Ben Seninle Mutluyum",
@@ -739,9 +809,7 @@
                 audio.play().then(() => {
                     isPlaying = true;
                     playBtn.innerText = "⏸";
-                }).catch(err => {
-                    console.log("Müzik Oynatılamadı:", err);
-                });
+                }).catch(err => { console.log(err); });
             } else {
                 audio.pause();
                 isPlaying = false;
@@ -752,22 +820,16 @@
         function nextTrack() {
             currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
             loadTrack(currentTrackIndex);
-            if (isPlaying) {
-                isPlaying = false;
-                togglePlay();
-            }
+            if (isPlaying) { isPlaying = false; togglePlay(); }
         }
 
         function prevTrack() {
             currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
             loadTrack(currentTrackIndex);
-            if (isPlaying) {
-                isPlaying = false;
-                togglePlay();
-            }
+            if (isPlaying) { isPlaying = false; togglePlay(); }
         }
 
-        /* ŞİFRE KONTROL MANTIGI */
+        /* ŞİFRE KONTROLÜ */
         function checkPassword() {
             const pass = document.getElementById("passInput").value.trim();
             if (pass.toLowerCase() === "azizemm" || pass === "1234" || pass === "") {
@@ -778,26 +840,29 @@
             }
         }
 
-        /* EKRAN DEGISTIRME MANTIGI */
+        /* TEMA GEÇİŞİ (PEMBE -> GECE -> SİNEMATİK) */
+        let currentTheme = 0; // 0: Pembe, 1: Gece, 2: Sinematik
+        function toggleTheme() {
+            const btn = document.getElementById("themeBtn");
+            currentTheme = (currentTheme + 1) % 3;
+
+            if (currentTheme === 0) {
+                document.body.removeAttribute("data-theme");
+                btn.innerText = "🌸 Pembe";
+            } else if (currentTheme === 1) {
+                document.body.setAttribute("data-theme", "dark");
+                btn.innerText = "🌙 Gece";
+            } else {
+                document.body.setAttribute("data-theme", "cinematic");
+                btn.innerText = "🎬 Sinematik";
+            }
+        }
+
+        /* EKRAN GEÇİŞİ */
         function showCard(cardId) {
             document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
             const target = document.getElementById(cardId);
             if (target) target.classList.add('active');
-        }
-
-        /* ARCADE SEKMELERİ ARASI GEÇİŞ MANTIGI */
-        function switchArcadeGame(game, evt) {
-            document.querySelectorAll('.arcade-tab').forEach(t => t.classList.remove('active-tab'));
-            document.querySelectorAll('.arcade-mod').forEach(m => m.style.display = 'none');
-
-            if (evt) evt.target.classList.add('active-tab');
-
-            if (game === 'xox') document.getElementById('gameXOX').style.display = 'block';
-            else if (game === 'kelime') document.getElementById('gameKelime').style.display = 'block';
-            else if (game === 'flappy') document.getElementById('gameFlappy').style.display = 'block';
-            else if (game === 'tetris') document.getElementById('gameTetris').style.display = 'block';
-            else if (game === 'kasa') document.getElementById('gameKasa').style.display = 'block';
-            else if (game === 'snake') document.getElementById('gameSnake').style.display = 'block';
         }
 
         /* EVET / HAYIR BUTONLARI */
@@ -807,6 +872,7 @@
                 confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
             }
             showCard('secondPage');
+            initScratchCard(); // Kazı kazan kartını başlat
         }
 
         function handleNo() {
@@ -822,44 +888,86 @@
             }
         }
 
-        /* TEMA DEGISTIRME */
-        function toggleTheme() {
-            document.body.toggleAttribute("data-theme");
-        }
-
-        /* SANAL EVCİL HAYVAN MANTIGI */
-        const petStatuses = [
-            "Mamamızı yedik, çok mutluyuz! 🐾",
-            "Uykusu geldi sanki 😴",
-            "Topla oynamak istiyor 🎾",
-            "Seni görünce çok sevindi ✨"
-        ];
-        function feedPet() {
-            const statusEl = document.getElementById("petStatus");
-            const randomMsg = petStatuses[Math.floor(Math.random() * petStatuses.length)];
-            statusEl.innerText = randomMsg;
-            if (typeof confetti === 'function') {
-                confetti({ particleCount: 40, spread: 50, origin: { y: 0.8 } });
+        /* KAZI KAZAN MANTIGI */
+        function initScratchCard() {
+            const canvas = document.getElementById("scratchCanvas");
+            if (!canvas) return;
+            const ctx = canvas.getContext("2d");
+            
+            // Gizli Mesajı Ayarla
+            const secretDiv = document.querySelector('.scratch-secret');
+            if (secretDiv) {
+                secretDiv.innerText = "Eczaneler dolu ilaç satıyorlar ama tek tedavim sensin ❤️✨";
             }
+
+            ctx.fillStyle = "#C0C0C0"; // Gümüş kazıma katmanı
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = "#888888";
+            ctx.font = "12px sans-serif";
+            ctx.textAlign = "center";
+            ctx.fillText("Burayı Kazı! 🪙", canvas.width / 2, canvas.height / 2 + 4);
+
+            let isScratching = false;
+
+            function scratch(e) {
+                if (!isScratching) return;
+                const rect = canvas.getBoundingClientRect();
+                const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+                const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
+
+                ctx.globalCompositeOperation = "destination-out";
+                ctx.beginPath();
+                ctx.arc(x, y, 14, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            canvas.addEventListener("mousedown", () => isScratching = true);
+            canvas.addEventListener("mouseup", () => isScratching = false);
+            canvas.addEventListener("mousemove", scratch);
+
+            canvas.addEventListener("touchstart", () => isScratching = true);
+            canvas.addEventListener("touchend", () => isScratching = false);
+            canvas.addEventListener("touchmove", scratch);
         }
 
-        /* KELIME OYUNU MANTIGI */
+        /* ARCADE SEKMELERİ */
+        function switchArcadeGame(game, evt) {
+            document.querySelectorAll('.arcade-tab').forEach(t => t.classList.remove('active-tab'));
+            document.querySelectorAll('.arcade-mod').forEach(m => m.style.display = 'none');
+
+            if (evt) evt.target.classList.add('active-tab');
+
+            if (game === 'xox') document.getElementById('gameXOX').style.display = 'block';
+            else if (game === 'kelime') document.getElementById('gameKelime').style.display = 'block';
+            else if (game === 'flappy') document.getElementById('gameFlappy').style.display = 'block';
+            else if (game === 'tetris') document.getElementById('gameTetris').style.display = 'block';
+            else if (game === 'kasa') document.getElementById('gameKasa').style.display = 'block';
+            else if (game === 'snake') document.getElementById('gameSnake').style.display = 'block';
+        }
+
+        /* SANAL EVCİL HAYVAN */
+        const petStatuses = ["Mamamızı yedik, çok mutluyuz! 🐾", "Uykusu geldi sanki 😴", "Topla oynamak istiyor 🎾", "Seni görünce çok sevindi ✨"];
+        function feedPet() {
+            document.getElementById("petStatus").innerText = petStatuses[Math.floor(Math.random() * petStatuses.length)];
+            if (typeof confetti === 'function') confetti({ particleCount: 40, spread: 50, origin: { y: 0.8 } });
+        }
+
+        /* KELİME OYUNU */
         function checkWord() {
             const input = document.getElementById("guessInput").value.trim().toLowerCase();
             const res = document.getElementById("wordResult");
             if (input === "azizemm") {
                 res.style.color = "#2ec4b6";
                 res.innerText = "Tebrikler Birtanem! Doğru Bildin ❤️";
-                if (typeof confetti === 'function') {
-                    confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } });
-                }
+                if (typeof confetti === 'function') confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } });
             } else {
                 res.style.color = "#e63946";
                 res.innerText = "Yanlış tahmin, tekrar dene! 😜";
             }
         }
 
-        /* CHATBOT MANTIGI */
+        /* CHATBOT */
         function toggleChat() {
             const win = document.getElementById("chatWin");
             win.style.display = win.style.display === "flex" ? "none" : "flex";
@@ -888,7 +996,7 @@
             }, 600);
         }
 
-        /* XOX GAME MANTIGI */
+        /* XOX GAME */
         let xoxBoardState = Array(9).fill("");
         let isGameActive = true;
 
@@ -915,7 +1023,6 @@
                 isGameActive = false;
                 return;
             }
-
             setTimeout(botMove, 300);
         }
 
@@ -935,11 +1042,7 @@
         }
 
         function checkXOXWin(symbol) {
-            const winPatterns = [
-                [0,1,2], [3,4,5], [6,7,8],
-                [0,3,6], [1,4,7], [2,5,8],
-                [0,4,8], [2,4,6]
-            ];
+            const winPatterns = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]];
             return winPatterns.some(pattern => pattern.every(idx => xoxBoardState[idx] === symbol));
         }
 
@@ -950,7 +1053,7 @@
             renderXOX();
         }
 
-        /* YILAN OYUNU MANTIGI VE AKICI KONTROLLERİ */
+        /* YILAN OYUNU */
         let snakeInterval;
         let snakeHighScore = localStorage.getItem("snakeHS") || 0;
         let snakeDx = 1, snakeDy = 0;
@@ -973,13 +1076,6 @@
             document.getElementById("snakeScore").innerText = score;
 
             if (snakeInterval) clearInterval(snakeInterval);
-
-            document.onkeydown = (e) => {
-                if (e.key === "ArrowUp") setSnakeDir('UP');
-                if (e.key === "ArrowDown") setSnakeDir('DOWN');
-                if (e.key === "ArrowLeft") setSnakeDir('LEFT');
-                if (e.key === "ArrowRight") setSnakeDir('RIGHT');
-            };
 
             snakeInterval = setInterval(() => {
                 const head = {x: snake[0].x + snakeDx, y: snake[0].y + snakeDy};
@@ -1015,16 +1111,14 @@
             }, 120);
         }
 
-        /* FLAPPY BIRD MANTIGI VE AKICI KONTROLLERİ */
+        /* FLAPPY BIRD */
         let fbLoop;
         let fbHighScore = localStorage.getItem("flappyHS") || 0;
         let fbVelocity = 0;
         let fbRunning = false;
         document.getElementById("fbHighScore").innerText = fbHighScore;
 
-        function flappyJump() {
-            if(fbRunning) fbVelocity = -4.5;
-        }
+        function flappyJump() { if(fbRunning) fbVelocity = -4.5; }
 
         function startFlappy() {
             const canvas = document.getElementById("flappyCanvas");
@@ -1039,10 +1133,6 @@
             fbRunning = true;
 
             document.getElementById("fbScore").innerText = score;
-
-            canvas.onclick = flappyJump;
-            window.onkeydown = (e) => { if(e.code === 'Space') flappyJump(); };
-
             if(fbLoop) clearInterval(fbLoop);
 
             fbLoop = setInterval(() => {
@@ -1084,7 +1174,7 @@
             }, 1000/60);
         }
 
-        /* TETRIS MANTIGI VE AKICI KONTROLLERİ */
+        /* TETRIS */
         let tetrisLoop;
         let tetrisScore = 0;
         let tetrisHighScore = localStorage.getItem("tetrisHS") || 0;
@@ -1096,17 +1186,9 @@
         let arena = Array(15).fill().map(() => Array(10).fill(0));
         let player = { pos: {x: 0, y: 0}, matrix: null };
 
-        const pieces = [
-            [[1, 1, 1, 1]],
-            [[1, 1], [1, 1]],
-            [[0, 1, 0], [1, 1, 1]],
-            [[1, 0, 0], [1, 1, 1]],
-            [[0, 0, 1], [1, 1, 1]]
-        ];
+        const pieces = [[[1, 1, 1, 1]], [[1, 1], [1, 1]], [[0, 1, 0], [1, 1, 1]], [[1, 0, 0], [1, 1, 1]], [[0, 0, 1], [1, 1, 1]]];
 
-        function createPiece() {
-            return pieces[Math.floor(Math.random() * pieces.length)];
-        }
+        function createPiece() { return pieces[Math.floor(Math.random() * pieces.length)]; }
 
         function drawTetris() {
             tCtx.fillStyle = "#111";
@@ -1137,9 +1219,7 @@
             const [m, o] = [player.matrix, player.pos];
             for (let y = 0; y < m.length; ++y) {
                 for (let x = 0; x < m[y].length; ++x) {
-                    if (m[y][x] !== 0 && (arena[y + o.y] && arena[y + o.y][x + o.x]) !== 0) {
-                        return true;
-                    }
+                    if (m[y][x] !== 0 && (arena[y + o.y] && arena[y + o.y][x + o.x]) !== 0) return true;
                 }
             }
             return false;
@@ -1148,9 +1228,7 @@
         function merge(arena, player) {
             player.matrix.forEach((row, y) => {
                 row.forEach((value, x) => {
-                    if (value !== 0) {
-                        arena[y + player.pos.y][x + player.pos.x] = value;
-                    }
+                    if (value !== 0) arena[y + player.pos.y][x + player.pos.x] = value;
                 });
             });
         }
@@ -1168,9 +1246,7 @@
 
         function moveTetris(dir) {
             player.pos.x += dir;
-            if (collide(arena, player)) {
-                player.pos.x -= dir;
-            }
+            if (collide(arena, player)) player.pos.x -= dir;
             drawTetris();
         }
 
@@ -1182,9 +1258,7 @@
                 }
             }
             matrix.forEach(row => row.reverse());
-            if (collide(arena, player)) {
-                matrix.forEach(row => row.reverse());
-            }
+            if (collide(arena, player)) matrix.forEach(row => row.reverse());
             drawTetris();
         }
 
