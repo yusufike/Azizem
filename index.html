@@ -14,7 +14,6 @@
             --shadow: rgba(230, 57, 70, 0.15);
             --border: rgba(255, 182, 193, 0.6);
             --accent: #e63946;
-            --insta-bg: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
         }
 
         /* GECE TEMASI */
@@ -59,7 +58,7 @@
             transition: background 0.3s ease;
         }
 
-        /* ŞİFRE EKRANI */
+        /* GİRİŞ EKRANI */
         #loginScreen {
             background: var(--card-bg);
             width: 100%;
@@ -70,8 +69,7 @@
             border: 1px solid var(--border);
             text-align: center;
             z-index: 1000;
-            margin-top: auto;
-            margin-bottom: auto;
+            margin: auto;
         }
 
         .login-input {
@@ -101,7 +99,7 @@
             transition: 0.2s;
         }
 
-        /* ANA UYGULAMA KAPSAYICISI */
+        /* ANA UYGULAMA */
         #mainApp {
             display: none;
             width: 100%;
@@ -111,7 +109,6 @@
             padding-bottom: 40px;
         }
 
-        /* TEMA DEĞİŞTİRİCİ */
         .theme-selector {
             display: flex;
             justify-content: flex-end;
@@ -131,7 +128,6 @@
             box-shadow: 0 2px 8px var(--shadow);
         }
 
-        /* KARTLAR */
         .card {
             background: var(--card-bg);
             border-radius: 24px;
@@ -140,10 +136,8 @@
             border: 1px solid var(--border);
             text-align: center;
             position: relative;
-            backdrop-filter: blur(10px);
         }
 
-        /* ÜST MENÜ */
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -173,7 +167,6 @@
             transform: translateY(-2px);
         }
 
-        /* MÜZİK ÇALAR */
         .music-player {
             display: flex;
             align-items: center;
@@ -185,50 +178,23 @@
             box-shadow: 0 4px 15px var(--shadow);
         }
 
-        .music-btn {
+        .music-btn, .game-btn {
             background: var(--accent);
             color: #fff;
             border: none;
-            padding: 8px 16px;
-            border-radius: 12px;
+            padding: 10px 18px;
+            border-radius: 10px;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: bold;
+            box-shadow: 0 4px 12px var(--shadow);
         }
 
-        /* SAYFA İÇERİKLERİ */
         .content-section {
             display: none;
         }
 
         .content-section.active {
             display: block;
-        }
-
-        /* İLİŞKİ SAYACI */
-        .counter-box {
-            display: flex;
-            justify-content: space-around;
-            margin: 15px 0;
-        }
-
-        .time-block {
-            background: rgba(230, 57, 70, 0.08);
-            padding: 10px;
-            border-radius: 12px;
-            min-width: 65px;
-            border: 1px solid var(--border);
-        }
-
-        .time-num {
-            font-size: 20px;
-            font-weight: bold;
-            color: var(--accent);
-        }
-
-        .time-label {
-            font-size: 11px;
-            opacity: 0.8;
-            margin-top: 2px;
         }
 
         /* KAZIMA KARTI */
@@ -276,11 +242,11 @@
             background: var(--card-bg);
             border: 1px solid var(--border);
             color: var(--text);
-            padding: 8px 14px;
+            padding: 8px 12px;
             border-radius: 12px;
             cursor: pointer;
             white-space: nowrap;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
         }
 
@@ -294,6 +260,7 @@
             display: none;
         }
 
+        /* OYUN CANVASLARI (BÜYÜTÜLDÜ) */
         canvas {
             background: #000;
             border-radius: 14px;
@@ -303,35 +270,20 @@
             display: block;
         }
 
+        /* YILAN OYUNU ÖZEL BOYUT */
+        #snakeCanvas {
+            width: 320px;
+            height: 320px;
+            background: #111;
+            border: 2px solid var(--border);
+        }
+
         .game-controls {
             display: flex;
             gap: 8px;
             justify-content: center;
             margin-top: 10px;
             flex-wrap: wrap;
-        }
-
-        .game-btn {
-            background: var(--accent);
-            color: #fff;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            box-shadow: 0 4px 12px var(--shadow);
-        }
-
-        /* EVCİL HAYVAN */
-        .pet-avatar {
-            font-size: 55px;
-            margin: 10px 0;
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
         }
 
         /* CHATBOT */
@@ -379,9 +331,9 @@
         <button onclick="checkLogin()" class="login-btn">Giriş Yap</button>
     </div>
 
-    <!-- ANA UYGULAMA ALANI -->
+    <!-- ANA UYGULAMA -->
     <div id="mainApp">
-        <!-- TEMA DEĞİŞTİRİCİ -->
+        <!-- TEMA SEÇİCİ -->
         <div class="theme-selector">
             <button class="theme-btn" onclick="setTheme('light')">☀️ Pembe</button>
             <button class="theme-btn" onclick="setTheme('dark')">🌙 Gece</button>
@@ -391,35 +343,26 @@
         <!-- MÜZİK ÇALAR -->
         <div class="music-player">
             <span id="songTitle" style="font-weight: 600; font-size: 14px;">🎵 Romantik Melodi</span>
-            <button onclick="toggleMusic()" id="musicBtn" class="music-btn">Çal ▶</button>
+            <button onclick="toggleMusic()" id="musicBtn" class="music-btn" style="padding: 6px 14px;">Çal ▶</button>
         </div>
 
-        <!-- ANA MENÜ BUTONLARI -->
+        <!-- MENÜ BUTONLARI -->
         <div class="menu-grid">
             <button class="menu-btn" onclick="showSection('anaEkran')">🏠 Ana Ekran</button>
             <button class="menu-btn" onclick="showSection('anayasaSec')">📜 Anayasa</button>
-            <button class="menu-btn" onclick="showSection('yapbozSec')">🧩 Yapboz</button>
+            <button class="menu-btn" onclick="showSection('yapbozSec')">🐾 Evcil Hayvan</button>
             <button class="menu-btn" onclick="showSection('arcadeSec')">🎮 Arcade</button>
         </div>
 
-        <!-- 1. ANA EKRAN KARTI -->
+        <!-- 1. ANA EKRAN -->
         <div id="anaEkran" class="card content-section active">
             <h2>Sevgililer Günümüz Kutlu Olsun ❤️</h2>
             <p style="margin-top: 10px; font-size: 14px; line-height: 1.5; opacity: 0.9;">Burası seninle olan güzel anılarımız ve eğlence dolu dünyamız için hazırlandı.</p>
             
-            <!-- İLİŞKİ SAYACI -->
-            <div class="counter-box">
-                <div class="time-block">
-                    <div id="daysCount" class="time-num">13</div>
-                    <div class="time-label">Gün</div>
-                </div>
-                <div class="time-block">
-                    <div id="hoursCount" class="time-num">00</div>
-                    <div class="time-label">Saat</div>
-                </div>
-                <div class="time-block">
-                    <div id="minsCount" class="time-num">00</div>
-                    <div class="time-label">Dakika</div>
+            <div style="display: flex; justify-content: space-around; margin: 15px 0;">
+                <div style="background: rgba(230, 57, 70, 0.08); padding: 10px; border-radius: 12px; min-width: 65px; border: 1px solid var(--border);">
+                    <div class="time-num" style="font-size: 20px; font-weight: bold; color: var(--accent);">13</div>
+                    <div style="font-size: 11px; opacity: 0.8; margin-top: 2px;">Gün</div>
                 </div>
             </div>
 
@@ -430,20 +373,19 @@
             </div>
         </div>
 
-        <!-- 2. İLİŞKİ ANAYASASI -->
+        <!-- 2. ANAYASA -->
         <div id="anayasaSec" class="card content-section">
             <h2>İlişki Anayasamız 📜</h2>
             <div style="margin-top: 15px; text-align: left; font-size: 14px; line-height: 1.6; display: flex; flex-direction: column; gap: 8px;">
-                <p><strong>1. Madde:</strong> Azize her zaman haklıdır ve tartışma durumunda 1. madde geçerlidir.</p>
-                <p><strong>2. Madde:</strong> Asla üzülmek yok, her ne olursa olsun birlikte gülünecek. ❤️</p>
-                <p><strong>3. Madde:</strong> Güzel sevgilim her gün tatlı sözleri ve gülüşüyle dünyayı güzelleştirecek.</p>
+                <p><strong>1. Madde:</strong> Azize her zaman haklıdır.</p>
+                <p><strong>2. Madde:</strong> Asla üzülmek yok, hep mutlu olunacak ❤️</p>
             </div>
         </div>
 
-        <!-- 3. YAPBOZ / EVCİL HAYVAN ALANI -->
+        <!-- 3. EVCİL HAYVAN -->
         <div id="yapbozSec" class="card content-section">
             <h2>Sanal Evcil Hayvanımız 🐾</h2>
-            <div class="pet-avatar">🐱</div>
+            <div style="font-size: 55px; margin: 10px 0;">🐱</div>
             <p id="petStatus" style="font-size: 14px; margin: 10px 0;">Mamamızı yedik, seni bekliyoruz! ✨</p>
             <button class="game-btn" onclick="feedPet()">Mama Ver 🍖</button>
         </div>
@@ -453,6 +395,7 @@
             <h2>Arcade Salonu 🕹️</h2>
             <div class="arcade-tabs" style="margin-top: 15px;">
                 <button class="arcade-tab active-tab" onclick="switchArcadeGame('flappy', event)">🐤 Flappy</button>
+                <button class="arcade-tab" onclick="switchArcadeGame('snake', event)">🐍 Yılan</button>
                 <button class="arcade-tab" onclick="switchArcadeGame('tetris', event)">🧱 Tetris</button>
                 <button class="arcade-tab" onclick="switchArcadeGame('xox', event)">❌ XOX</button>
                 <button class="arcade-tab" onclick="switchArcadeGame('kelime', event)">✨ Azize</button>
@@ -462,76 +405,86 @@
             <!-- FLAPPY BIRD -->
             <div id="gameFlappy" class="arcade-mod" style="display: block;">
                 <h3>Flappy Bird</h3>
-                <canvas id="flappyCanvas"></canvas>
+                <canvas id="flappyCanvas" width="280" height="320"></canvas>
                 <p style="margin: 8px 0;">Skor: <span id="fbScore">0</span> | En Yüksek: <span id="fbHighScore">0</span></p>
                 <div class="game-controls">
-                    <button class="game-btn" onclick="startFlappy()">Başlat</button>
-                    <button class="game-btn" onclick="flappyJump()">Zıpla 🚀</button>
+                    <button class="game-btn" onclick="if(typeof startFlappy === 'function') startFlappy()">Başlat</button>
+                    <button class="game-btn" onclick="if(typeof flappyJump === 'function') flappyJump()">Zıpla 🚀</button>
+                </div>
+            </div>
+
+            <!-- YILAN OYUNU -->
+            <div id="gameSnake" class="arcade-mod">
+                <h3>Yılan Oyunu</h3>
+                <canvas id="snakeCanvas" width="320" height="320"></canvas>
+                <p style="margin: 8px 0;">Skor: <span id="snakeScore">0</span></p>
+                <div class="game-controls">
+                    <button class="game-btn" onclick="if(typeof startSnake === 'function') startSnake()">Başlat</button>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; max-width: 150px; margin: 10px auto;">
+                    <div></div><button class="game-btn" onclick="if(typeof changeSnakeDir === 'function') changeSnakeDir('UP')">⬆️</button><div></div>
+                    <button class="game-btn" onclick="if(typeof changeSnakeDir === 'function') changeSnakeDir('LEFT')">⬅️</button>
+                    <button class="game-btn" onclick="if(typeof changeSnakeDir === 'function') changeSnakeDir('DOWN')">⬇️</button>
+                    <button class="game-btn" onclick="if(typeof changeSnakeDir === 'function') changeSnakeDir('RIGHT')">➡️</button>
                 </div>
             </div>
 
             <!-- TETRİS -->
             <div id="gameTetris" class="arcade-mod">
                 <h3>Tetris</h3>
-                <canvas id="tetrisCanvas"></canvas>
-                <p style="margin: 8px 0;">Skor: <span id="tetrisScore">0</span> | En Yüksek: <span id="tetrisHighScore">0</span></p>
+                <canvas id="tetrisCanvas" width="200" height="320"></canvas>
+                <p style="margin: 8px 0;">Skor: <span id="tetrisScore">0</span></p>
                 <div class="game-controls">
-                    <button class="game-btn" onclick="startTetris()">Başlat</button>
-                    <button class="game-btn" onclick="moveTetris(-1)">◀</button>
-                    <button class="game-btn" onclick="rotateTetris()">🔄</button>
-                    <button class="game-btn" onclick="moveTetris(1)">▶</button>
+                    <button class="game-btn" onclick="if(typeof startTetris === 'function') startTetris()">Başlat</button>
+                    <button class="game-btn" onclick="if(typeof moveTetris === 'function') moveTetris(-1)">◀</button>
+                    <button class="game-btn" onclick="if(typeof rotateTetris === 'function') rotateTetris()">🔄</button>
+                    <button class="game-btn" onclick="if(typeof moveTetris === 'function') moveTetris(1)">▶</button>
                 </div>
             </div>
 
             <!-- XOX -->
             <div id="gameXOX" class="arcade-mod">
-                <h3>XOX (Tic-Tac-Toe)</h3>
-                <canvas id="xoxCanvas"></canvas>
+                <h3>XOX</h3>
+                <canvas id="xoxCanvas" width="240" height="240"></canvas>
                 <p id="xoxStatus" style="margin: 8px 0;">Sıra sende! (X)</p>
-                <p id="xoxScoresText" style="font-size: 13px; margin: 5px 0;">Skor - Sen: 0 | Robot: 0</p>
-                <button class="game-btn" onclick="startXox()">Oyunu Başlat</button>
+                <button class="game-btn" onclick="if(typeof startXox === 'function') startXox()">Başlat</button>
             </div>
 
             <!-- AZİZE KELİME OYUNU -->
             <div id="gameKelime" class="arcade-mod">
-                <h3>Azizemeee Özel Oyun</h3>
-                <canvas id="wordCanvas"></canvas>
-                <p style="margin: 8px 0;">Skor: <span id="wordScore">0</span> | En Yüksek: <span id="wordHighScore">0</span></p>
-                <p id="wordStatus" style="margin: 5px 0; font-size: 14px;">Kelimeyi bulmak için başla!</p>
+                <h3>Azize Kelime</h3>
+                <canvas id="wordCanvas" width="280" height="150"></canvas>
+                <p style="margin: 8px 0;">Skor: <span id="wordScore">0</span></p>
                 <div class="game-controls" style="flex-direction: column; gap: 8px;">
-                    <input type="text" id="wordInput" placeholder="Kelimeyi yaz..." onchange="checkWordAnswer(this.value)" style="padding: 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text); text-align: center;">
-                    <div style="display: flex; gap: 6px; justify-content: center;">
-                        <button class="game-btn" onclick="startWordGame()">Başlat</button>
-                        <button class="game-btn" onclick="showWordHint()" style="background: #e0a96d;">İpucu 💡</button>
-                    </div>
+                    <input type="text" id="wordInput" placeholder="Kelimeyi yaz..." style="padding: 8px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text); text-align: center;">
+                    <button class="game-btn" onclick="if(typeof startWordGame === 'function') startWordGame()">Başlat</button>
                 </div>
             </div>
 
             <!-- GİZLİ KASA -->
             <div id="gameKasa" class="arcade-mod">
                 <h3>Gizli Kasa 🔐</h3>
-                <p style="margin: 10px 0; font-size: 14px;">Özel şifreyi girerek sürprizi aç:</p>
-                <input type="password" id="kasaInput" placeholder="Şifre..." style="padding: 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text); text-align: center; margin-bottom: 8px; width: 80%;">
+                <input type="password" id="kasaInput" placeholder="Şifre..." style="padding: 8px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text); text-align: center; margin-bottom: 8px; width: 80%;">
                 <br>
-                <button class="game-btn" onclick="checkKasaPassword()">Kilidi Aç</button>
+                <button class="game-btn" onclick="if(typeof checkKasaPassword === 'function') checkKasaPassword()">Kilidi Aç</button>
                 <p id="kasaMessage" style="margin-top: 10px; font-weight: bold;"></p>
             </div>
         </div>
     </div>
 
-    <!-- CHATBOT SİSTEMİ -->
+    <!-- CHATBOT -->
     <div class="chat-float" onclick="toggleChat()">💬</div>
     <div id="chatWin" class="chat-window">
-        <div style="background: var(--accent); color: #fff; padding: 14px; font-weight: bold; display: flex; justify-content: space-between;">
+        <div style="background: var(--accent); color: #fff; padding: 12px; font-weight: bold; display: flex; justify-content: space-between;">
             <span>Asistan ❤️</span>
             <span onclick="toggleChat()" style="cursor: pointer;">✕</span>
         </div>
-        <div id="chatBody" style="flex: 1; padding: 12px; overflow-y: auto; font-size: 13px; display: flex; flex-direction: column; gap: 6px;">
-            <div style="text-align: left;"><span style="background:#e0e0e0; color:#333; padding:8px 12px; border-radius:10px; display:inline-block;">Efendim sevgilim, nasıl yardımcı olabilirim? ❤️</span></div>
+        <div id="chatBody" style="flex: 1; padding: 10px; overflow-y: auto; font-size: 13px; display: flex; flex-direction: column; gap: 6px;">
+            <div style="text-align: left;"><span style="background:#e0e0e0; color:#333; padding:8px 12px; border-radius:10px; display:inline-block;">Efendim sevgilim, nasılsın? ❤️</span></div>
         </div>
-        <div style="padding: 10px; display: flex; gap: 6px; border-top: 1px solid var(--border); background: var(--card-bg);">
-            <input type="text" id="chatInput" placeholder="Mesaj yaz..." style="flex:1; padding:8px; border-radius:8px; border:1px solid var(--border); background:var(--card-bg); color:var(--text);">
-            <button onclick="sendChat()" class="game-btn" style="padding: 8px 12px;">Gönder</button>
+        <div style="padding: 8px; display: flex; gap: 6px; border-top: 1px solid var(--border); background: var(--card-bg);">
+            <input type="text" id="chatInput" placeholder="Yaz..." style="flex:1; padding:6px; border-radius:6px; border:1px solid var(--border); background:var(--card-bg); color:var(--text);">
+            <button onclick="sendChat()" class="game-btn" style="padding: 6px 10px;">Gönder</button>
         </div>
     </div>
 
@@ -557,7 +510,10 @@
         function showSection(sectionId) {
             document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
             const target = document.getElementById(sectionId);
-            if (target) target.classList.add('active');
+            if (target) {
+                target.classList.add('active');
+                if (sectionId === 'arcadeSec') target.style.display = 'flex';
+            }
         }
 
         function switchArcadeGame(game, evt) {
@@ -567,57 +523,48 @@
             if (evt && evt.target) evt.target.classList.add('active-tab');
 
             if (game === 'flappy') document.getElementById('gameFlappy').style.display = 'block';
+            else if (game === 'snake') document.getElementById('gameSnake').style.display = 'block';
             else if (game === 'tetris') document.getElementById('gameTetris').style.display = 'block';
             else if (game === 'xox') document.getElementById('gameXOX').style.display = 'block';
             else if (game === 'kelime') document.getElementById('gameKelime').style.display = 'block';
             else if (game === 'kasa') document.getElementById('gameKasa').style.display = 'block';
         }
 
-        /* KAZIMA KARTI ALGORİTMASI */
         function initScratchCard() {
             const canvas = document.getElementById("scratchCanvas");
             if (!canvas) return;
             const ctx = canvas.getContext("2d");
-
             ctx.fillStyle = "#C0C0C0";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
             ctx.fillStyle = "#555555";
             ctx.font = "bold 14px sans-serif";
             ctx.textAlign = "center";
             ctx.fillText("Burayı Kazı! 🪙", canvas.width / 2, canvas.height / 2 + 5);
 
             let isScratching = false;
-
             function scratch(e) {
                 if (!isScratching) return;
                 const rect = canvas.getBoundingClientRect();
                 const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
                 const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
-
                 ctx.globalCompositeOperation = "destination-out";
                 ctx.beginPath();
                 ctx.arc(x, y, 16, 0, Math.PI * 2);
                 ctx.fill();
             }
-
             canvas.addEventListener("mousedown", () => isScratching = true);
             window.addEventListener("mouseup", () => isScratching = false);
             canvas.addEventListener("mousemove", scratch);
-
             canvas.addEventListener("touchstart", () => isScratching = true);
             window.addEventListener("touchend", () => isScratching = false);
             canvas.addEventListener("touchmove", scratch);
         }
 
-        /* EVCİL HAYVAN */
-        const petStatuses = ["Mamamızı yedik, çok mutluyuz! 🐾", "Uykusu geldi sanki 😴", "Topla oynamak istiyor 🎾", "Seni görünce çok sevindi ✨"];
         function feedPet() {
-            document.getElementById("petStatus").innerText = petStatuses[Math.floor(Math.random() * petStatuses.length)];
+            document.getElementById("petStatus").innerText = "Mamamızı yedik, çok mutluyuz! 🐾";
             if (typeof confetti === 'function') confetti({ particleCount: 40, spread: 50, origin: { y: 0.8 } });
         }
 
-        /* CHATBOT */
         function toggleChat() {
             const win = document.getElementById("chatWin");
             win.style.display = win.style.display === "flex" ? "none" : "flex";
@@ -627,21 +574,12 @@
             const inp = document.getElementById("chatInput");
             const val = inp.value.trim();
             if (!val) return;
-            
             const body = document.getElementById("chatBody");
-            const userMsg = document.createElement("div");
-            userMsg.style.textAlign = "right";
-            userMsg.innerHTML = `<span style="background:var(--accent); color:#fff; padding:8px 12px; border-radius:10px; display:inline-block;">${val}</span>`;
-            body.appendChild(userMsg);
-
+            body.innerHTML += `<div style="text-align:right;"><span style="background:var(--accent); color:#fff; padding:6px 10px; border-radius:8px; display:inline-block;">${val}</span></div>`;
             inp.value = "";
             body.scrollTop = body.scrollHeight;
-
             setTimeout(() => {
-                const botMsg = document.createElement("div");
-                botMsg.style.textAlign = "left";
-                botMsg.innerHTML = `<span style="background:#e0e0e0; color:#333; padding:8px 12px; border-radius:10px; display:inline-block;">Seni çok seviyorum ❤️</span>`;
-                body.appendChild(botMsg);
+                body.innerHTML += `<div style="text-align:left;"><span style="background:#e0e0e0; color:#333; padding:6px 10px; border-radius:8px; display:inline-block;">Seni çok seviyorum ❤️</span></div>`;
                 body.scrollTop = body.scrollHeight;
             }, 600);
         }
@@ -650,12 +588,12 @@
         function toggleMusic() {
             isPlaying = !isPlaying;
             document.getElementById("musicBtn").innerText = isPlaying ? "Durdur ⏸" : "Çal ▶";
-            if (isPlaying && typeof confetti === 'function') confetti({ particleCount: 20, spread: 40 });
         }
     </script>
 
     <!-- OYUN DOSYASI BAĞLANTILARI -->
     <script src="bird.js"></script>
+    <script src="yilan.js"></script>
     <script src="tetris.js"></script>
     <script src="xox.js"></script>
     <script src="azize.js"></script>
