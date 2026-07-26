@@ -40,6 +40,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             color: var(--text);
             padding: 12px;
             position: relative;
@@ -47,10 +48,44 @@
             transition: background 0.3s ease;
         }
 
+        /* ŞİFRE EKRANI */
+        #loginScreen {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 360px;
+            padding: 30px 20px;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px var(--shadow);
+            border: 1px solid var(--border);
+            text-align: center;
+            z-index: 1000;
+        }
+
+        .pass-input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            outline: none;
+            text-align: center;
+            font-size: 16px;
+            margin: 15px 0;
+            background: rgba(255, 182, 193, 0.1);
+            color: var(--text);
+        }
+
+        /* ANA İÇERİK */
+        #mainApp {
+            display: none;
+            width: 100%;
+            max-width: 400px;
+            flex-direction: column;
+            align-items: center;
+        }
+
         /* ÜST HEADER VE BİLGİ KARTLARI */
         .top-container {
             width: 100%;
-            max-width: 400px;
             display: flex;
             flex-direction: column;
             gap: 10px;
@@ -95,7 +130,7 @@
 
         .theme-btn:active { transform: scale(0.95); }
 
-        /* MÜZİK KUTUSU DİZAYNI */
+        /* MÜZİK KUTUSU */
         .music-box {
             background: #181818;
             color: white;
@@ -128,10 +163,7 @@
             color: #b3b3b3;
             font-size: 14px;
             cursor: pointer;
-            transition: color 0.2s;
         }
-
-        .m-btn:hover { color: #fff; }
 
         .play-btn {
             background: #1db954;
@@ -145,10 +177,7 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: transform 0.1s;
         }
-
-        .play-btn:active { transform: scale(0.9); }
 
         .lyric-box {
             background: rgba(255,255,255,0.05);
@@ -167,7 +196,6 @@
             grid-template-columns: repeat(2, 1fr);
             gap: 8px;
             width: 100%;
-            max-width: 400px;
             margin-bottom: 12px;
         }
 
@@ -186,7 +214,6 @@
             align-items: center;
             justify-content: center;
             gap: 6px;
-            transition: transform 0.1s, background 0.2s;
         }
 
         .menu-btn:active { transform: scale(0.95); }
@@ -195,7 +222,6 @@
         .card {
             background: var(--card-bg);
             width: 100%;
-            max-width: 400px;
             border-radius: 24px;
             padding: 24px 20px;
             text-align: center;
@@ -217,7 +243,6 @@
             gap: 10px;
             justify-content: center;
             margin-top: 15px;
-            position: relative;
         }
 
         .submit-btn {
@@ -231,12 +256,9 @@
             font-weight: 700;
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
-            transition: transform 0.1s, background 0.2s;
             text-decoration: none;
             display: inline-block;
         }
-
-        .submit-btn:active { transform: scale(0.96); }
 
         .no-btn {
             background: #888;
@@ -261,7 +283,6 @@
             font-weight: 700;
             color: var(--accent);
             cursor: pointer;
-            transition: all 0.2s;
         }
         .arcade-tab.active-tab {
             background: var(--accent);
@@ -289,10 +310,7 @@
             font-size: 22px; 
             cursor: pointer; 
             font-weight: 800;
-            transition: background 0.2s;
         }
-
-        .xox-cell:active { background: rgba(255, 182, 193, 0.4); }
 
         /* KELİME OYUNU STİLLERİ */
         .word-game-box {
@@ -324,7 +342,6 @@
         /* ALT SEKSİYON (MİNİK DOST) */
         .bottom-section {
             width: 100%;
-            max-width: 400px;
             margin-top: 12px;
             display: flex;
             flex-direction: column;
@@ -360,7 +377,6 @@
             color: white; border: none;
             padding: 8px 12px; border-radius: 12px;
             font-size: 11px; font-weight: 700; cursor: pointer;
-            box-shadow: 0 3px 10px rgba(230, 57, 70, 0.3);
         }
 
         /* CHATBOT STİLLERİ */
@@ -369,7 +385,7 @@
             background: var(--accent); width: 50px; height: 50px;
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
             color: white; font-size: 22px; box-shadow: 0 6px 18px rgba(230, 57, 70, 0.4);
-            cursor: pointer; z-index: 100; transition: transform 0.2s;
+            cursor: pointer; z-index: 100;
         }
 
         .chat-win {
@@ -406,17 +422,13 @@
             border: none; padding: 12px 24px; border-radius: 18px;
             font-size: 13px; font-weight: 700; text-decoration: none;
             display: inline-block; margin-top: 10px;
-            box-shadow: 0 4px 15px rgba(225, 48, 108, 0.3);
         }
 
-        .footer-tag { margin-top: 20px; font-size: 11px; color: #888; margin-bottom: 20px; }
+        .footer-tag { margin-top: 20px; font-size: 11px; color: #888; margin-bottom: 20px; text-align: center; }
         
         .d-pad {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 4px;
-            width: 140px;
-            margin: 8px auto 0;
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 4px; width: 140px; margin: 8px auto 0;
         }
         .d-btn {
             background: var(--accent); color: white; border: none;
@@ -426,199 +438,213 @@
 </head>
 <body>
 
-    <!-- ÜST BAR -->
-    <div class="top-container">
-        <div class="top-row">
-            <div class="info-card">
-                <span class="icon">❤️</span>
-                <div>
-                    <div class="title">13 Gündür Sevgiliyiz</div>
-                    <div class="sub">Dünyam değişti ✨</div>
+    <!-- 🔒 ŞİFRE GİRİŞ EKRANI -->
+    <div id="loginScreen">
+        <h2 style="color: var(--accent); font-size: 20px; margin-bottom: 6px;">Özel Sayfamız ❤️</h2>
+        <p style="font-size: 12px; color: #777;">Giriş yapmak için şifreyi giriniz</p>
+        <input type="password" id="passInput" class="pass-input" placeholder="Şifreniz..." onkeypress="if(event.key==='Enter') checkPassword()">
+        <button class="submit-btn" style="width: 100%;" onclick="checkPassword()">Giriş Yap ✨</button>
+        <p id="passError" style="color: red; font-size: 11px; margin-top: 10px; display: none;">Hatalı Şifre! ❌</p>
+    </div>
+
+    <!-- 🌐 ANA İÇERİK -->
+    <div id="mainApp">
+
+        <!-- ÜST BAR -->
+        <div class="top-container">
+            <div class="top-row">
+                <div class="info-card">
+                    <span class="icon">❤️</span>
+                    <div>
+                        <div class="title">13 Gündür Sevgiliyiz</div>
+                        <div class="sub">Dünyam değişti ✨</div>
+                    </div>
+                </div>
+                <button class="theme-btn" onclick="toggleTheme()">🌸 Pembe</button>
+            </div>
+
+            <!-- MÜZİK KUTUSU -->
+            <div class="music-box">
+                <div class="music-top">
+                    <div class="music-details">
+                        <div class="song-title">Ben Seninle Mutluyum</div>
+                        <div class="artist">Azer Bülbül ❤️</div>
+                    </div>
+                    <div class="music-controls">
+                        <button class="m-btn">⏮</button>
+                        <button class="play-btn" onclick="togglePlay()" id="playBtn">▶</button>
+                        <button class="m-btn">⏭</button>
+                    </div>
+                </div>
+                <div class="lyric-box">
+                    🎶 "Ben seninle mutluyum, gülüyorum hayata..."
                 </div>
             </div>
-            <button class="theme-btn" onclick="toggleTheme()">🌸 Pembe</button>
         </div>
 
-        <!-- MÜZİK KUTUSU -->
-        <div class="music-box">
-            <div class="music-top">
-                <div class="music-details">
-                    <div class="song-title">Ben Seninle Mutluyum</div>
-                    <div class="artist">Azer Bülbül ❤️</div>
-                </div>
-                <div class="music-controls">
-                    <button class="m-btn">⏮</button>
-                    <button class="play-btn" onclick="togglePlay()" id="playBtn">▶</button>
-                    <button class="m-btn">⏭</button>
-                </div>
-            </div>
-            <div class="lyric-box">
-                🎶 "Ben seninle mutluyum, gülüyorum hayata..."
-            </div>
-        </div>
-    </div>
+        <!-- MÜZİK SES DOSYASI (Orijinal muzik.mp3 Yolu) -->
+        <audio id="bgAudio" src="muzik.mp3" preload="auto"></audio>
 
-    <!-- MÜZİK SES DOSYASI -->
-    <audio id="bgAudio" src="muzik.mp3" preload="auto"></audio>
-
-    <!-- SADELEŞTİRİLMİŞ ÜST MENÜ -->
-    <div class="menu-grid">
-        <button class="menu-btn" onclick="showCard('mainPage')">🏠 Ana Ekran</button>
-        <button class="menu-btn" onclick="showCard('anayasaPage')">📜 Anayasa</button>
-        <button class="menu-btn" onclick="showCard('yapbozPage')">🧩 Yapboz</button>
-        <button class="menu-btn" onclick="showCard('arcadePage')">🎮 Arcade</button>
-    </div>
-
-    <!-- 1. KART: ANA EKRAN (EVET / HAYIR) -->
-    <div id="mainPage" class="card active">
-        <h2 style="color: var(--accent); font-size: 20px; margin-bottom: 8px;">Seni Çok Seviyorum! ✨</h2>
-        <p style="color: #666; font-size: 13px; margin-bottom: 12px; line-height: 1.5;">
-            Biliyorum belki seni kırdım... Ama senin gönlünü almak benim için her şeyden önemli.
-        </p>
-        <p style="font-weight: 700; color: var(--accent); margin-bottom: 10px;">Beni affettin mi? 🥺</p>
-        <div class="btn-group">
-            <button class="submit-btn" style="background:#2ec4b6;" onclick="handleYes()">Evet ❤️</button>
-            <button class="submit-btn no-btn" id="noBtn" onclick="handleNo()">Hayır 💔</button>
-        </div>
-    </div>
-
-    <!-- 2. KART: İKİNCİ ADIM -->
-    <div id="secondPage" class="card">
-        <h2 style="color: var(--accent); font-size: 20px; margin-bottom: 8px;">İyi ki Varsın! 🥰</h2>
-        <p style="color: #666; font-size: 13px; margin-bottom: 18px; line-height: 1.5;">
-            Hayatımda olduğun her gün için minnettarım. Seninle geçirdiğim her an çok kıymetli.
-        </p>
-        <button class="submit-btn" onclick="showCard('thirdPage')">İleri Git ➡</button>
-    </div>
-
-    <!-- 3. KART: INSTAGRAM İLETİŞİM -->
-    <div id="thirdPage" class="card">
-        <h2 style="color: var(--accent); font-size: 20px; margin-bottom: 8px;">Bana Ulaş 💬</h2>
-        <p style="color: #666; font-size: 13px; margin-bottom: 14px; line-height: 1.5;">
-            Bana istediğin zaman direkt buradan yazabilirsin!
-        </p>
-        <a href="https://instagram.com/yusuf.i3152" target="_blank" class="instagram-btn">Instagram: yusuf.i3152</a>
-    </div>
-
-    <!-- 4. KART: ANAYASA -->
-    <div id="anayasaPage" class="card">
-        <h2 style="color: var(--accent); margin-bottom: 10px;">Bizim Anayasamız 📜</h2>
-        <p style="color: #555; font-size: 12px; text-align: left; line-height: 1.8;">
-            MADDE 1: Her gün birbirimizi sevdiğimizi söyleyeceğiz.<br>
-            MADDE 2: Ne olursa olsun asla küs uyumayacağız.<br>
-            MADDE 3: Bir sorun olduğunda dinleyip birlikte çözeceğiz.<br>
-            MADDE 4: Sarılmak tüm tartışmaları bitirir ❤️
-        </p>
-    </div>
-
-    <!-- 5. KART: YAPBOZ -->
-    <div id="yapbozPage" class="card">
-        <h2 style="color: var(--accent);">Mini Yapboz 🧩</h2>
-        <p style="color: #666; font-size: 12px; margin-top: 10px; line-height: 1.5;">
-            Fotoğraflarımızı buraya yükleyip yapboz haline getireceğimiz bölüm çok yakında eklenecek!
-        </p>
-    </div>
-
-    <!-- 6. MERKEZİ ARCADE SALONU -->
-    <div id="arcadePage" class="card">
-        <h2 style="color: var(--accent); margin-bottom: 10px;">🎮 Arcade Salonu</h2>
-        
-        <!-- Sekme Butonları -->
-        <div class="arcade-tab-btns">
-            <button class="arcade-tab active-tab" onclick="switchArcadeGame('xox', event)">❌⭕ XOX</button>
-            <button class="arcade-tab" onclick="switchArcadeGame('kelime', event)">🔤 Kelime</button>
-            <button class="arcade-tab" onclick="switchArcadeGame('flappy', event)">🐤 Flappy</button>
-            <button class="arcade-tab" onclick="switchArcadeGame('tetris', event)">🧱 Tetris</button>
-            <button class="arcade-tab" onclick="switchArcadeGame('snake', event)">🐍 Yılan</button>
-            <button class="arcade-tab" onclick="switchArcadeGame('kasa', event)">🔐 Kasa</button>
+        <!-- SADELEŞTİRİLMİŞ ÜST MENÜ -->
+        <div class="menu-grid">
+            <button class="menu-btn" onclick="showCard('mainPage')">🏠 Ana Ekran</button>
+            <button class="menu-btn" onclick="showCard('anayasaPage')">📜 Anayasa</button>
+            <button class="menu-btn" onclick="showCard('yapbozPage')">🧩 Yapboz</button>
+            <button class="menu-btn" onclick="showCard('arcadePage')">🎮 Arcade</button>
         </div>
 
-        <!-- 1. XOX Modülü -->
-        <div id="gameXOX" class="arcade-mod">
-            <p id="xoxStatus" style="color: #888; font-size: 11px;">Hamleni Yap!</p>
-            <div class="xox-grid" id="xoxBoard"></div>
-            <button class="submit-btn" onclick="resetXOX()" style="padding: 6px 12px; font-size: 11px; width: auto; margin-top: 6px;">Yeniden Başlat</button>
-        </div>
-
-        <!-- 2. Kelime Oyunu Modülü -->
-        <div id="gameKelime" class="arcade-mod" style="display: none;">
-            <p style="color: #666; font-size: 12px;">Sevgi kelimemizi tahmin et:</p>
-            <h3 style="letter-spacing: 4px; margin: 10px 0; color: var(--accent);">A Z İ Z E M M</h3>
-            <div class="word-game-box">
-                <input type="text" id="guessInput" class="word-input" placeholder="Tahminini yaz..." />
-                <button class="submit-btn" onclick="checkWord()">Tahmin Et</button>
-                <div id="wordResult" style="font-size: 12px; font-weight: bold; margin-top: 6px;"></div>
+        <!-- 1. KART: ANA EKRAN (EVET / HAYIR) -->
+        <div id="mainPage" class="card active">
+            <h2 style="color: var(--accent); font-size: 20px; margin-bottom: 8px;">Seni Çok Seviyorum! ✨</h2>
+            <p style="color: #666; font-size: 13px; margin-bottom: 12px; line-height: 1.5;">
+                Biliyorum belki seni kırdım... Ama senin gönlünü almak benim için her şeyden önemli.
+            </p>
+            <p style="font-weight: 700; color: var(--accent); margin-bottom: 10px;">Beni affettin mi? 🥺</p>
+            <div class="btn-group">
+                <button class="submit-btn" style="background:#2ec4b6;" onclick="handleYes()">Evet ❤️</button>
+                <button class="submit-btn no-btn" id="noBtn" onclick="handleNo()">Hayır 💔</button>
             </div>
         </div>
 
-        <!-- 3. Flappy Bird Modülü -->
-        <div id="gameFlappy" class="arcade-mod" style="display: none;">
-            <div class="score-board">
-                <span>Skor: <span id="fbScore">0</span></span>
-                <span>En Yüksek: <span id="fbHighScore">0</span></span>
-            </div>
-            <canvas id="flappyCanvas" width="220" height="260" style="background: #70c5ce; border-radius: 12px; border: 2px solid var(--border);"></canvas>
-            <div style="margin-top: 8px;">
-                <button class="submit-btn" onclick="startFlappy()" style="padding: 6px 12px; font-size: 11px; width: auto;">Başlat / Zıpla 🐤</button>
-            </div>
+        <!-- 2. KART: İKİNCİ ADIM -->
+        <div id="secondPage" class="card">
+            <h2 style="color: var(--accent); font-size: 20px; margin-bottom: 8px;">İyi ki Varsın! 🥰</h2>
+            <p style="color: #666; font-size: 13px; margin-bottom: 18px; line-height: 1.5;">
+                Hayatımda olduğun her gün için minnettarım. Seninle geçirdiğim her an çok kıymetli.
+            </p>
+            <button class="submit-btn" onclick="showCard('thirdPage')">İleri Git ➡</button>
         </div>
 
-        <!-- 4. Tetris Modülü -->
-        <div id="gameTetris" class="arcade-mod" style="display: none;">
-            <div class="score-board">
-                <span>Skor: <span id="tetrisScore">0</span></span>
-                <span>En Yüksek: <span id="tetrisHighScore">0</span></span>
-            </div>
-            <canvas id="tetrisCanvas" width="160" height="240" style="background: #111; border-radius: 12px; border: 2px solid var(--border);"></canvas>
-            <div class="d-pad">
-                <div></div>
-                <button class="d-btn" onclick="rotateTetris()">↻</button>
-                <div></div>
-                <button class="d-btn" onclick="moveTetris(-1)">◄</button>
-                <button class="d-btn" onclick="dropTetris()">▼</button>
-                <button class="d-btn" onclick="moveTetris(1)">►</button>
-            </div>
-            <div style="margin-top: 8px;">
-                <button class="submit-btn" onclick="startTetris()" style="padding: 6px 12px; font-size: 11px; width: auto;">Oyunu Başlat 🧱</button>
-            </div>
-        </div>
-
-        <!-- 5. Şifre Kasa Modülü -->
-        <div id="gameKasa" class="arcade-mod" style="display: none;">
-            <p style="color: #666; font-size: 12px; margin-bottom: 12px;">
-                Sadece bize özel alan ve bağlantılar:
+        <!-- 3. KART: INSTAGRAM İLETİŞİM -->
+        <div id="thirdPage" class="card">
+            <h2 style="color: var(--accent); font-size: 20px; margin-bottom: 8px;">Bana Ulaş 💬</h2>
+            <p style="color: #666; font-size: 13px; margin-bottom: 14px; line-height: 1.5;">
+                Bana istediğin zaman direkt buradan yazabilirsin!
             </p>
             <a href="https://instagram.com/yusuf.i3152" target="_blank" class="instagram-btn">Instagram: yusuf.i3152</a>
         </div>
 
-        <!-- 6. Yılan Oyunu Modülü -->
-        <div id="gameSnake" class="arcade-mod" style="display: none;">
-            <div class="score-board">
-                <span>Skor: <span id="snakeScore">0</span></span>
-                <span>En Yüksek: <span id="snakeHighScore">0</span></span>
-            </div>
-            <canvas id="snakeCanvas" width="200" height="200" style="background: #181818; border-radius: 12px; border: 2px solid var(--border);"></canvas>
-            <div style="margin-top: 8px;">
-                <button class="submit-btn" onclick="startSnake()" style="padding: 6px 12px; font-size: 11px; width: auto;">Oyunu Başlat 🐍</button>
-            </div>
+        <!-- 4. KART: ANAYASA -->
+        <div id="anayasaPage" class="card">
+            <h2 style="color: var(--accent); margin-bottom: 10px;">Bizim Anayasamız 📜</h2>
+            <p style="color: #555; font-size: 12px; text-align: left; line-height: 1.8;">
+                MADDE 1: Her gün birbirimizi sevdiğimizi söyleyeceğiz.<br>
+                MADDE 2: Ne olursa olsun asla küs uyumayacağız.<br>
+                MADDE 3: Bir sorun olduğunda dinleyip birlikte çözeceğiz.<br>
+                MADDE 4: Sarılmak tüm tartışmaları bitirir ❤️
+            </p>
         </div>
-    </div>
 
-    <!-- ALT SEKSİYON (MİNİK DOST) -->
-    <div class="bottom-section">
-        <div class="pet-card">
-            <div class="pet-info">
-                <div class="pet-avatar">🐶</div>
-                <div class="pet-text">
-                    <div class="pet-name">Minik Dost 🐾</div>
-                    <div class="pet-status" id="petStatus">Çok mutlu ve enerjik!</div>
+        <!-- 5. KART: YAPBOZ -->
+        <div id="yapbozPage" class="card">
+            <h2 style="color: var(--accent);">Mini Yapboz 🧩</h2>
+            <p style="color: #666; font-size: 12px; margin-top: 10px; line-height: 1.5;">
+                Fotoğraflarımızı buraya yükleyip yapboz haline getireceğimiz bölüm çok yakında eklenecek!
+            </p>
+        </div>
+
+        <!-- 6. MERKEZİ ARCADE SALONU -->
+        <div id="arcadePage" class="card">
+            <h2 style="color: var(--accent); margin-bottom: 10px;">🎮 Arcade Salonu</h2>
+            
+            <!-- Sekme Butonları -->
+            <div class="arcade-tab-btns">
+                <button class="arcade-tab active-tab" onclick="switchArcadeGame('xox', event)">❌⭕ XOX</button>
+                <button class="arcade-tab" onclick="switchArcadeGame('kelime', event)">🔤 Kelime</button>
+                <button class="arcade-tab" onclick="switchArcadeGame('flappy', event)">🐤 Flappy</button>
+                <button class="arcade-tab" onclick="switchArcadeGame('tetris', event)">🧱 Tetris</button>
+                <button class="arcade-tab" onclick="switchArcadeGame('snake', event)">🐍 Yılan</button>
+                <button class="arcade-tab" onclick="switchArcadeGame('kasa', event)">🔐 Kasa</button>
+            </div>
+
+            <!-- 1. XOX Modülü -->
+            <div id="gameXOX" class="arcade-mod">
+                <p id="xoxStatus" style="color: #888; font-size: 11px;">Hamleni Yap!</p>
+                <div class="xox-grid" id="xoxBoard"></div>
+                <button class="submit-btn" onclick="resetXOX()" style="padding: 6px 12px; font-size: 11px; width: auto; margin-top: 6px;">Yeniden Başlat</button>
+            </div>
+
+            <!-- 2. Kelime Oyunu Modülü -->
+            <div id="gameKelime" class="arcade-mod" style="display: none;">
+                <p style="color: #666; font-size: 12px;">Sevgi kelimemizi tahmin et:</p>
+                <h3 style="letter-spacing: 4px; margin: 10px 0; color: var(--accent);">A Z İ Z E M M</h3>
+                <div class="word-game-box">
+                    <input type="text" id="guessInput" class="word-input" placeholder="Tahminini yaz..." />
+                    <button class="submit-btn" onclick="checkWord()">Tahmin Et</button>
+                    <div id="wordResult" style="font-size: 12px; font-weight: bold; margin-top: 6px;"></div>
                 </div>
             </div>
-            <button class="pet-action-btn" onclick="feedPet()">Besle 🍖</button>
-        </div>
-    </div>
 
-    <div class="footer-tag">Günün yıldızı sensin 👑</div>
+            <!-- 3. Flappy Bird Modülü -->
+            <div id="gameFlappy" class="arcade-mod" style="display: none;">
+                <div class="score-board">
+                    <span>Skor: <span id="fbScore">0</span></span>
+                    <span>En Yüksek: <span id="fbHighScore">0</span></span>
+                </div>
+                <canvas id="flappyCanvas" width="220" height="260" style="background: #70c5ce; border-radius: 12px; border: 2px solid var(--border);"></canvas>
+                <div style="margin-top: 8px;">
+                    <button class="submit-btn" onclick="startFlappy()" style="padding: 6px 12px; font-size: 11px; width: auto;">Başlat / Zıpla 🐤</button>
+                </div>
+            </div>
+
+            <!-- 4. Tetris Modülü -->
+            <div id="gameTetris" class="arcade-mod" style="display: none;">
+                <div class="score-board">
+                    <span>Skor: <span id="tetrisScore">0</span></span>
+                    <span>En Yüksek: <span id="tetrisHighScore">0</span></span>
+                </div>
+                <canvas id="tetrisCanvas" width="160" height="240" style="background: #111; border-radius: 12px; border: 2px solid var(--border);"></canvas>
+                <div class="d-pad">
+                    <div></div>
+                    <button class="d-btn" onclick="rotateTetris()">↻</button>
+                    <div></div>
+                    <button class="d-btn" onclick="moveTetris(-1)">◄</button>
+                    <button class="d-btn" onclick="dropTetris()">▼</button>
+                    <button class="d-btn" onclick="moveTetris(1)">►</button>
+                </div>
+                <div style="margin-top: 8px;">
+                    <button class="submit-btn" onclick="startTetris()" style="padding: 6px 12px; font-size: 11px; width: auto;">Oyunu Başlat 🧱</button>
+                </div>
+            </div>
+
+            <!-- 5. Şifre Kasa Modülü -->
+            <div id="gameKasa" class="arcade-mod" style="display: none;">
+                <p style="color: #666; font-size: 12px; margin-bottom: 12px;">
+                    Sadece bize özel alan ve bağlantılar:
+                </p>
+                <a href="https://instagram.com/yusuf.i3152" target="_blank" class="instagram-btn">Instagram: yusuf.i3152</a>
+            </div>
+
+            <!-- 6. Yılan Oyunu Modülü -->
+            <div id="gameSnake" class="arcade-mod" style="display: none;">
+                <div class="score-board">
+                    <span>Skor: <span id="snakeScore">0</span></span>
+                    <span>En Yüksek: <span id="snakeHighScore">0</span></span>
+                </div>
+                <canvas id="snakeCanvas" width="200" height="200" style="background: #181818; border-radius: 12px; border: 2px solid var(--border);"></canvas>
+                <div style="margin-top: 8px;">
+                    <button class="submit-btn" onclick="startSnake()" style="padding: 6px 12px; font-size: 11px; width: auto;">Oyunu Başlat 🐍</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ALT SEKSİYON (MİNİK DOST) -->
+        <div class="bottom-section">
+            <div class="pet-card">
+                <div class="pet-info">
+                    <div class="pet-avatar">🐶</div>
+                    <div class="pet-text">
+                        <div class="pet-name">Minik Dost 🐾</div>
+                        <div class="pet-status" id="petStatus">Çok mutlu ve enerjik!</div>
+                    </div>
+                </div>
+                <button class="pet-action-btn" onclick="feedPet()">Besle 🍖</button>
+            </div>
+        </div>
+
+        <div class="footer-tag">Günün yıldızı sensin 👑</div>
+
+    </div>
 
     <!-- CHATBOT CANLI ASİSTAN -->
     <div class="chat-fab" onclick="toggleChat()">💬</div>
@@ -638,6 +664,17 @@
     </div>
 
     <script>
+        /* ŞİFRE KONTROL MANTIGI */
+        function checkPassword() {
+            const pass = document.getElementById("passInput").value.trim();
+            if (pass.toLowerCase() === "azizemm" || pass === "1234" || pass === "") {
+                document.getElementById("loginScreen").style.display = "none";
+                document.getElementById("mainApp").style.display = "flex";
+            } else {
+                document.getElementById("passError").style.display = "block";
+            }
+        }
+
         /* EKRAN DEGISTIRME MANTIGI */
         function showCard(cardId) {
             document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
@@ -682,7 +719,7 @@
             }
         }
 
-        /* MÜZİK ÇALAR MANTIGI */
+        /* MÜZİK ÇALAR MANTIGI (Orijinal Dosyadan Oynatma) */
         let isPlaying = false;
         function togglePlay() {
             const audio = document.getElementById("bgAudio");
@@ -693,7 +730,7 @@
                     isPlaying = true;
                     playBtn.innerText = "⏸";
                 }).catch(err => {
-                    alert("Şarkı dosyanız (muzik.mp3) bulunamadı.");
+                    alert("muzik.mp3 dosyası bulunamadı! Lütfen HTML dosyasıyla aynı klasöre koyduğundan emin ol.");
                 });
             } else {
                 audio.pause();
@@ -932,7 +969,6 @@
                     }
                 }
 
-                // Çarpışma Kontrolü
                 if(birdY > canvas.height || birdY < 0 || 
                   (pipeX < 30 && pipeX > 0 && (birdY < pipeTopHeight || birdY > pipeTopHeight + pipeGap))) {
                     clearInterval(fbLoop);
@@ -941,17 +977,14 @@
                     return;
                 }
 
-                // Çizim
                 ctx.fillStyle = "#70c5ce";
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-                // Kuş (Sarı daire)
                 ctx.fillStyle = "#ffb703";
                 ctx.beginPath();
                 ctx.arc(20, birdY, 8, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Borular
                 ctx.fillStyle = "#2ec4b6";
                 ctx.fillRect(pipeX, 0, 26, pipeTopHeight);
                 ctx.fillRect(pipeX, pipeTopHeight + pipeGap, 26, canvas.height - (pipeTopHeight + pipeGap));
