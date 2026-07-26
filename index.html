@@ -426,14 +426,25 @@
 
         .footer-tag { margin-top: 20px; font-size: 11px; color: #888; margin-bottom: 20px; text-align: center; }
         
+        /* D-PAD VE KONTROL BUTONLARI */
         .d-pad {
             display: grid; grid-template-columns: repeat(3, 1fr);
-            gap: 4px; width: 140px; margin: 8px auto 0;
+            gap: 6px; width: 150px; margin: 10px auto 0;
         }
         .d-btn {
             background: var(--accent); color: white; border: none;
-            padding: 8px; border-radius: 8px; font-size: 12px; font-weight: bold;
+            padding: 10px; border-radius: 10px; font-size: 14px; font-weight: bold;
+            cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         }
+        .d-btn:active { transform: scale(0.92); }
+
+        .jump-btn {
+            background: var(--accent); color: white; border: none;
+            padding: 12px 30px; border-radius: 16px; font-size: 14px; font-weight: bold;
+            cursor: pointer; margin-top: 10px; box-shadow: 0 4px 12px rgba(230, 57, 70, 0.3);
+            width: 80%; max-width: 200px;
+        }
+        .jump-btn:active { transform: scale(0.95); }
     </style>
 </head>
 <body>
@@ -467,23 +478,23 @@
             <div class="music-box">
                 <div class="music-top">
                     <div class="music-details">
-                        <div class="song-title">Ben Seninle Mutluyum</div>
-                        <div class="artist">Azer Bülbül ❤️</div>
+                        <div class="song-title" id="songTitle">Ben Seninle Mutluyum</div>
+                        <div class="artist" id="songArtist">Azer Bülbül ❤️</div>
                     </div>
                     <div class="music-controls">
-                        <button class="m-btn">⏮</button>
+                        <button class="m-btn" onclick="prevTrack()">⏮</button>
                         <button class="play-btn" onclick="togglePlay()" id="playBtn">▶</button>
-                        <button class="m-btn">⏭</button>
+                        <button class="m-btn" onclick="nextTrack()">⏭</button>
                     </div>
                 </div>
-                <div class="lyric-box">
+                <div class="lyric-box" id="songLyric">
                     🎶 "Ben seninle mutluyum, gülüyorum hayata..."
                 </div>
             </div>
         </div>
 
-        <!-- MÜZİK SES DOSYASI (Orijinal muzik.mp3 Yolu) -->
-        <audio id="bgAudio" src="muzik.mp3" preload="auto"></audio>
+        <!-- MÜZİK SES ELEMANI -->
+        <audio id="bgAudio" preload="auto"></audio>
 
         <!-- SADELEŞTİRİLMİŞ ÜST MENÜ -->
         <div class="menu-grid">
@@ -582,8 +593,11 @@
                     <span>En Yüksek: <span id="fbHighScore">0</span></span>
                 </div>
                 <canvas id="flappyCanvas" width="220" height="260" style="background: #70c5ce; border-radius: 12px; border: 2px solid var(--border);"></canvas>
-                <div style="margin-top: 8px;">
-                    <button class="submit-btn" onclick="startFlappy()" style="padding: 6px 12px; font-size: 11px; width: auto;">Başlat / Zıpla 🐤</button>
+                <div style="margin-top: 10px;">
+                    <button class="submit-btn" onclick="startFlappy()" style="padding: 6px 12px; font-size: 11px; width: auto;">Oyunu Başlat 🐤</button>
+                </div>
+                <div>
+                    <button class="jump-btn" onclick="flappyJump()">Zıpla 🚀</button>
                 </div>
             </div>
 
@@ -622,6 +636,16 @@
                     <span>En Yüksek: <span id="snakeHighScore">0</span></span>
                 </div>
                 <canvas id="snakeCanvas" width="200" height="200" style="background: #181818; border-radius: 12px; border: 2px solid var(--border);"></canvas>
+                
+                <div class="d-pad">
+                    <div></div>
+                    <button class="d-btn" onclick="setSnakeDir('UP')">▲</button>
+                    <div></div>
+                    <button class="d-btn" onclick="setSnakeDir('LEFT')">◄</button>
+                    <button class="d-btn" onclick="setSnakeDir('DOWN')">▼</button>
+                    <button class="d-btn" onclick="setSnakeDir('RIGHT')">►</button>
+                </div>
+
                 <div style="margin-top: 8px;">
                     <button class="submit-btn" onclick="startSnake()" style="padding: 6px 12px; font-size: 11px; width: auto;">Oyunu Başlat 🐍</button>
                 </div>
@@ -664,6 +688,76 @@
     </div>
 
     <script>
+        /* MÜZİK LİSTESİ (GITHUB REPO MÜZİKLERİNİZ) */
+        const playlist = [
+            {
+                title: "Ben Seninle Mutluyum",
+                artist: "Azer Bülbül ❤️",
+                src: "Azer Bülbül - Ben Seninle Mutluyum(_t1jBwvACMgk_).m4a",
+                lyric: '🎶 "Ben seninle mutluyum, gülüyorum hayata..."'
+            },
+            {
+                title: "Yenildiğim Tek Savaştın",
+                artist: "ASLAR & Lessio & Astral ✨",
+                src: "ASLAR & Lessio & Astral - yenildiğim tek savaştın _ Lyrics Video _(_a6Z8_oaGydU_).m4a",
+                lyric: '🎶 "Yenildiğim tek savaştın..."'
+            },
+            {
+                title: "C_EST LA VIE 2.0",
+                artist: "Keizerkado & omer11 🚀",
+                src: "Keizerkado & omer11 - C_EST LA VIE 2.0(_S-aEEFiGK9Y_).m4a",
+                lyric: '🎶 "C\'est la vie..."'
+            }
+        ];
+
+        let currentTrackIndex = 0;
+        let isPlaying = false;
+
+        function loadTrack(index) {
+            const track = playlist[index];
+            const audio = document.getElementById("bgAudio");
+            document.getElementById("songTitle").innerText = track.title;
+            document.getElementById("songArtist").innerText = track.artist;
+            document.getElementById("songLyric").innerText = track.lyric;
+            audio.src = track.src;
+        }
+
+        function togglePlay() {
+            const audio = document.getElementById("bgAudio");
+            const playBtn = document.getElementById("playBtn");
+
+            if (!isPlaying) {
+                audio.play().then(() => {
+                    isPlaying = true;
+                    playBtn.innerText = "⏸";
+                }).catch(err => {
+                    console.log("Müzik Oynatılamadı:", err);
+                });
+            } else {
+                audio.pause();
+                isPlaying = false;
+                playBtn.innerText = "▶";
+            }
+        }
+
+        function nextTrack() {
+            currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+            loadTrack(currentTrackIndex);
+            if (isPlaying) {
+                isPlaying = false;
+                togglePlay();
+            }
+        }
+
+        function prevTrack() {
+            currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+            loadTrack(currentTrackIndex);
+            if (isPlaying) {
+                isPlaying = false;
+                togglePlay();
+            }
+        }
+
         /* ŞİFRE KONTROL MANTIGI */
         function checkPassword() {
             const pass = document.getElementById("passInput").value.trim();
@@ -716,26 +810,6 @@
             } else {
                 noBtn.style.transform = "scale(0.5)";
                 noBtn.innerText = "Cık, Hayır yok! 😜";
-            }
-        }
-
-        /* MÜZİK ÇALAR MANTIGI (Orijinal Dosyadan Oynatma) */
-        let isPlaying = false;
-        function togglePlay() {
-            const audio = document.getElementById("bgAudio");
-            const playBtn = document.getElementById("playBtn");
-
-            if (!isPlaying) {
-                audio.play().then(() => {
-                    isPlaying = true;
-                    playBtn.innerText = "⏸";
-                }).catch(err => {
-                    alert("muzik.mp3 dosyası bulunamadı! Lütfen HTML dosyasıyla aynı klasöre koyduğundan emin ol.");
-                });
-            } else {
-                audio.pause();
-                isPlaying = false;
-                playBtn.innerText = "▶";
             }
         }
 
@@ -867,31 +941,39 @@
             renderXOX();
         }
 
-        /* YILAN OYUNU MANTIGI */
+        /* YILAN OYUNU MANTIGI VE KONTROLLERİ */
         let snakeInterval;
         let snakeHighScore = localStorage.getItem("snakeHS") || 0;
+        let snakeDx = 1, snakeDy = 0;
         document.getElementById("snakeHighScore").innerText = snakeHighScore;
+
+        function setSnakeDir(dir) {
+            if (dir === 'UP' && snakeDy === 0) { snakeDx = 0; snakeDy = -1; }
+            if (dir === 'DOWN' && snakeDy === 0) { snakeDx = 0; snakeDy = 1; }
+            if (dir === 'LEFT' && snakeDx === 0) { snakeDx = -1; snakeDy = 0; }
+            if (dir === 'RIGHT' && snakeDx === 0) { snakeDx = 1; snakeDy = 0; }
+        }
 
         function startSnake() {
             const canvas = document.getElementById("snakeCanvas");
             const ctx = canvas.getContext("2d");
             let snake = [{x: 10, y: 10}];
             let food = {x: 15, y: 15};
-            let dx = 1, dy = 0;
+            snakeDx = 1; snakeDy = 0;
             let score = 0;
             document.getElementById("snakeScore").innerText = score;
 
             if (snakeInterval) clearInterval(snakeInterval);
 
             document.onkeydown = (e) => {
-                if (e.key === "ArrowUp" && dy === 0) { dx = 0; dy = -1; }
-                if (e.key === "ArrowDown" && dy === 0) { dx = 0; dy = 1; }
-                if (e.key === "ArrowLeft" && dx === 0) { dx = -1; dy = 0; }
-                if (e.key === "ArrowRight" && dx === 0) { dx = 1; dy = 0; }
+                if (e.key === "ArrowUp") setSnakeDir('UP');
+                if (e.key === "ArrowDown") setSnakeDir('DOWN');
+                if (e.key === "ArrowLeft") setSnakeDir('LEFT');
+                if (e.key === "ArrowRight") setSnakeDir('RIGHT');
             };
 
             snakeInterval = setInterval(() => {
-                const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+                const head = {x: snake[0].x + snakeDx, y: snake[0].y + snakeDy};
                 snake.unshift(head);
 
                 if (head.x === food.x && head.y === food.y) {
@@ -924,37 +1006,39 @@
             }, 150);
         }
 
-        /* FLAPPY BIRD MANTIGI */
+        /* FLAPPY BIRD MANTIGI VE KONTROLLERİ */
         let fbLoop;
         let fbHighScore = localStorage.getItem("flappyHS") || 0;
+        let fbVelocity = 0;
+        let fbRunning = false;
         document.getElementById("fbHighScore").innerText = fbHighScore;
+
+        function flappyJump() {
+            if(fbRunning) fbVelocity = -4.5;
+        }
 
         function startFlappy() {
             const canvas = document.getElementById("flappyCanvas");
             const ctx = canvas.getContext("2d");
             let birdY = 100;
-            let velocity = 0;
+            fbVelocity = 0;
             let gravity = 0.25;
             let pipeX = 220;
             let pipeGap = 85;
             let pipeTopHeight = 60;
             let score = 0;
-            let running = true;
+            fbRunning = true;
 
             document.getElementById("fbScore").innerText = score;
 
-            function jump() {
-                if(running) velocity = -4.5;
-            }
-
-            canvas.onclick = jump;
-            window.onkeydown = (e) => { if(e.code === 'Space') jump(); };
+            canvas.onclick = flappyJump;
+            window.onkeydown = (e) => { if(e.code === 'Space') flappyJump(); };
 
             if(fbLoop) clearInterval(fbLoop);
 
             fbLoop = setInterval(() => {
-                velocity += gravity;
-                birdY += velocity;
+                fbVelocity += gravity;
+                birdY += fbVelocity;
 
                 pipeX -= 2;
                 if(pipeX < -30) {
@@ -972,7 +1056,7 @@
                 if(birdY > canvas.height || birdY < 0 || 
                   (pipeX < 30 && pipeX > 0 && (birdY < pipeTopHeight || birdY > pipeTopHeight + pipeGap))) {
                     clearInterval(fbLoop);
-                    running = false;
+                    fbRunning = false;
                     alert("Flappy Bird Bitti! Skorun: " + score);
                     return;
                 }
@@ -1135,6 +1219,7 @@
         }
 
         window.onload = () => {
+            loadTrack(0);
             renderXOX();
         };
     </script>
