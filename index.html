@@ -766,6 +766,7 @@
         </div>
     </div>
 
+    <!-- TEMEL SAYFA FONKSİYONLARI -->
     <script>
         /* MÜZİK LİSTESİ */
         const playlist = [
@@ -841,7 +842,7 @@
         }
 
         /* TEMA GEÇİŞİ (PEMBE -> GECE -> SİNEMATİK) */
-        let currentTheme = 0; // 0: Pembe, 1: Gece, 2: Sinematik
+        let currentTheme = 0;
         function toggleTheme() {
             const btn = document.getElementById("themeBtn");
             currentTheme = (currentTheme + 1) % 3;
@@ -872,7 +873,7 @@
                 confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
             }
             showCard('secondPage');
-            initScratchCard(); // Kazı kazan kartını başlat
+            initScratchCard();
         }
 
         function handleNo() {
@@ -894,13 +895,12 @@
             if (!canvas) return;
             const ctx = canvas.getContext("2d");
             
-            // Gizli Mesajı Ayarla
             const secretDiv = document.querySelector('.scratch-secret');
             if (secretDiv) {
                 secretDiv.innerText = "Eczaneler dolu ilaç satıyorlar ama tek tedavim sensin ❤️✨";
             }
 
-            ctx.fillStyle = "#C0C0C0"; // Gümüş kazıma katmanı
+            ctx.fillStyle = "#C0C0C0";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
             ctx.fillStyle = "#888888";
@@ -931,7 +931,7 @@
             canvas.addEventListener("touchmove", scratch);
         }
 
-        /* ARCADE SEKMELERİ */
+        /* ARCADE SEKMELERİ GEÇİŞİ */
         function switchArcadeGame(game, evt) {
             document.querySelectorAll('.arcade-tab').forEach(t => t.classList.remove('active-tab'));
             document.querySelectorAll('.arcade-mod').forEach(m => m.style.display = 'none');
@@ -996,315 +996,12 @@
             }, 600);
         }
 
-        /* XOX GAME */
-        let xoxBoardState = Array(9).fill("");
-        let isGameActive = true;
-
-        function renderXOX() {
-            const board = document.getElementById("xoxBoard");
-            if(!board) return;
-            board.innerHTML = "";
-            xoxBoardState.forEach((val, idx) => {
-                const cell = document.createElement("div");
-                cell.className = "xox-cell";
-                cell.innerText = val;
-                cell.onclick = () => playerMove(idx);
-                board.appendChild(cell);
-            });
-        }
-
-        function playerMove(idx) {
-            if (xoxBoardState[idx] !== "" || !isGameActive) return;
-            xoxBoardState[idx] = "❌";
-            renderXOX();
-
-            if (checkXOXWin("❌")) {
-                document.getElementById("xoxStatus").innerText = "Kazandın! 🎉";
-                isGameActive = false;
-                return;
-            }
-            setTimeout(botMove, 300);
-        }
-
-        function botMove() {
-            if (!isGameActive) return;
-            const emptyIndices = xoxBoardState.map((val, idx) => val === "" ? idx : null).filter(val => val !== null);
-            if (emptyIndices.length > 0) {
-                const randomIndex = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
-                xoxBoardState[randomIndex] = "❤️";
-                renderXOX();
-
-                if (checkXOXWin("❤️")) {
-                    document.getElementById("xoxStatus").innerText = "Ben kazandım ama kalbim senin 🥰";
-                    isGameActive = false;
-                }
-            }
-        }
-
-        function checkXOXWin(symbol) {
-            const winPatterns = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]];
-            return winPatterns.some(pattern => pattern.every(idx => xoxBoardState[idx] === symbol));
-        }
-
-        function resetXOX() {
-            xoxBoardState = Array(9).fill("");
-            isGameActive = true;
-            document.getElementById("xoxStatus").innerText = "Hamleni Yap!";
-            renderXOX();
-        }
-
-        /* YILAN OYUNU */
-        let snakeInterval;
-        let snakeHighScore = localStorage.getItem("snakeHS") || 0;
-        let snakeDx = 1, snakeDy = 0;
-        document.getElementById("snakeHighScore").innerText = snakeHighScore;
-
-        function setSnakeDir(dir) {
-            if (dir === 'UP' && snakeDy === 0) { snakeDx = 0; snakeDy = -1; }
-            if (dir === 'DOWN' && snakeDy === 0) { snakeDx = 0; snakeDy = 1; }
-            if (dir === 'LEFT' && snakeDx === 0) { snakeDx = -1; snakeDy = 0; }
-            if (dir === 'RIGHT' && snakeDx === 0) { snakeDx = 1; snakeDy = 0; }
-        }
-
-        function startSnake() {
-            const canvas = document.getElementById("snakeCanvas");
-            const ctx = canvas.getContext("2d");
-            let snake = [{x: 10, y: 10}];
-            let food = {x: 15, y: 15};
-            snakeDx = 1; snakeDy = 0;
-            let score = 0;
-            document.getElementById("snakeScore").innerText = score;
-
-            if (snakeInterval) clearInterval(snakeInterval);
-
-            snakeInterval = setInterval(() => {
-                const head = {x: snake[0].x + snakeDx, y: snake[0].y + snakeDy};
-                snake.unshift(head);
-
-                if (head.x === food.x && head.y === food.y) {
-                    score += 10;
-                    document.getElementById("snakeScore").innerText = score;
-                    if (score > snakeHighScore) {
-                        snakeHighScore = score;
-                        localStorage.setItem("snakeHS", snakeHighScore);
-                        document.getElementById("snakeHighScore").innerText = snakeHighScore;
-                    }
-                    food = {x: Math.floor(Math.random() * 19), y: Math.floor(Math.random() * 19)};
-                } else {
-                    snake.pop();
-                }
-
-                if (head.x < 0 || head.x >= 20 || head.y < 0 || head.y >= 20) {
-                    clearInterval(snakeInterval);
-                    alert("Yılan Oyunu Bitti! Skorun: " + score);
-                    return;
-                }
-
-                ctx.fillStyle = "#181818";
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-                ctx.fillStyle = "#ff4d6d";
-                ctx.fillRect(food.x * 10, food.y * 10, 8, 8);
-
-                ctx.fillStyle = "#2ec4b6";
-                snake.forEach(part => ctx.fillRect(part.x * 10, part.y * 10, 8, 8));
-            }, 120);
-        }
-
-        /* FLAPPY BIRD */
-        let fbLoop;
-        let fbHighScore = localStorage.getItem("flappyHS") || 0;
-        let fbVelocity = 0;
-        let fbRunning = false;
-        document.getElementById("fbHighScore").innerText = fbHighScore;
-
-        function flappyJump() { if(fbRunning) fbVelocity = -4.5; }
-
-        function startFlappy() {
-            const canvas = document.getElementById("flappyCanvas");
-            const ctx = canvas.getContext("2d");
-            let birdY = 100;
-            fbVelocity = 0;
-            let gravity = 0.25;
-            let pipeX = 220;
-            let pipeGap = 85;
-            let pipeTopHeight = 60;
-            let score = 0;
-            fbRunning = true;
-
-            document.getElementById("fbScore").innerText = score;
-            if(fbLoop) clearInterval(fbLoop);
-
-            fbLoop = setInterval(() => {
-                fbVelocity += gravity;
-                birdY += fbVelocity;
-
-                pipeX -= 2;
-                if(pipeX < -30) {
-                    pipeX = 220;
-                    pipeTopHeight = Math.floor(Math.random() * (120 - 30 + 1)) + 30;
-                    score++;
-                    document.getElementById("fbScore").innerText = score;
-                    if(score > fbHighScore) {
-                        fbHighScore = score;
-                        localStorage.setItem("flappyHS", fbHighScore);
-                        document.getElementById("fbHighScore").innerText = fbHighScore;
-                    }
-                }
-
-                if(birdY > canvas.height || birdY < 0 || 
-                  (pipeX < 30 && pipeX > 0 && (birdY < pipeTopHeight || birdY > pipeTopHeight + pipeGap))) {
-                    clearInterval(fbLoop);
-                    fbRunning = false;
-                    alert("Flappy Bird Bitti! Skorun: " + score);
-                    return;
-                }
-
-                ctx.fillStyle = "#70c5ce";
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-                ctx.fillStyle = "#ffb703";
-                ctx.beginPath();
-                ctx.arc(20, birdY, 8, 0, Math.PI * 2);
-                ctx.fill();
-
-                ctx.fillStyle = "#2ec4b6";
-                ctx.fillRect(pipeX, 0, 26, pipeTopHeight);
-                ctx.fillRect(pipeX, pipeTopHeight + pipeGap, 26, canvas.height - (pipeTopHeight + pipeGap));
-            }, 1000/60);
-        }
-
-        /* TETRIS */
-        let tetrisLoop;
-        let tetrisScore = 0;
-        let tetrisHighScore = localStorage.getItem("tetrisHS") || 0;
-        document.getElementById("tetrisHighScore").innerText = tetrisHighScore;
-
-        const tetrisCanvas = document.getElementById("tetrisCanvas");
-        const tCtx = tetrisCanvas ? tetrisCanvas.getContext("2d") : null;
-        const grid = 16;
-        let arena = Array(15).fill().map(() => Array(10).fill(0));
-        let player = { pos: {x: 0, y: 0}, matrix: null };
-
-        const pieces = [[[1, 1, 1, 1]], [[1, 1], [1, 1]], [[0, 1, 0], [1, 1, 1]], [[1, 0, 0], [1, 1, 1]], [[0, 0, 1], [1, 1, 1]]];
-
-        function createPiece() { return pieces[Math.floor(Math.random() * pieces.length)]; }
-
-        function drawTetris() {
-            tCtx.fillStyle = "#111";
-            tCtx.fillRect(0, 0, tetrisCanvas.width, tetrisCanvas.height);
-
-            arena.forEach((row, y) => {
-                row.forEach((value, x) => {
-                    if (value !== 0) {
-                        tCtx.fillStyle = "#e63946";
-                        tCtx.fillRect(x * grid, y * grid, grid - 1, grid - 1);
-                    }
-                });
-            });
-
-            if (player.matrix) {
-                player.matrix.forEach((row, y) => {
-                    row.forEach((value, x) => {
-                        if (value !== 0) {
-                            tCtx.fillStyle = "#2ec4b6";
-                            tCtx.fillRect((player.pos.x + x) * grid, (player.pos.y + y) * grid, grid - 1, grid - 1);
-                        }
-                    });
-                });
-            }
-        }
-
-        function collide(arena, player) {
-            const [m, o] = [player.matrix, player.pos];
-            for (let y = 0; y < m.length; ++y) {
-                for (let x = 0; x < m[y].length; ++x) {
-                    if (m[y][x] !== 0 && (arena[y + o.y] && arena[y + o.y][x + o.x]) !== 0) return true;
-                }
-            }
-            return false;
-        }
-
-        function merge(arena, player) {
-            player.matrix.forEach((row, y) => {
-                row.forEach((value, x) => {
-                    if (value !== 0) arena[y + player.pos.y][x + player.pos.x] = value;
-                });
-            });
-        }
-
-        function dropTetris() {
-            player.pos.y++;
-            if (collide(arena, player)) {
-                player.pos.y--;
-                merge(arena, player);
-                playerReset();
-                arenaSweep();
-            }
-            drawTetris();
-        }
-
-        function moveTetris(dir) {
-            player.pos.x += dir;
-            if (collide(arena, player)) player.pos.x -= dir;
-            drawTetris();
-        }
-
-        function rotateTetris() {
-            const matrix = player.matrix;
-            for (let y = 0; y < matrix.length; ++y) {
-                for (let x = 0; x < y; ++x) {
-                    [matrix[x][y], matrix[y][x]] = [matrix[y][x], matrix[x][y]];
-                }
-            }
-            matrix.forEach(row => row.reverse());
-            if (collide(arena, player)) matrix.forEach(row => row.reverse());
-            drawTetris();
-        }
-
-        function arenaSweep() {
-            outer: for (let y = arena.length - 1; y >= 0; --y) {
-                for (let x = 0; x < arena[y].length; ++x) {
-                    if (arena[y][x] === 0) continue outer;
-                }
-                const row = arena.splice(y, 1)[0].fill(0);
-                arena.unshift(row);
-                ++y;
-                tetrisScore += 10;
-                document.getElementById("tetrisScore").innerText = tetrisScore;
-                if(tetrisScore > tetrisHighScore) {
-                    tetrisHighScore = tetrisScore;
-                    localStorage.setItem("tetrisHS", tetrisHighScore);
-                    document.getElementById("tetrisHighScore").innerText = tetrisHighScore;
-                }
-            }
-        }
-
-        function playerReset() {
-            player.matrix = createPiece();
-            player.pos.y = 0;
-            player.pos.x = (arena[0].length / 2 | 0) - (player.matrix[0].length / 2 | 0);
-            if (collide(arena, player)) {
-                arena.forEach(row => row.fill(0));
-                alert("Tetris Bitti! Skorun: " + tetrisScore);
-                tetrisScore = 0;
-                document.getElementById("tetrisScore").innerText = tetrisScore;
-            }
-        }
-
-        function startTetris() {
-            arena = Array(15).fill().map(() => Array(10).fill(0));
-            tetrisScore = 0;
-            document.getElementById("tetrisScore").innerText = tetrisScore;
-            playerReset();
-            if(tetrisLoop) clearInterval(tetrisLoop);
-            tetrisLoop = setInterval(dropTetris, 500);
-        }
-
         window.onload = () => {
             loadTrack(0);
-            renderXOX();
         };
     </script>
+
+    <!-- ARCADE OYUN VE GRAFİK DOSYASI BAĞLANTISI -->
+    <script src="arcade.js"></script>
 </body>
 </html>
