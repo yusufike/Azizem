@@ -170,17 +170,6 @@
             transform: translateY(-2px);
         }
 
-        .music-player {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 18px;
-            background: var(--card-bg);
-            border-radius: 18px;
-            border: 1px solid var(--border);
-            box-shadow: 0 4px 15px var(--shadow);
-        }
-
         .content-section {
             display: none;
         }
@@ -380,15 +369,7 @@
             <button class="theme-btn" onclick="setTheme('cinematic')">✨ Sinema</button>
         </div>
 
-        <!-- MÜZİK ÇALAR -->
-        <div class="music-player">
-            <span id="songTitle" style="font-weight: 600; font-size: 13px;">🎵 Müzik Yükleniyor...</span>
-            <div style="display: flex; gap: 5px;">
-                <button onclick="prevSong()" class="music-btn" style="padding: 6px 10px; font-size: 12px;">⏮</button>
-                <button onclick="toggleMusic()" id="musicBtn" class="music-btn" style="padding: 6px 12px; font-size: 12px;">Çal ▶</button>
-                <button onclick="nextSong()" class="music-btn" style="padding: 6px 10px; font-size: 12px;">⏭</button>
-            </div>
-        </div>
+        <!-- MÜZİK ÇALAR (Otomatik olarak sarkilar.js tarafından buraya eklenir) -->
 
         <!-- MENÜ BUTONLARI -->
         <div class="menu-grid">
@@ -576,7 +557,6 @@
             const target = document.getElementById(sectionId);
             if (target) target.classList.add('active');
 
-            // Ana ekrana dönüldüğünde soru alanını, 13 gün kutusunu sıfırla ve sevgi ekranını kapat
             if (sectionId === 'anaEkran') {
                 const qArea = document.getElementById("questionArea");
                 if (qArea) qArea.style.display = "flex";
@@ -587,7 +567,6 @@
                 const loveContent = document.getElementById("loveContent");
                 if (loveContent) loveContent.style.display = "none";
 
-                // Hayır butonunun konumunu ve boyutunu sıfırla
                 const noBtn = document.getElementById("noBtn");
                 if (noBtn) {
                     noBtn.style.transform = "none";
@@ -600,7 +579,6 @@
             }
         }
 
-        /* HAYIR BUTONU KACMA VE KÜÇÜLME MANTIĞI */
         let noClickCount = 0;
         const noMessages = [
             "Hayır basamazsın, kalbin bunu kabul etmiyor sevgilim! ❤️",
@@ -628,7 +606,7 @@
 
         function clickYes() {
             document.getElementById("questionArea").style.display = "none";
-            document.querySelector("#anaEkran > div:nth-child(3)").style.display = "none"; // 13 günlük küçük kutuyu da gizle
+            document.querySelector("#anaEkran > div:nth-child(3)").style.display = "none";
             document.getElementById("loveContent").style.display = "flex";
             if (typeof confetti === 'function') {
                 confetti({ particleCount: 120, spread: 80, origin: { y: 0.5 } });
@@ -636,7 +614,6 @@
             initScratchCard();
         }
 
-        /* KAZIMA KARTI */
         function initScratchCard() {
             const canvas = document.getElementById("scratchCanvas");
             if (!canvas) return;
@@ -686,7 +663,6 @@
             if (typeof confetti === 'function') confetti({ particleCount: 40, spread: 50, origin: { y: 0.8 } });
         }
 
-        /* ASİSTAN */
         function toggleChat() {
             const win = document.getElementById("chatWin");
             win.style.display = win.style.display === "flex" ? "none" : "flex";
@@ -707,7 +683,7 @@
         }
     </script>
 
-    <!-- ŞARKI DOSYASI -->
+    <!-- ŞARKI DOSYASI (Tüm müzik yapısını otomatik yönetir) -->
     <script src="sarkilar/sarkilar.js"></script>
 
     <!-- OYUN DOSYASI BAĞLANTILARI -->
@@ -717,5 +693,6 @@
     <script src="xox.js"></script>
     <script src="azize.js"></script>
     <script src="kasa.js"></script>
+    <script src="sarkilar.js"></script>
 </body>
 </html>
